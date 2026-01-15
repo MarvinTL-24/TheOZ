@@ -1,0 +1,140 @@
+/* Estilos personalizados para The Ashen OZ */
+
+/* Efeitos de rolagem suave */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Estilos para seleção de texto */
+::selection {
+    background-color: rgba(178, 34, 34, 0.3); /* ashen-crimson com transparência */
+    color: white;
+}
+
+/* Estilos para a barra de rolagem */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0A0A0A; /* ashen-black */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #4A4A4A; /* ashen-gray-light */
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #B22222; /* ashen-crimson */
+}
+
+/* Classe para texto brilhante */
+.text-glow {
+    text-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+}
+
+/* Classe para bordas gradientes */
+.border-gradient {
+    border: 2px solid transparent;
+    background: linear-gradient(#0A0A0A, #0A0A0A) padding-box,
+                linear-gradient(45deg, #B22222, #FF8C00) border-box;
+}
+
+/* Efeito de desfoque para imagens de fundo */
+.backdrop-blur {
+    backdrop-filter: blur(10px);
+}
+
+/* Animação de piscar para elementos importantes */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.animate-blink {
+    animation: blink 2s infinite;
+}
+
+/* Efeito de máquina de escrever (para títulos futuros) */
+.typewriter {
+    overflow: hidden;
+    border-right: .15em solid #FF8C00;
+    white-space: nowrap;
+    margin: 0 auto;
+    animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: #FF8C00; }
+}
+
+/* Responsividade adicional */
+@media (max-width: 768px) {
+    .mobile-stack {
+        flex-direction: column;
+    }
+    
+    .mobile-center {
+        text-align: center;
+    }
+    
+    .mobile-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+/* Filtro para imagens (efeito envelhecido) */
+.img-sepia {
+    filter: sepia(0.3) contrast(1.1) brightness(0.9);
+    transition: filter 0.3s ease;
+}
+
+.img-sepia:hover {
+    filter: sepia(0) contrast(1) brightness(1);
+}
+
+/* Classe para cartões interativos */
+.interactive-card {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.interactive-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 140, 0, 0.1), transparent);
+    transition: left 0.5s;
+}
+
+.interactive-card:hover::before {
+    left: 100%;
+}
+
+/* Efeito de neblina para background */
+.fog-overlay {
+    position: relative;
+}
+
+.fog-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent, rgba(10, 10, 10, 0.7));
+    pointer-events: none;
+}
