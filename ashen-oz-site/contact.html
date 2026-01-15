@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact | The Ashen OZ</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fontes -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Configuração Tailwind personalizada -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ashen-black': '#0A0A0A',
+                        'ashen-gray-dark': '#2A2A2A',
+                        'ashen-gray-light': '#4A4A4A',
+                        'ashen-crimson': '#B22222',
+                        'ashen-amber': '#FF8C00',
+                    },
+                    fontFamily: {
+                        'heading': ['Orbitron', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        glow: {
+                            'from': { 'box-shadow': '0 0 5px #FF8C00, 0 0 10px #FF8C00' },
+                            'to': { 'box-shadow': '0 0 10px #FF8C00, 0 0 20px #B22222' }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-ashen-black text-white font-body min-h-screen">
+    <!-- Header / Navegação -->
+    <header class="sticky top-0 z-50 bg-ashen-black/95 backdrop-blur-sm border-b border-ashen-gray-dark">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <!-- Logo -->
+                <div class="mb-4 md:mb-0">
+                    <a href="index.html" class="font-heading text-2xl font-bold tracking-wider">
+                        <span class="text-ashen-crimson">THE ASHEN</span>
+                        <span class="text-ashen-amber"> OZ</span>
+                    </a>
+                    <p class="text-xs text-ashen-gray-light font-body mt-1">A grimdark reimagining</p>
+                </div>
+                
+                <!-- Menu Principal -->
+                <div class="flex flex-wrap justify-center gap-4 md:gap-8">
+                    <a href="index.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Home</a>
+                    <a href="story.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Story</a>
+                    <a href="characters.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Characters</a>
+                    <a href="systems.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Systems</a>
+                    <a href="bestiary.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Bestiary</a>
+                    <a href="gallery.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Gallery</a>
+                    <a href="team.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Team</a>
+                    <a href="contact.html" class="text-ashen-amber hover:text-white transition-colors border-b-2 border-ashen-amber pb-1">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section - Contact -->
+    <section class="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+        <!-- Background com efeito cenário -->
+        <div class="absolute inset-0 bg-gradient-to-br from-ashen-black via-ashen-crimson/10 to-ashen-black">
+            <!-- Efeito de ruína/cenário -->
+            <div class="absolute inset-0 opacity-30 bg-[url('data:image/svg+xml,%3Csvg width="200" height="200" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M0,0 L200,0 L200,200 L0,200 Z" fill="none" stroke="%23B22222" stroke-width="0.5" stroke-dasharray="5,5"/%3E%3Cpath d="M100,0 L100,200" stroke="%23FF8C00" stroke-width="0.3" opacity="0.5"/%3E%3Cpath d="M0,100 L200,100" stroke="%23FF8C00" stroke-width="0.3" opacity="0.5"/%3E%3C/svg%3E')]"></div>
+        </div>
+        
+        <!-- Logo grande no centro -->
+        <div class="absolute inset-0 flex items-center justify-center">
+            <div class="text-center animate-float">
+                <div class="font-heading text-9xl md:text-[12rem] font-bold leading-none">
+                    <span class="text-ashen-crimson opacity-30">ASHBONE</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Conteúdo sobreposto -->
+        <div class="relative z-10 container mx-auto px-4 text-center">
+            <h1 class="font-heading text-5xl md:text-7xl font-bold mb-8 leading-tight">
+                <span class="text-white">GET IN</span>
+                <span class="block text-ashen-amber">TOUCH</span>
+            </h1>
+            
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12">
+                Ready to discuss publishing, partnerships, or media inquiries? 
+                We're here to collaborate.
+            </p>
+            
+            <!-- Email destacado -->
+            <div class="inline-block bg-gradient-to-r from-ashen-gray-dark to-ashen-black border-2 border-ashen-amber rounded-xl p-6 mb-12 animate-glow">
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <div class="text-3xl">📧</div>
+                    <div class="text-left">
+                        <p class="text-gray-400 text-sm mb-1">Official Email (Primary)</p>
+                        <a href="mailto:ashbonegames@gmail.com" 
+                           class="font-heading text-2xl md:text-3xl font-bold text-ashen-amber hover:text-ashen-crimson transition-colors">
+                           ashbonegames@gmail.com
+                        </a>
+                    </div>
+                    <a href="mailto:ashbonegames@gmail.com" 
+                       class="bg-ashen-amber hover:bg-orange-600 text-ashen-black font-bold px-6 py-3 rounded-lg transition-colors">
+                       Send Email →
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Elementos decorativos -->
+        <div class="absolute bottom-8 left-8 text-4xl opacity-10">🌪️</div>
+        <div class="absolute top-8 right-8 text-4xl opacity-10">🕯️</div>
+        <div class="absolute top-1/4 left-12 text-3xl opacity-5 animate-pulse">👁️</div>
+        <div class="absolute bottom-1/4 right-12 text-3xl opacity-5 animate-pulse delay-1000">🦴</div>
+    </section>
+
+    <!-- Contact Content -->
+    <main class="py-20">
+        <div class="container mx-auto px-4">
+            <!-- Contact Channels Grid -->
+            <section class="mb-20 scroll-animate">
+                <div class="text-center mb-12">
+                    <h2 class="font-heading text-4xl font-bold mb-6">
+                        <span class="text-white">CONTACT</span>
+                        <span class="text-ashen-crimson"> CHANNELS</span>
+                    </h2>
+                    <div class="w-32 h-1 bg-ashen-amber mx-auto"></div>
+                    <p class="text-gray-400 max-w-2xl mx-auto mt-6">
+                        Choose the appropriate channel for your inquiry. We typically respond within 2-3 business days.
+                    </p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+                    <!-- Channel 1 -->
+                    <div class="bg-gradient-to-b from-ashen-gray-dark to-ashen-black border border-ashen-gray-light rounded-xl p-6 hover:border-ashen-crimson transition-all duration-300 group">
+                        <div class="text-4xl mb-4 text-ashen-crimson group-hover:scale-110 transition-transform">📰</div>
+                        <h3 class="font-heading text-xl font-bold mb-3 text-ashen-amber">
+                            Media Inquiries
+                        </h3>
+                        <p class="text-gray-400 text-sm mb-4">
+                            Press kits, interviews, review copies, and media coverage requests.
+                        </p>
+                        <div class="text-xs text-ashen-gray-light">
+                            <span class="text-ashen-amber">✓</span> Response: 1-2 business days
+                        </div>
+                    </div>
+                    
+                    <!-- Channel 2 -->
+                    <div class="bg-gradient-to-b from-ashen-gray-dark to-ashen-black border border-ashen-gray-light rounded-xl p-6 hover:border-ashen-crimson transition-all duration-300 group">
+                        <div class="text-4xl mb-4 text-ashen-amber group-hover:scale-110 transition-transform">🤝</div>
+                        <h3 class="font-heading text-xl font-bold mb-3 text-ashen-amber">
+                            Partnerships
+                        </h3>
+                        <p class="text-gray-400 text-sm mb-4">
+                            Collaboration, co-development, publishing, and business opportunities.
+                        </p>
+                        <div class="text-xs text-ashen-gray-light">
+                            <span class="text-ashen-amber">✓</span> Response: 2-3 business days
+                        </div>
+                    </div>
+                    
+                    <!-- Channel 3 -->
+                    <div class="bg-gradient-to-b from-ashen-gray-dark to-ashen-black border border-ashen-gray-light rounded-xl p-6 hover:border-ashen-crimson transition-all duration-300 group">
+                        <div class="text-4xl mb-4 text-ashen-crimson group-hover:scale-110 transition-transform">🎮</div>
+                        <h3 class="font-heading text-xl font-bold mb-3 text-ashen-amber">
+                            Platform Distribution
+                        </h3>
+                        <p class="text-gray-400 text-sm mb-4">
+                            Storefronts, platform releases, and distribution inquiries.
+                        </p>
+                        <div class="text-xs text-ashen-gray-light">
+                            <span class="text-ashen-amber">✓</span> Response: 3-5 business days
+                        </div>
+                    </div>
+                    
+                    <!-- Channel 4 -->
+                    <div class="bg-gradient-to-b from-ashen-gray-dark to-ashen-black border border-ashen-gray-light rounded-xl p-6 hover:border-ashen-crimson transition-all duration-300 group">
+                        <div class="text-4xl mb-4 text-ashen-amber group-hover:scale-110 transition-transform">💬</div>
+                        <h3 class="font-heading text-xl font-bold mb-3 text-ashen-amber">
+                            General Inquiries
+                        </h3>
+                        <p class="text-gray-400 text-sm mb-4">
+                            Community, feedback, support, and all other questions.
+                        </p>
+                        <div class="text-xs text-ashen-gray-light">
+                            <span class="text-ashen-amber">✓</span> Response: 2-4 business days
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Form -->
+            <section class="scroll-animate">
+                <div class="max-w-2xl mx-auto">
+                    <div class="text-center mb-12">
+                        <h2 class="font-heading text-4xl font-bold mb-6">
+                            <span class="text-ashen-amber">DIRECT</span>
+                            <span class="text-white"> MESSAGE</span>
+                        </h2>
+                        <div class="w-24 h-1 bg-ashen-crimson mx-auto"></div>
+                        <p class="text-gray-400 mt-6">
+                            Prefer a contact form? Fill out the details below and we'll get back to you.
+                        </p>
+                    </div>
+                    
+                    <form id="contact-form" class="space-y-6 bg-gradient-to-b from-ashen-gray-dark/50 to-ashen-black/50 border border-ashen-gray-light rounded-xl p-8">
+                        <!-- Name -->
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-300 mb-2">
+                                Your Name *
+                            </label>
+                            <input type="text" 
+                                   id="name" 
+                                   name="name"
+                                   required
+                                   class="w-full bg-ashen-black border border-ashen-gray-light rounded-lg px-4 py-3 text-white focus:outline-none focus:border-ashen-amber focus:ring-1 focus:ring-ashen-amber transition-colors"
+                                   placeholder="Enter your name">
+                        </div>
+                        
+                        <!-- Email -->
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-300 mb-2">
+                                Email Address *
+                            </label>
+                            <input type="email" 
+                                   id="email" 
+                                   name="email"
+                                   required
+                                   class="w-full bg-ashen-black border border-ashen-gray-light rounded-lg px-4 py-3 text-white focus:outline-none focus:border-ashen-amber focus:ring-1 focus:ring-ashen-amber transition-colors"
+                                   placeholder="your.email@example.com">
+                        </div>
+                        
+                        <!-- Inquiry Type -->
+                        <div>
+                            <label for="inquiry-type" class="block text-sm font-medium text-gray-300 mb-2">
+                                Type of Inquiry *
+                            </label>
+                            <select id="inquiry-type" 
+                                    name="inquiry-type"
+                                    required
+                                    class="w-full bg-ashen-black border border-ashen-gray-light rounded-lg px-4 py-3 text-white focus:outline-none focus:border-ashen-amber focus:ring-1 focus:ring-ashen-amber transition-colors">
+                                <option value="" disabled selected>Select an option</option>
+                                <option value="media">Media/Press</option>
+                                <option value="partnership">Partnership/Collaboration</option>
+                                <option value="platform">Platform/Distribution</option>
+                                <option value="general">General Inquiry</option>
+                                <option value="feedback">Feedback/Suggestion</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Message -->
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-300 mb-2">
+                                Message *
+                            </label>
+                            <textarea id="message" 
+                                      name="message"
+                                      rows="6"
+                                      required
+                                      class="w-full bg-ashen-black border border-ashen-gray-light rounded-lg px-4 py-3 text-white focus:outline-none focus:border-ashen-amber focus:ring-1 focus:ring-ashen-amber transition-colors"
+                                      placeholder="Please provide details about your inquiry..."></textarea>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <div class="pt-4">
+                            <button type="submit" 
+                                    class="w-full bg-gradient-to-r from-ashen-crimson to-ashen-amber hover:from-red-800 hover:to-orange-700 text-white font-heading font-bold py-4 px-6 rounded-lg transition-all duration-300 transform hover:scale-[1.02]">
+                                SEND MESSAGE
+                            </button>
+                        </div>
+                        
+                        <!-- Form Note -->
+                        <p class="text-xs text-gray-500 text-center pt-4">
+                            * Required fields. By submitting this form, you agree to our privacy policy. 
+                            We will only use your information to respond to your inquiry.
+                        </p>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Alternative Contact Info -->
+            <section class="mt-20 scroll-animate">
+                <div class="max-w-4xl mx-auto text-center">
+                    <div class="inline-flex items-center justify-center p-4 bg-ashen-gray-dark rounded-full mb-6">
+                        <div class="text-2xl mr-3">💼</div>
+                        <h3 class="font-heading text-xl font-bold text-ashen-amber">
+                            Business Address (Mail Only)
+                        </h3>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-ashen-gray-dark/30 to-transparent border border-ashen-gray-light rounded-xl p-6">
+                        <p class="text-gray-400 mb-4">
+                            For formal correspondence or documents requiring physical mail:
+                        </p>
+                        <p class="text-lg text-gray-300 font-medium">
+                            Ashbone Games<br>
+                            [Business Address]<br>
+                            Seoul, South Korea
+                        </p>
+                        <p class="text-sm text-gray-500 mt-4">
+                            Note: Please email first before sending physical mail. 
+                            We're a remote team and check mail periodically.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-ashen-gray-dark border-t border-ashen-gray-light py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <!-- Logo e Descrição -->
+                <div>
+                    <h3 class="font-heading text-2xl font-bold mb-4">
+                        <span class="text-ashen-crimson">THE ASHEN</span>
+                        <span class="text-ashen-amber"> OZ</span>
+                    </h3>
+                    <p class="text-gray-400 mb-4">
+                        A grimdark reimagining of the magical land of Oz. 
+                        Developed with passion by Ashbone Games.
+                    </p>
+                    <p class="text-sm text-ashen-gray-light">
+                        "The Oz you knew is gone."
+                    </p>
+                </div>
+                
+                <!-- Links Rápidos -->
+                <div>
+                    <h4 class="font-heading text-xl font-bold mb-4 text-ashen-amber">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="story.html" class="text-gray-400 hover:text-ashen-amber transition-colors">Story & Lore</a></li>
+                        <li><a href="gallery.html" class="text-gray-400 hover:text-ashen-amber transition-colors">Art Gallery</a></li>
+                        <li><a href="devlog.html" class="text-gray-400 hover:text-ashen-amber transition-colors">Development Blog</a></li>
+                        <li><a href="team.html" class="text-gray-400 hover:text-ashen-amber transition-colors">Our Team</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contato -->
+                <div>
+                    <h4 class="font-heading text-xl font-bold mb-4 text-ashen-amber">Contact</h4>
+                    <p class="text-gray-400 mb-4">
+                        For inquiries, partnerships, or press:
+                    </p>
+                    <a href="mailto:ashbonegames@gmail.com" class="text-ashen-amber hover:text-ashen-crimson transition-colors font-medium">
+                        ashbonegames@gmail.com
+                    </a>
+                    <div class="mt-4">
+                        <p class="text-sm text-gray-500">
+                            Official email for:<br>
+                            Publishing • Platforms • Partnerships • Media • General
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="pt-8 border-t border-ashen-gray-light text-center text-gray-500 text-sm">
+                <p>&copy; 2024 Ashbone Games. "The Ashen OZ" is a dark fantasy reimagining. All rights reserved.</p>
+                <p class="mt-2">This is a fan project. Original Oz works are public domain.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <script>
+        // Form submission handling específico para contact.html
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contact-form');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Coletar dados do formulário
+                    const formData = new FormData(contactForm);
+                    const formObject = Object.fromEntries(formData);
+                    
+                    // Validação
+                    if (!formObject.name || !formObject.email || !formObject.message) {
+                        alert('Please fill in all required fields.');
+                        return;
+                    }
+                    
+                    // Simular envio
+                    const submitBtn = contactForm.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.textContent;
+                    
+                    submitBtn.textContent = 'SENDING...';
+                    submitBtn.disabled = true;
+                    
+                    // Simular API call
+                    setTimeout(() => {
+                        // Aqui normalmente faria uma requisição para um backend
+                        console.log('Form submitted:', formObject);
+                        
+                        // Feedback para o usuário
+                        alert(`Thank you, ${formObject.name}! Your message has been sent. We'll respond to ${formObject.email} within 2-3 business days.`);
+                        
+                        // Reset form
+                        contactForm.reset();
+                        
+                        // Restaurar botão
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                        
+                        // Scroll para topo do form
+                        contactForm.scrollIntoView({ behavior: 'smooth' });
+                    }, 2000);
+                });
+            }
+            
+            // Efeito de digitação para email
+            const emailLink = document.querySelector('a[href^="mailto:"]');
+            if (emailLink && emailLink.textContent.includes('@')) {
+                emailLink.addEventListener('mouseenter', function() {
+                    this.classList.add('text-glow');
+                });
+                
+                emailLink.addEventListener('mouseleave', function() {
+                    this.classList.remove('text-glow');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

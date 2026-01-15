@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Ashen OZ | Dark Fantasy Roguelite</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fontes -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Configuração Tailwind personalizada -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ashen-black': '#0A0A0A',
+                        'ashen-gray-dark': '#2A2A2A',
+                        'ashen-gray-light': '#4A4A4A',
+                        'ashen-crimson': '#B22222',
+                        'ashen-amber': '#FF8C00',
+                        'ashen-emerald': '#50C878',
+                    },
+                    fontFamily: {
+                        'heading': ['Orbitron', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'float': 'float 6s ease-in-out infinite',
+                        'dice-spin': 'spin 3s linear infinite',
+                    },
+                    keyframes: {
+                        glow: {
+                            'from': { 
+                                'box-shadow': '0 0 5px #FF8C00, 0 0 10px #FF8C00',
+                                'text-shadow': '0 0 5px #FF8C00, 0 0 10px #FF8C00'
+                            },
+                            'to': { 
+                                'box-shadow': '0 0 10px #B22222, 0 0 20px #B22222',
+                                'text-shadow': '0 0 10px #B22222, 0 0 20px #B22222'
+                            }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-ashen-black text-white font-body min-h-screen">
+    <!-- Header / Navegação -->
+    <header class="sticky top-0 z-50 bg-ashen-black/95 backdrop-blur-sm border-b border-ashen-gray-dark">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <!-- Logo -->
+                <div class="mb-4 md:mb-0">
+                    <a href="index.html" class="font-heading text-2xl font-bold tracking-wider">
+                        <span class="text-ashen-crimson">THE ASHEN</span>
+                        <span class="text-ashen-amber"> OZ</span>
+                    </a>
+                    <p class="text-xs text-ashen-gray-light font-body mt-1">A grimdark reimagining</p>
+                </div>
+                
+                <!-- Menu Principal -->
+                <div class="flex flex-wrap justify-center gap-4 md:gap-8">
+                    <a href="#overview" class="text-ashen-amber hover:text-white transition-colors border-b-2 border-ashen-amber pb-1">Overview</a>
+                    <a href="story.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Story</a>
+                    <a href="characters.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Characters</a>
+                    <a href="systems.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Systems</a>
+                    <a href="bestiary.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Bestiary</a>
+                    <a href="gallery.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Gallery</a>
+                    <a href="team.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Team</a>
+                    <a href="contact.html" class="bg-ashen-crimson hover:bg-red-800 px-4 py-2 rounded transition-colors">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section com Key Visual -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background gradiente -->
+        <div class="absolute inset-0 bg-gradient-to-br from-ashen-black via-purple-900/20 to-ashen-black"></div>
+        
+        <!-- Efeitos de partículas -->
+        <div class="absolute inset-0 opacity-30">
+            <div class="absolute top-1/3 left-1/4 w-96 h-96 bg-ashen-crimson rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
+            <div class="absolute bottom-1/3 right-1/4 w-96 h-96 bg-ashen-amber rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
+        </div>
+        
+        <!-- Efeito de dados cinza -->
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-20 left-10 text-6xl animate-float">🎲</div>
+            <div class="absolute top-40 right-20 text-5xl animate-float" style="animation-delay: 1s;">🎲</div>
+            <div class="absolute bottom-40 left-32 text-4xl animate-float" style="animation-delay: 2s;">🎲</div>
+        </div>
+        
+        <!-- Conteúdo Principal -->
+        <div class="relative z-10 container mx-auto px-4 text-center">
+            <!-- Título Principal -->
+            <div class="mb-8">
+                <h1 class="font-heading text-6xl md:text-8xl font-bold mb-6 leading-tight tracking-tighter">
+                    <span class="text-ashen-crimson">THE ASHEN</span>
+                    <span class="block text-white">OZ</span>
+                </h1>
+                
+                <div class="inline-block bg-ashen-gray-dark/80 backdrop-blur-sm border border-ashen-gray-light rounded-lg px-6 py-3 mb-8">
+                    <p class="font-heading text-xl md:text-2xl text-ashen-amber">
+                        Fast-Paced Action Grimdark Roguelite / Metroidvania Hybrid
+                    </p>
+                </div>
+                
+                <!-- Citação de destaque -->
+                <div class="max-w-2xl mx-auto mb-12">
+                    <p class="text-3xl md:text-4xl italic text-gray-300 leading-relaxed">
+                        <span class="text-ashen-amber">"</span>
+                        The Oz you knew is gone.
+                        <span class="text-ashen-amber">"</span>
+                    </p>
+                    <p class="text-lg text-gray-400 mt-4">
+                        A dark reimagining of Oz, shaped by trauma, memory, and loss.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- CTAs -->
+            <div class="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                <a href="#overview" 
+                   class="group bg-gradient-to-r from-ashen-crimson to-purple-900 hover:from-red-800 hover:to-purple-800 px-8 py-4 rounded-lg font-heading text-lg font-bold tracking-wider transition-all duration-300 hover:scale-105 transform inline-flex items-center">
+                   <span>EXPLORE THE RUINS</span>
+                   <span class="ml-3 group-hover:rotate-90 transition-transform">↓</span>
+                </a>
+                
+                <a href="https://store.steampowered.com/" 
+                   target="_blank"
+                   class="group border-2 border-ashen-amber text-ashen-amber hover:bg-ashen-amber hover:text-ashen-black px-8 py-4 rounded-lg font-heading text-lg font-bold tracking-wider transition-all duration-300 inline-flex items-center">
+                   <span>WISHLIST ON STEAM</span>
+                   <span class="ml-3 group-hover:translate-x-2 transition-transform">→</span>
+                </a>
+            </div>
+            
+            <!-- Informação de copyright -->
+            <div class="mt-16 pt-8 border-t border-ashen-gray-light/30">
+                <p class="text-sm text-gray-500">
+                    © 2025 Ashbone Games. All rights reserved.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+            <a href="#overview" class="animate-bounce inline-block">
+                <div class="w-6 h-10 border-2 border-ashen-amber rounded-full flex justify-center">
+                    <div class="w-1 h-3 bg-ashen-amber rounded-full mt-2 animate-pulse"></div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <!-- Índice / Navegação Interna -->
+    <section id="index-nav" class="py-12 bg-ashen-gray-dark/50">
+        <div class="container mx-auto px-4">
+            <h2 class="font-heading text-3xl font-bold mb-8 text-center text-ashen-amber">
+                📘 PROJECT INDEX
+            </h2>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <a href="#key-visual" class="index-nav-item group">
+                    <div class="text-3xl mb-2">🎨</div>
+                    <span class="text-sm font-medium">Key Visual</span>
+                </a>
+                
+                <a href="#overview" class="index-nav-item group">
+                    <div class="text-3xl mb-2">📊</div>
+                    <span class="text-sm font-medium">Game Overview</span>
+                </a>
+                
+                <a href="#pillars" class="index-nav-item group">
+                    <div class="text-3xl mb-2">⚔️</div>
+                    <span class="text-sm font-medium">Core Pillars</span>
+                </a>
+                
+                <a href="#concept" class="index-nav-item group">
+                    <div class="text-3xl mb-2">🎯</div>
+                    <span class="text-sm font-medium">Concept</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Key Visual -->
+    <section id="key-visual" class="py-20 scroll-animate">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="font-heading text-4xl font-bold mb-4">
+                    <span class="text-white">01 • </span>
+                    <span class="text-ashen-crimson">KEY VISUAL</span>
+                </h2>
+                <div class="w-32 h-1 bg-gradient-to-r from-ashen-crimson to-ashen-amber mx-auto"></div>
+                <p class="text-gray-400 mt-6 max-w-2xl mx-auto">
+                    The main key visual that captures the core atmosphere of the game — 
+                    Dorothy's desperate journey through a fallen world.
+                </p>
+            </div>
+            
+            <!-- Poster Placeholder -->
+            <div class="max-w-4xl mx-auto mb-12">
+                <div class="relative group">
+                    <div class="bg-gradient-to-b from-ashen-gray-dark to-ashen-black border-2 border-ashen-gray-light rounded-xl overflow-hidden shadow-2xl">
+                        <!-- Placeholder para poster -->
+                        <div class="aspect-[16/9] bg-gradient-to-br from-ashen-black via-purple-900/30 to-ashen-crimson/20 flex flex-col items-center justify-center p-8">
+                            <div class="text-center mb-8">
+                                <div class="text-6xl mb-4 animate-float">🌪️</div>
+                                <h3 class="font-heading text-3xl font-bold mb-2">Main Poster</h3>
+                                <p class="text-ashen-gray-light">High-quality hand-drawn illustration</p>
+                            </div>
+                            
+                            <!-- Elementos simbólicos do poster -->
+                            <div class="flex flex-wrap justify-center gap-8 mt-8">
+                                <div class="text-center">
+                                    <div class="text-3xl mb-2 animate-dice-spin">🎲</div>
+                                    <p class="text-xs text-ashen-gray-light">Ashen Dice</p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl mb-2">☔</div>
+                                    <p class="text-xs text-ashen-gray-light">Emerald Umbrella</p>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-3xl mb-2">👁️</div>
+                                    <p class="text-xs text-ashen-gray-light">Hollow Gaze</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Efeito de brilho -->
+                    <div class="absolute -inset-4 bg-gradient-to-r from-ashen-crimson/20 via-ashen-amber/20 to-ashen-emerald/20 rounded-xl blur-xl opacity-0 group-hover:opacity-50 transition duration-500"></div>
+                </div>
+                
+                <!-- Legenda -->
+                <p class="text-center text-gray-500 text-sm mt-4 italic">
+                    "A grimdark action roguelite depicting a journey through a despair-ridden Oz"
+                </p>
+            </div>
+            
+            <!-- Branding Elements -->
+            <div class="max-w-3xl mx-auto">
+                <h3 class="font-heading text-2xl font-bold mb-6 text-center text-ashen-amber">
+                    Branding & Symbolism
+                </h3>
+                
+                <div class="grid md:grid-cols-2 gap-6">
+                    <!-- Elemento 1 -->
+                    <div class="bg-ashen-gray-dark/50 border border-ashen-gray-light rounded-lg p-5">
+                        <div class="flex items-start mb-3">
+                            <div class="text-2xl mr-3 text-ashen-crimson">🎲</div>
+                            <h4 class="font-heading font-bold text-lg">The Ashen Dice</h4>
+                        </div>
+                        <p class="text-gray-300 text-sm">
+                            A symbol of the inescapable loop she is trapped in — fate and repetition.
+                        </p>
+                    </div>
+                    
+                    <!-- Elemento 2 -->
+                    <div class="bg-ashen-gray-dark/50 border border-ashen-gray-light rounded-lg p-5">
+                        <div class="flex items-start mb-3">
+                            <div class="text-2xl mr-3 text-ashen-amber">☔</div>
+                            <h4 class="font-heading font-bold text-lg">Emerald Umbrella</h4>
+                        </div>
+                        <p class="text-gray-300 text-sm">
+                            Dorothy's sole means of survival and a key to her fractured identity.
+                        </p>
+                    </div>
+                    
+                    <!-- Elemento 3 -->
+                    <div class="bg-ashen-gray-dark/50 border border-ashen-gray-light rounded-lg p-5">
+                        <div class="flex items-start mb-3">
+                            <div class="text-2xl mr-3 text-ashen-emerald">👁️</div>
+                            <h4 class="font-heading font-bold text-lg">Hollow Gaze</h4>
+                        </div>
+                        <p class="text-gray-300 text-sm">
+                            Fear of facing the past, and the resolve to grow beyond it — courage in despair.
+                        </p>
+                    </div>
+                    
+                    <!-- Elemento 4 -->
+                    <div class="bg-ashen-gray-dark/50 border border-ashen-gray-light rounded-lg p-5">
+                        <div class="flex items-start mb-3">
+                            <div class="text-2xl mr-3 text-gray-400">🌧️</div>
+                            <h4 class="font-heading font-bold text-lg">Black Rain & Branches</h4>
+                        </div>
+                        <p class="text-gray-300 text-sm">
+                            Despair and the distortion of memory — the world itself weeping and twisting.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Game Overview -->
+    <section id="overview" class="py-20 bg-ashen-gray-dark/30 scroll-animate">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="font-heading text-4xl font-bold mb-4">
+                    <span class="text-white">02 • </span>
+                    <span class="text-ashen-crimson">GAME OVERVIEW</span>
+                </h2>
+                <div class="w-32 h-1 bg-gradient-to-r from-ashen-amber to-ashen-crimson mx-auto"></div>
+            </div>
+            
+            <!-- Tabela de informações -->
+            <div class="max-w-4xl mx-auto mb-12">
+                <div class="bg-gradient-to-br from-ashen-gray-dark to-ashen-black border border-ashen-gray-light rounded-xl overflow-hidden">
+                    <div class="grid md:grid-cols-2 divide-x divide-ashen-gray-light">
+                        <!-- Coluna 1 -->
+                        <div class="p-6">
+                            <h3 class="font-heading text-xl font-bold mb-4 text-ashen-amber">Project Information</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Genre</p>
+                                    <p class="font-medium">2D Grimdark / Roguelike / Stylized Action</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 text-sm">Platform</p>
+                                    <p class="font-medium">Steam (PC) / Console – Multi-platform</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 text-sm">Engine</p>
+                                    <p class="font-medium">Unity 6</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Coluna 2 -->
+                        <div class="p-6">
+                            <h3 class="font-heading text-xl font-bold mb-4 text-ashen-amber">Core Features</h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <p class="text-gray-400 text-sm">Core Gameplay</p>
+                                    <p class="font-medium">Precise boss encounters + Hack-and-slash rhythm + Loop-based progression</p>
+                                </div>
+                                <div>
+                                    <p class="text-gray-400 text-sm">Concept Keywords</p>
+                                    <p class="font-medium italic">Dark Oz – A grotesque yet enchanting reinterpretation of dark fantasy</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Conceito "Hades Knight" -->
+            <div class="max-w-3xl mx-auto text-center mb-16">
+                <div class="inline-block bg-gradient-to-r from-ashen-crimson/20 to-ashen-amber/20 border border-ashen-gray-light rounded-lg px-6 py-4 mb-6">
+                    <h3 class="font-heading text-2xl font-bold text-white">
+                        <span class="text-ashen-crimson">"Hades Knight"</span>
+                    </h3>
+                    <p class="text-gray-300">(Hades + Hollow Knight)</p>
+                </div>
+                
+                <p class="text-lg text-gray-300 mb-8">
+                    Fast, chained combat inspired by <span class="text-ashen-amber">Hades</span>, refined through 
+                    <span class="text-ashen-amber">Hollow Knight's</span> boss design — a descent into despair where every run leads to growth.
+                </p>
+                
+                <div class="text-4xl animate-pulse">⚔️</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Core Pillars -->
+    <section id="pillars" class="py-20 scroll-animate">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="font-heading text-4xl font-bold mb-4">
+                    <span class="text-ashen-crimson">CORE GAMEPLAY</span>
+                    <span class="text-white"> PILLARS</span>
+                </h2>
+                <div class="w-32 h-1 bg-ashen-amber mx-auto"></div>
+                <p class="text-gray-400 mt-6 max-w-2xl mx-auto">
+                    Three interconnected pillars that define the Ashen OZ experience
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <!-- Pilar 1 -->
+                <div class="pillar-card group">
+                    <div class="pillar-number">01</div>
+                    <div class="text-5xl mb-6 text-ashen-crimson group-hover:scale-110 transition-transform">⚡</div>
+                    <h3 class="font-heading text-2xl font-bold mb-4 text-ashen-amber">
+                        Fast-Paced Combat
+                    </h3>
+                    <p class="text-gray-300 mb-6">
+                        Seamlessly chained without interruption — high-tempo "field combat" that flows like a deadly dance.
+                    </p>
+                    <div class="mt-4 p-4 bg-ashen-black/50 rounded-lg border border-ashen-gray-light">
+                        <p class="text-sm text-gray-400 italic">
+                            "Fast, satisfying combat with strategic depth"
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Pilar 2 -->
+                <div class="pillar-card group">
+                    <div class="pillar-number">02</div>
+                    <div class="text-5xl mb-6 text-ashen-amber group-hover:scale-110 transition-transform">👹</div>
+                    <h3 class="font-heading text-2xl font-bold mb-4 text-ashen-amber">
+                        Precisely Designed Bosses
+                    </h3>
+                    <p class="text-gray-300 mb-6">
+                        Demanding deliberate, calculated moves — boss fights with precise and varied patterns that test skill and adaptation.
+                    </p>
+                    <div class="mt-4 p-4 bg-ashen-black/50 rounded-lg border border-ashen-gray-light">
+                        <p class="text-sm text-gray-400 italic">
+                            "Metroidvania-style exploration and boss encounters"
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Pilar 3 -->
+                <div class="pillar-card group">
+                    <div class="pillar-number">03</div>
+                    <div class="text-5xl mb-6 text-ashen-crimson group-hover:scale-110 transition-transform">♻️</div>
+                    <h3 class="font-heading text-2xl font-bold mb-4 text-ashen-amber">
+                        The Drive to Repeat
+                    </h3>
+                    <p class="text-gray-300 mb-6">
+                        Where even failure pushes growth and story forward — a meta-roguelite built around a compelling progression loop.
+                    </p>
+                    <div class="mt-4 p-4 bg-ashen-black/50 rounded-lg border border-ashen-gray-light">
+                        <p class="text-sm text-gray-400 italic">
+                            "A narrative centered on memory, loss, and purification"
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Seção combinada -->
+            <div class="max-w-4xl mx-auto mt-16 pt-16 border-t border-ashen-gray-light">
+                <div class="text-center">
+                    <h3 class="font-heading text-2xl font-bold mb-6 text-white">
+                        The Complete Experience
+                    </h3>
+                    <p class="text-lg text-gray-300">
+                        By focusing on these <span class="text-ashen-amber font-bold">Top 3 Core Gameplay Pillars</span>,<br>
+                        we create an experience where combat, exploration, and narrative intertwine seamlessly.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção Key Messages -->
+    <section id="concept" class="py-20 bg-gradient-to-b from-ashen-gray-dark/30 to-ashen-black scroll-animate">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="font-heading text-4xl font-bold mb-4">
+                    <span class="text-white">KEY</span>
+                    <span class="text-ashen-amber"> MESSAGES</span>
+                </h2>
+                <div class="w-32 h-1 bg-gradient-to-r from-ashen-crimson to-ashen-amber mx-auto"></div>
+                <p class="text-gray-400 mt-6 max-w-2xl mx-auto">
+                    The core values that define The Ashen OZ experience
+                </p>
+            </div>
+            
+            <div class="max-w-5xl mx-auto">
+                <!-- Mensagem 1 -->
+                <div class="flex flex-col md:flex-row gap-8 items-center mb-16">
+                    <div class="md:w-1/3">
+                        <div class="text-8xl text-center md:text-left text-ashen-crimson">🌪️</div>
+                    </div>
+                    <div class="md:w-2/3">
+                        <div class="inline-block mb-4">
+                            <span class="font-heading font-bold text-ashen-amber text-lg">01 •</span>
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold mb-4 text-white">
+                            A dark, dreamlike atmosphere set in a ruined land of Oz
+                        </h3>
+                        <p class="text-gray-300">
+                            A fairytale × nightmare world shaped by erased memories and endlessly repeating despair. 
+                            Every corner of the fallen Oz tells a story of loss and corrupted beauty.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Mensagem 2 -->
+                <div class="flex flex-col md:flex-row-reverse gap-8 items-center mb-16">
+                    <div class="md:w-1/3">
+                        <div class="text-8xl text-center md:text-right text-ashen-amber">🎮</div>
+                    </div>
+                    <div class="md:w-2/3">
+                        <div class="inline-block mb-4">
+                            <span class="font-heading font-bold text-ashen-amber text-lg">02 •</span>
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold mb-4 text-white">
+                            Fast-paced chained action and ever-changing deckbuilding
+                        </h3>
+                        <p class="text-gray-300">
+                            A combat structure that blends combo-driven, high-speed action with meaningful strategic choices. 
+                            Each run offers new combinations and approaches to survival.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Mensagem 3 -->
+                <div class="flex flex-col md:flex-row gap-8 items-center">
+                    <div class="md:w-1/3">
+                        <div class="text-8xl text-center md:text-left text-ashen-crimson">💔</div>
+                    </div>
+                    <div class="md:w-2/3">
+                        <div class="inline-block mb-4">
+                            <span class="font-heading font-bold text-ashen-amber text-lg">03 •</span>
+                        </div>
+                        <h3 class="font-heading text-2xl font-bold mb-4 text-white">
+                            Emotion-driven storytelling following Dorothy's identity and scars
+                        </h3>
+                        <p class="text-gray-300">
+                            An orphanage, experiments, lost memories — a journey toward the truth by piecing together fragmented recollections. 
+                            Discover who Dorothy really is, and what was taken from her.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="py-20 relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-r from-ashen-crimson/10 via-ashen-amber/10 to-ashen-emerald/10"></div>
+        <div class="relative z-10 container mx-auto px-4 text-center">
+            <h2 class="font-heading text-4xl md:text-5xl font-bold mb-8">
+                <span class="text-white">ENTER THE</span>
+                <span class="block text-ashen-amber">FALLEN OZ</span>
+            </h2>
+            
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12">
+                Join Dorothy on her journey through despair, memory, and redemption. 
+                Every death is progress, every memory a piece of the puzzle.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="story.html" 
+                   class="group bg-gradient-to-r from-ashen-crimson to-purple-900 hover:from-red-800 hover:to-purple-800 px-8 py-4 rounded-lg font-heading text-lg font-bold tracking-wider transition-all duration-300 hover:scale-105 transform inline-flex items-center justify-center">
+                   <span>DISCOVER THE STORY</span>
+                   <span class="ml-3 group-hover:translate-x-2 transition-transform">→</span>
+                </a>
+                
+                <a href="systems.html" 
+                   class="group border-2 border-ashen-amber text-ashen-amber hover:bg-ashen-amber hover:text-ashen-black px-8 py-4 rounded-lg font-heading text-lg font-bold tracking-wider transition-all duration-300 inline-flex items-center justify-center">
+                   <span>EXPLORE GAMEPLAY</span>
+                   <span class="ml-3 group-hover:rotate-180 transition-transform">⚔️</span>
+                </a>
+            </div>
+            
+            <!-- Copyright final -->
+            <div class="mt-16 pt-8 border-t border-ashen-gray-light/30">
+                <p class="text-sm text-gray-500">
+                    © 2025 Ashbone Games. "The Ashen OZ" is a dark fantasy reimagining. All rights reserved.
+                </p>
+                <p class="text-xs text-gray-600 mt-2">
+                    Original Oz works are public domain. This project is a creative reinterpretation.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-ashen-gray-dark border-t border-ashen-gray-light py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <!-- Logo e Descrição -->
+                <div>
+                    <h3 class="font-heading text-2xl font-bold mb-4">
+                        <span class="text-ashen-crimson">THE ASHEN</span>
+                        <span class="text-ashen-amber"> OZ</span>
+                    </h3>
+                    <p class="text-gray-400 mb-4">
+                        A grimdark reimagining of the magical land of Oz. 
+                        Developed with passion by Ashbone Games.
+                    </p>
+                    <p class="text-sm text-ashen-gray-light">
+                        "The Oz you knew is gone."
+                    </p>
+                </div>
+                
+                <!-- Links Rápidos -->
+                <div>
+                    <h4 class="font-heading text-xl font-bold mb-4 text-ashen-amber">Explore</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#key-visual" class="text-gray-400 hover:text-ashen-amber transition-colors">Key Visual</a></li>
+                        <li><a href="#overview" class="text-gray-400 hover:text-ashen-amber transition-colors">Game Overview</a></li>
+                        <li><a href="#pillars" class="text-gray-400 hover:text-ashen-amber transition-colors">Core Pillars</a></li>
+                        <li><a href="team.html" class="text-gray-400 hover:text-ashen-amber transition-colors">Development Team</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contato -->
+                <div>
+                    <h4 class="font-heading text-xl font-bold mb-4 text-ashen-amber">Contact</h4>
+                    <p class="text-gray-400 mb-4">
+                        For inquiries, partnerships, or press:
+                    </p>
+                    <a href="mailto:ashbonegames@gmail.com" class="text-ashen-amber hover:text-ashen-crimson transition-colors font-medium">
+                        ashbonegames@gmail.com
+                    </a>
+                    <div class="mt-4">
+                        <p class="text-sm text-gray-500">
+                            Official email for:<br>
+                            Publishing • Platforms • Partnerships • Media • General
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="pt-8 border-t border-ashen-gray-light text-center text-gray-500 text-sm">
+                <p>&copy; 2024-2025 Ashbone Games. "The Ashen OZ" is a dark fantasy reimagining. All rights reserved.</p>
+                <p class="mt-2">This is a fan project. Original Oz works are public domain.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+    <style>
+        /* Estilos adicionais para esta página */
+        .index-nav-item {
+            @apply bg-ashen-gray-dark/50 border border-ashen-gray-light rounded-lg p-4 text-center transition-all duration-300;
+        }
+        
+        .index-nav-item:hover {
+            @apply border-ashen-amber bg-ashen-crimson/10 transform -translate-y-1;
+        }
+        
+        .pillar-card {
+            @apply bg-gradient-to-b from-ashen-gray-dark to-ashen-black border border-ashen-gray-light rounded-xl p-8 text-center transition-all duration-300;
+        }
+        
+        .pillar-card:hover {
+            @apply border-ashen-amber transform -translate-y-2;
+            box-shadow: 0 10px 30px rgba(178, 34, 34, 0.2);
+        }
+        
+        .pillar-number {
+            @apply font-heading text-6xl font-bold text-ashen-gray-light/20 mb-4;
+        }
+        
+        /* Animações de scroll */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Smooth scrolling para âncoras */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+    <script>
+        // Animações ao scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            // Observador para animações
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            // Observar todos os elementos com classe scroll-animate
+            document.querySelectorAll('.scroll-animate').forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Navegação do índice
+            const indexItems = document.querySelectorAll('.index-nav-item');
+            indexItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                        
+                        // Destacar item ativo
+                        indexItems.forEach(i => i.classList.remove('border-ashen-amber', 'bg-ashen-crimson/10'));
+                        this.classList.add('border-ashen-amber', 'bg-ashen-crimson/10');
+                    }
+                });
+            });
+            
+            // Atualizar navegação ativa ao scroll
+            const sections = document.querySelectorAll('section[id]');
+            const navItems = document.querySelectorAll('nav a[href^="#"]');
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (scrollY >= (sectionTop - 150)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navItems.forEach(item => {
+                    item.classList.remove('border-b-2', 'border-ashen-amber', 'text-ashen-amber');
+                    item.classList.add('text-gray-300');
+                    
+                    if (item.getAttribute('href') === `#${current}`) {
+                        item.classList.remove('text-gray-300');
+                        item.classList.add('border-b-2', 'border-ashen-amber', 'text-ashen-amber');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
