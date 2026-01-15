@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Ashen OZ - Grimdark Roguelite</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Remover Lightbox externo e usar implementação simples -->
+    <!-- Fontes -->
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         /* ===== VARIÁVEIS E CONFIGURAÇÕES GLOBAIS ===== */
         :root {
@@ -19,21 +20,20 @@
             --ashen-purple: #4B0082;
             --ashen-storm: #1E3A5F;
             
-            /* Sistema de fontes baseado nas imagens do jogo */
-            --font-title: 'Black Ops One', 'Orbitron', cursive;
+            /* Sistema de fontes */
+            --font-title: 'Black Ops One', cursive;
             --font-subtitle: 'Orbitron', sans-serif;
             --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            --font-korean: 'Noto Sans KR', sans-serif;
-            --font-ui: 'Roboto', sans-serif;
-            --font-numbers: 'Orbitron', monospace;
             
             /* Cores das seções */
-            --section-home: rgba(216, 200, 176, 0.1);      /* #D8C8B0 */
-            --section-overview: rgba(93, 83, 70, 0.15);    /* #5D5346 */
-            --section-features: rgba(47, 54, 64, 0.2);     /* #2F3640 */
-            --section-gallery: rgba(11, 16, 25, 0.25);     /* #0B1019 */
-            --section-story: rgba(30, 51, 32, 0.2);        /* #1E3320 */
-            --section-contact: rgba(30, 51, 32, 0.25);     /* #1E3320 mais intenso */
+            --section-home: rgba(216, 200, 176, 0.1);
+            --section-story: rgba(30, 51, 32, 0.2);
+            --section-characters: rgba(75, 0, 130, 0.2);
+            --section-systems: rgba(139, 0, 0, 0.2);
+            --section-bestiary: rgba(30, 58, 95, 0.2);
+            --section-gallery: rgba(11, 16, 25, 0.25);
+            --section-team: rgba(45, 35, 35, 0.25);
+            --section-contact: rgba(30, 51, 32, 0.25);
         }
 
         /* ===== RESET E CONFIGURAÇÕES BASE ===== */
@@ -64,7 +64,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: -2;
             overflow: hidden;
             transition: background-color 1.5s ease;
         }
@@ -77,6 +77,9 @@
             height: 100%;
             opacity: 0.5;
             transition: all 1.5s ease;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .overlay-texture {
@@ -88,9 +91,9 @@
             background: linear-gradient(
                 to bottom, 
                 transparent 0%, 
-                rgba(10, 10, 10, 0.1) 20%, 
-                rgba(10, 10, 10, 0.3) 50%, 
-                rgba(10, 10, 10, 0.7) 80%, 
+                rgba(10, 10, 10, 0.3) 20%, 
+                rgba(10, 10, 10, 0.5) 50%, 
+                rgba(10, 10, 10, 0.8) 80%, 
                 var(--ashen-black) 100%
             );
             pointer-events: none;
@@ -118,33 +121,8 @@
             letter-spacing: 0.2px;
         }
 
-        .font-ashen-korean {
-            font-family: var(--font-korean);
-            font-weight: 500;
-            letter-spacing: 0.1px;
-        }
-
-        .font-ashen-ui {
-            font-family: var(--font-ui);
-            font-weight: 500;
-            letter-spacing: 0.3px;
-        }
-
-        .font-ashen-numbers {
-            font-family: var(--font-numbers);
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-
-        .font-ashen-button {
-            font-family: var(--font-subtitle);
-            font-weight: 600;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-        }
-
         .logo-style {
-            font-family: 'Black Ops One', cursive;
+            font-family: var(--font-title);
             font-size: clamp(2.5rem, 8vw, 4rem);
             letter-spacing: 4px;
             text-transform: uppercase;
@@ -180,7 +158,9 @@
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
         }
 
         .nav-links a {
@@ -190,11 +170,29 @@
             font-weight: 600;
             letter-spacing: 1.5px;
             text-transform: uppercase;
-            transition: color 0.3s ease;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
         }
 
         .nav-links a:hover {
             color: var(--ashen-amber);
+        }
+
+        .nav-links a.active {
+            color: var(--ashen-amber);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--ashen-amber);
+            border-radius: 2px;
         }
 
         /* ===== SEÇÕES ===== */
@@ -210,6 +208,8 @@
             max-width: 1200px;
             margin: 0 auto;
             width: 100%;
+            position: relative;
+            z-index: 1;
         }
 
         .section-title {
@@ -221,49 +221,67 @@
             letter-spacing: 3px;
         }
 
-        /* ===== CARDS ===== */
-        .card {
-            background: linear-gradient(145deg, var(--ashen-gray-dark), var(--ashen-black));
-            border: 1px solid var(--ashen-gray-light);
+        /* ===== GALERIA COM CACHE ===== */
+        .gallery-section {
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(10px);
             border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .card:hover {
-            transform: translateY(-5px);
+        .gallery-filters {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.25rem;
+            border: 1px solid var(--ashen-gray-light);
+            background: var(--ashen-gray-dark);
+            color: #E0E0E0;
+            border-radius: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--ashen-crimson);
+            color: white;
             border-color: var(--ashen-amber);
-            box-shadow: 0 10px 30px rgba(218, 165, 32, 0.1);
+            transform: translateY(-2px);
         }
 
-        .system-card {
-            background: linear-gradient(145deg, var(--ashen-gray-dark), var(--ashen-black));
-            border: 1px solid var(--ashen-gray-light);
-            border-radius: 12px;
-            padding: 1.5rem;
-            transition: all 0.3s ease;
-        }
-
-        .system-card:hover {
-            border-color: var(--ashen-crimson);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(139, 0, 0, 0.2);
-        }
-
-        /* ===== GALERIA ===== */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
         }
 
         .gallery-item {
             position: relative;
-            overflow: hidden;
-            border-radius: 8px;
             aspect-ratio: 16/9;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            border: 1px solid var(--ashen-gray-light);
+            background: linear-gradient(145deg, var(--ashen-gray-dark), var(--ashen-black));
+            transition: all 0.3s ease;
             cursor: pointer;
+            contain: content;
+            will-change: transform;
+            backface-visibility: hidden;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-4px);
+            border-color: var(--ashen-amber);
+            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.2);
         }
 
         .gallery-item img {
@@ -275,6 +293,85 @@
 
         .gallery-item:hover img {
             transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(10, 10, 10, 0.9), transparent);
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .image-number {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: rgba(10, 10, 10, 0.8);
+            color: var(--ashen-amber);
+            font-family: var(--font-subtitle);
+            font-weight: bold;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            border: 1px solid var(--ashen-gray-light);
+        }
+
+        /* ===== TEAM SECTION ===== */
+        .team-section {
+            background: rgba(45, 35, 35, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .philosophy-card {
+            background: rgba(30, 30, 30, 0.8);
+            border-left: 4px solid var(--ashen-amber);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .team-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: rgba(30, 30, 30, 0.6);
+            border: 1px solid var(--ashen-gray-light);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: var(--font-title);
+            font-size: 2.5rem;
+            color: var(--ashen-amber);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--ashen-gray-light);
+            font-size: 0.9rem;
         }
 
         /* ===== FORMULÁRIO ===== */
@@ -291,10 +388,11 @@
             display: block;
             margin-bottom: 0.5rem;
             color: var(--ashen-amber);
-            font-family: var(--font-ui);
+            font-weight: 500;
         }
 
         .form-group input,
+        .form-group select,
         .form-group textarea {
             width: 100%;
             padding: 1rem;
@@ -303,33 +401,172 @@
             border-radius: 6px;
             color: white;
             font-family: var(--font-body);
-            transition: border-color 0.3s ease;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus {
-            outline: none;
-            border-color: var(--ashen-amber);
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--ashen-crimson), var(--ashen-amber));
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-family: var(--font-subtitle);
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(139, 0, 0, 0.3);
+        }
+
+        /* ===== LIGHTBOX ===== */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-img.loaded {
+            opacity: 1;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+            z-index: 2001;
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            font-size: 2rem;
+            padding: 1rem;
+            cursor: pointer;
+            z-index: 2001;
+            border-radius: 4px;
+        }
+
+        .lightbox-prev {
+            left: 10px;
+        }
+
+        .lightbox-next {
+            right: 10px;
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: -50px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+        }
+
+        /* ===== LOADER ===== */
+        .loader {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--ashen-amber);
+            font-size: 2rem;
         }
 
         /* ===== UTILITÁRIOS ===== */
-        .text-glow {
+        .text-center { text-align: center; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mt-8 { margin-top: 2rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .w-full { width: 100%; }
+        
+        .text-amber { color: var(--ashen-amber); }
+        .text-crimson { color: var(--ashen-crimson); }
+        .text-emerald { color: var(--ashen-emerald); }
+        .text-purple { color: var(--ashen-purple); }
+        .text-storm { color: var(--ashen-storm); }
+        .text-gray-300 { color: #d1d5db; }
+        .text-gray-400 { color: #9ca3af; }
+        
+        .bg-dark {
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        .border-gradient {
+            border: 2px solid transparent;
+            background: 
+                linear-gradient(var(--ashen-black), var(--ashen-black)) padding-box,
+                linear-gradient(135deg, var(--ashen-crimson), var(--ashen-amber)) border-box;
+            border-radius: 8px;
+        }
+        
+        .glow-text {
             text-shadow: 
                 0 0 10px currentColor,
                 0 0 20px rgba(255, 255, 255, 0.1);
         }
-
-        .crimson-glow {
-            text-shadow: 
-                0 0 10px rgba(139, 0, 0, 0.7),
-                0 0 20px rgba(139, 0, 0, 0.5),
-                0 0 30px rgba(139, 0, 0, 0.3);
-        }
-
+        
         .amber-glow {
             text-shadow: 
                 0 0 10px rgba(218, 165, 32, 0.7),
                 0 0 20px rgba(218, 165, 32, 0.5);
+        }
+        
+        .crimson-glow {
+            text-shadow: 
+                0 0 10px rgba(139, 0, 0, 0.7),
+                0 0 20px rgba(139, 0, 0, 0.5);
         }
 
         .emerald-glow {
@@ -338,12 +575,16 @@
                 0 0 20px rgba(0, 100, 0, 0.5);
         }
 
-        .border-gradient {
-            border: 2px solid transparent;
-            background: 
-                linear-gradient(var(--ashen-black), var(--ashen-black)) padding-box,
-                linear-gradient(135deg, var(--ashen-crimson), var(--ashen-amber)) border-box;
-            border-radius: 8px;
+        .purple-glow {
+            text-shadow: 
+                0 0 10px rgba(75, 0, 130, 0.7),
+                0 0 20px rgba(75, 0, 130, 0.5);
+        }
+
+        .storm-glow {
+            text-shadow: 
+                0 0 10px rgba(30, 58, 95, 0.7),
+                0 0 20px rgba(30, 58, 95, 0.5);
         }
 
         /* ===== SCROLL INDICATOR ===== */
@@ -372,66 +613,27 @@
             transform: scale(1.3);
         }
 
-        /* ===== LIGHTBOX CUSTOM ===== */
-        .lightbox-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 2000;
-        }
-
-        .lightbox-overlay.active {
-            display: flex;
-        }
-
-        .lightbox-content {
-            max-width: 90%;
-            max-height: 90%;
-            position: relative;
-        }
-
-        .lightbox-content img {
-            width: 100%;
-            height: auto;
-            max-height: 80vh;
-            object-fit: contain;
-        }
-
-        .lightbox-close {
-            position: absolute;
-            top: -40px;
-            right: 0;
-            color: white;
-            font-size: 2rem;
-            cursor: pointer;
-            background: none;
-            border: none;
-        }
-
-        .lightbox-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
+        /* ===== FOOTER ===== */
+        footer {
             background: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            font-size: 2rem;
-            padding: 1rem;
-            cursor: pointer;
+            border-top: 1px solid #374151;
+            padding: 2rem 0;
+            text-align: center;
         }
 
-        .lightbox-prev {
-            left: 10px;
+        /* ===== ANIMAÇÕES ===== */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-
-        .lightbox-next {
-            right: 10px;
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
         }
 
         /* ===== RESPONSIVIDADE ===== */
@@ -451,6 +653,23 @@
             .scroll-indicator {
                 display: none;
             }
+            
+            section {
+                padding: 5rem 1rem 2rem;
+            }
+            
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .team-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .lightbox-nav {
+                padding: 0.5rem;
+                font-size: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -461,29 +680,30 @@
         <div class="overlay-texture"></div>
     </div>
     
-    <!-- Lightbox Custom -->
-    <div class="lightbox-overlay" id="lightbox">
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
         <button class="lightbox-close" id="lightbox-close">&times;</button>
         <button class="lightbox-nav lightbox-prev" id="lightbox-prev">&#10094;</button>
         <div class="lightbox-content">
-            <img id="lightbox-image" src="" alt="">
+            <div class="loader" id="lightbox-loader">Loading...</div>
+            <img id="lightbox-image" class="lightbox-img" src="" alt="">
+            <div class="lightbox-info" id="lightbox-info"></div>
         </div>
         <button class="lightbox-nav lightbox-next" id="lightbox-next">&#10095;</button>
     </div>
-     <div class="loading-progress" id="loading-progress"></div>
     
-    <!-- Status do cache -->
-    <div class="cache-status" id="cache-status"></div>
     <!-- Navegação -->
     <nav>
         <div class="nav-container">
-            <div class="logo-style">The Ashen OZ</div>
+            <div class="logo-style" style="font-size: 1.8rem;">The Ashen OZ</div>
             <div class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#overview">Overview</a>
-                <a href="#features">Features</a>
-                <a href="#gallery">Gallery</a>
+                <a href="#home" class="active">Home</a>
                 <a href="#story">Story</a>
+                <a href="#characters">Characters</a>
+                <a href="#systems">Systems</a>
+                <a href="#bestiary">Bestiary</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#team">Team</a>
                 <a href="#contact">Contact</a>
             </div>
         </div>
@@ -492,10 +712,12 @@
     <!-- Indicador de Scroll -->
     <div class="scroll-indicator">
         <div class="indicator-dot active" data-section="home"></div>
-        <div class="indicator-dot" data-section="overview"></div>
-        <div class="indicator-dot" data-section="features"></div>
-        <div class="indicator-dot" data-section="gallery"></div>
         <div class="indicator-dot" data-section="story"></div>
+        <div class="indicator-dot" data-section="characters"></div>
+        <div class="indicator-dot" data-section="systems"></div>
+        <div class="indicator-dot" data-section="bestiary"></div>
+        <div class="indicator-dot" data-section="gallery"></div>
+        <div class="indicator-dot" data-section="team"></div>
         <div class="indicator-dot" data-section="contact"></div>
     </div>
     
@@ -508,593 +730,327 @@
                     <div class="logo-style crimson-glow mb-6">
                         "The Oz you knew is gone"
                     </div>
-                    <div class="font-ashen-subtitle text-2xl text-amber-400 amber-glow mb-4">
+                    <div class="font-ashen-subtitle amber-glow mb-4" style="font-size: 1.5rem;">
                         The AshenOZ
                     </div>
-                    <div class="font-ashen-ui text-xl text-gray-300 mb-8">
+                    <div class="font-ashen-subtitle text-gray-300 mb-8" style="font-size: 1.25rem;">
                         Fast-paced Action Grimdark Roguelite
                     </div>
-                    <div class="font-ashen-subtitle text-2xl text-white mt-12">
+                    <div class="font-ashen-subtitle mt-12" style="font-size: 1.5rem;">
                         ASHBONE GAMES
                     </div>
                 </div>
             </div>
         </section>
         
-        <!-- Seção 2: Overview -->
-        <section id="overview">
+        <!-- Seção 2: Story -->
+        <section id="story" class="bg-dark">
             <div class="section-container">
-                <h2 class="section-title amber-glow">Overview</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="card">
-                        <h3 class="font-ashen-subtitle text-2xl text-amber-400 mb-4">Core Gameplay</h3>
-                        <p class="font-ashen-body text-gray-300 mb-4">
-                            Fast-paced combat in procedurally generated levels. Master the combat system to survive the relentless onslaught in the ruins of Oz.
-                        </p>
-                    </div>
-                    <div class="card">
-                        <h3 class="font-ashen-subtitle text-2xl text-amber-400 mb-4">The Die of Fate</h3>
-                        <p class="font-ashen-body text-gray-300 mb-4">
-                            A mystical artifact with six faces that grants different abilities and alters the game world. Your choices determine Dorothy's path.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Seção 3: Features -->
-        <section id="features">
-            <div class="section-container">
-                <h2 class="section-title crimson-glow">Features</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="system-card">
-                        <div class="text-center mb-4">
-                            <div class="text-4xl mb-3">⚔️</div>
-                            <h3 class="font-ashen-subtitle text-xl text-amber-400">Soul Rite System</h3>
-                        </div>
-                        <p class="text-gray-300 text-sm text-center mb-4">
-                            Summon companions to execute powerful EX skills with unique effects.
-                        </p>
-                    </div>
-                    
-                    <div class="system-card">
-                        <div class="text-center mb-4">
-                            <div class="text-4xl mb-3">🎲</div>
-                            <h3 class="font-ashen-subtitle text-xl text-amber-400">Roguelite Progression</h3>
-                        </div>
-                        <p class="text-gray-300 text-sm text-center mb-4">
-                            Permanent upgrades and temporary power-ups that carry between runs.
-                        </p>
-                    </div>
-                    
-                    <div class="system-card">
-                        <div class="text-center mb-4">
-                            <div class="text-4xl mb-3">🗺️</div>
-                            <h3 class="font-ashen-subtitle text-xl text-amber-400">Procedural Exploration</h3>
-                        </div>
-                        <p class="text-gray-300 text-sm text-center mb-4">
-                            Metroidvania-style maps with random generation and secrets.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Hero Section -->
-        <section class="relative min-h-[40vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-ashen-black via-purple-900/20 to-ashen-black">
-            <div class="absolute inset-0 opacity-20">
-                <div class="absolute top-1/4 left-1/4 text-7xl animate-float">🎨</div>
-                <div class="absolute bottom-1/3 right-1/4 text-6xl animate-float" style="animation-delay: 1s;">🖼️</div>
-                <div class="absolute top-1/3 right-1/3 text-5xl animate-float" style="animation-delay: 2s;">📸</div>
-            </div>
-            
-            <div class="relative z-10 container mx-auto px-4 py-12 text-center">
-                <div class="inline-block mb-6">
-                    <span class="font-heading text-ashen-amber font-bold text-lg tracking-widest">07 • ART GALLERY</span>
-                </div>
-                
-                <h1 class="font-heading text-5xl md:text-7xl font-bold mb-6 leading-tight">
-                    <span class="text-white">VISUAL</span>
-                    <span class="block text-ashen-crimson">ARCHIVE</span>
-                </h1>
-                
-                <div class="max-w-2xl mx-auto">
-                    <div class="bg-gradient-to-r from-ashen-gray-dark/50 to-ashen-black/50 border-l-4 border-ashen-amber pl-6 py-4 mb-8 backdrop-blur-sm">
-                        <p class="text-lg md:text-xl italic text-gray-300 leading-relaxed">
-                            "Advanced caching system for smooth browsing • 57 images optimized for performance"
-                        </p>
-                    </div>
-                    
-                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-gray-400">
-                        <div class="flex items-center gap-2">
-                            <div class="w-2 h-2 bg-ashen-emerald rounded-full animate-pulse"></div>
-                            <span id="cache-stats">Cache: Loading...</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-2 h-2 bg-ashen-amber rounded-full"></div>
-                            <span id="memory-stats">Memory: -- MB</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Filtros -->
-        <section class="py-8 bg-ashen-gray-dark/30 border-y border-ashen-gray-light">
-            <div class="container mx-auto px-4">
-                <div class="flex flex-wrap justify-center gap-3">
-                    <button class="filter-btn active" data-filter="all">All Images (57)</button>
-                    <button class="filter-btn" data-filter="concept">Concept Art</button>
-                    <button class="filter-btn" data-filter="gameplay">Gameplay</button>
-                    <button class="filter-btn" data-filter="character">Characters</button>
-                    <button class="filter-btn" data-filter="environment">Environments</button>
-                    <button class="filter-btn" data-filter="ui">UI/Interface</button>
-                    <button class="filter-btn" id="clear-cache-btn" title="Clear Image Cache">
-                        🗑️ Clear Cache
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Galeria -->
-        <section class="py-12">
-            <div class="container mx-auto px-4">
-                <div class="gallery-grid" id="gallery-container">
-                    <!-- As imagens serão geradas via JavaScript com lazy loading -->
-                </div>
-                
-                <!-- Contador e navegação -->
-                <div class="mt-12 pt-8 border-t border-ashen-gray-light text-center">
-                    <p class="text-gray-400 mb-4" id="image-counter">
-                        Loading optimized images...
+                <h2 class="section-title crimson-glow">Story</h2>
+                <div class="gallery-section">
+                    <p class="text-center text-gray-300 mb-6">
+                        An orphaned girl named Dorothy is swept away by a hurricane into an ashen world, 
+                        where she endures a grotesque yet mystical journey through a despair-ridden Oz.
                     </p>
-                    <div class="mt-4 flex justify-center items-center space-x-4">
-                        <button id="prev-page" class="filter-btn" disabled>← Previous</button>
-                        <div class="flex items-center space-x-2">
-                            <span class="text-sm text-gray-400" id="page-info">Page 1</span>
-                            <div class="w-32 h-1 bg-ashen-gray-dark rounded-full overflow-hidden">
-                                <div class="preload-indicator" id="preload-indicator" style="width: 20%"></div>
-                            </div>
-                        </div>
-                        <button id="next-page" class="filter-btn">Next →</button>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Info Section -->
-        <section class="py-20 bg-gradient-to-b from-ashen-gray-dark/30 to-ashen-black">
-            <div class="container mx-auto px-4">
-                <div class="max-w-4xl mx-auto">
-                    <div class="text-center mb-12">
-                        <h2 class="font-heading text-3xl font-bold mb-6 text-ashen-amber">
-                            Advanced Gallery System
-                        </h2>
-                        <div class="w-24 h-1 bg-gradient-to-r from-ashen-crimson to-ashen-amber mx-auto"></div>
-                    </div>
-                    
-                    <div class="grid md:grid-cols-3 gap-6">
-                        <div class="bg-gradient-to-br from-ashen-gray-dark/80 to-ashen-black/80 border border-ashen-gray-light rounded-xl p-6">
-                            <div class="text-4xl mb-4 text-ashen-emerald">⚡</div>
-                            <h3 class="font-heading text-xl font-bold mb-3">Intelligent Cache</h3>
-                            <p class="text-gray-300 text-sm">
-                                Images are cached locally for instant viewing. The system intelligently preloads adjacent images.
-                            </p>
-                        </div>
-                        
-                        <div class="bg-gradient-to-br from-ashen-gray-dark/80 to-ashen-black/80 border border-ashen-gray-light rounded-xl p-6">
-                            <div class="text-4xl mb-4 text-ashen-amber">🎯</div>
-                            <h3 class="font-heading text-xl font-bold mb-3">Lazy Loading</h3>
-                            <p class="text-gray-300 text-sm">
-                                Images load only when needed. Thumbnails load first, full images load on demand.
-                            </p>
-                        </div>
-                        
-                        <div class="bg-gradient-to-br from-ashen-gray-dark/80 to-ashen-black/80 border border-ashen-gray-light rounded-xl p-6">
-                            <div class="text-4xl mb-4 text-ashen-crimson">💾</div>
-                            <h3 class="font-heading text-xl font-bold mb-3">Memory Management</h3>
-                            <p class="text-gray-300 text-sm">
-                                Automatic cleanup of unused images. Smart memory allocation based on user behavior.
-                            </p>
-                        </div>
+                    <div class="border-gradient p-6">
+                        <h3 class="font-ashen-subtitle text-amber mb-4">Prologue: The Ashen Die</h3>
+                        <p class="text-gray-300 mb-4">
+                            When she takes the die into her hand, the markings upon its surface begin to glow—
+                            symbols of hurricane, ember, ruin, and omen.
+                        </p>
+                        <p class="text-gray-300">
+                            Started, the girl drops it. The die spins across the floor and stops on the mark of the hurricane.
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
         
-        <!-- SEÇÃO STORY - Baseada no seu story.html -->
-        <section id="story" class="scroll-animate">
+        <!-- Seção 3: Characters -->
+        <section id="characters">
             <div class="section-container">
-                <!-- Hero Section da Story -->
-                <div class="story-hero">
-                    <div class="text-center">
-                        <div style="margin-bottom: 1rem;">
-                            <span class="font-ashen-subtitle text-amber font-bold tracking-widest">STORY & WORLD</span>
-                        </div>
-                        
-                        <h1 class="font-ashen-title" style="font-size: 4rem; margin-bottom: 2rem; line-height: 1.2;">
-                            <span class="text-white">THE FALLEN</span>
-                            <br>
-                            <span class="text-red-700 crimson-glow">MEMORY</span>
-                        </h1>
-                        
-                        <!-- Resumo de uma frase -->
-                        <div class="story-quote">
-                            <p>"An orphaned girl named Dorothy is swept away by a hurricane into an ashen world, where she endures a grotesque yet mystical journey through a despair-ridden Oz—a grimdark fantasy shaped by memory, loss, and repetition."</p>
-                        </div>
+                <h2 class="section-title purple-glow">Characters</h2>
+                <div class="gallery-section">
+                    <p class="text-center text-gray-300 mb-6">
+                        Meet the inhabitants of the ashen world. Each character has their own story, 
+                        motivations, and role in Dorothy's journey.
+                    </p>
+                    
+                    <div class="gallery-filters" id="character-filters">
+                        <button class="filter-btn active" data-filter="all">All Characters</button>
+                        <button class="filter-btn" data-filter="protagonist">Protagonists</button>
+                        <button class="filter-btn" data-filter="companion">Companions</button>
+                        <button class="filter-btn" data-filter="antagonist">Antagonists</button>
+                    </div>
+                    
+                    <div class="gallery-grid" id="characters-gallery">
+                        <!-- Characters will be loaded dynamically -->
                     </div>
                 </div>
-
-                <!-- Divider -->
-                <div class="section-divider"></div>
-
-                <!-- Seção Overview com IDs 2 e 6 -->
-                <div style="margin-bottom: 4rem;">
+            </div>
+        </section>
+        
+        <!-- Seção 4: Systems -->
+        <section id="systems" class="bg-dark">
+            <div class="section-container">
+                <h2 class="section-title crimson-glow">Game Systems</h2>
+                <div class="gallery-section">
+                    <p class="text-center text-gray-300 mb-6">
+                        The core mechanics that make The Ashen OZ unique. Explore the systems that define the gameplay experience.
+                    </p>
+                    
+                    <div class="gallery-filters" id="systems-filters">
+                        <button class="filter-btn active" data-filter="all">All Systems</button>
+                        <button class="filter-btn" data-filter="combat">Combat</button>
+                        <button class="filter-btn" data-filter="progression">Progression</button>
+                        <button class="filter-btn" data-filter="exploration">Exploration</button>
+                    </div>
+                    
+                    <div class="gallery-grid" id="systems-gallery">
+                        <!-- Systems will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Seção 5: Bestiary -->
+        <section id="bestiary">
+            <div class="section-container">
+                <h2 class="section-title storm-glow">Bestiary</h2>
+                <div class="gallery-section">
+                    <p class="text-center text-gray-300 mb-6">
+                        The creatures and enemies that inhabit the ashen world. Learn their weaknesses and strategies.
+                    </p>
+                    
+                    <div class="gallery-filters" id="bestiary-filters">
+                        <button class="filter-btn active" data-filter="all">All Enemies</button>
+                        <button class="filter-btn" data-filter="common">Common</button>
+                        <button class="filter-btn" data-filter="elite">Elite</button>
+                        <button class="filter-btn" data-filter="boss">Boss</button>
+                    </div>
+                    
+                    <div class="gallery-grid" id="bestiary-gallery">
+                        <!-- Bestiary will be loaded dynamically -->
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Seção 6: Gallery -->
+        <section id="gallery" class="bg-dark">
+            <div class="section-container">
+                <h2 class="section-title emerald-glow">Gallery</h2>
+                <div class="gallery-section">
                     <div class="text-center mb-8">
-                        <h2 class="font-ashen-title" style="font-size: 2.5rem; margin-bottom: 1rem;">
-                            <span class="text-red-700">THE ORPHANAGE</span>
-                            <span class="text-white"> & THE BEGINNING</span>
-                        </h2>
-                        <div style="width: 128px; height: 2px; background: linear-gradient(to right, #8B0000, #DAA520); margin: 0 auto;"></div>
-                    </div>
-                    
-                    <!-- Cards de Overview -->
-                    <div style="display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 800px; margin: 0 auto;">
-                        <!-- ID 2: Dorothy in Orphanage -->
-                        <div class="story-card" onclick="openStoryLightbox('id-2')">
-                            <div class="image-id-label">ID: 2</div>
-                            <div class="image-placeholder">
-                                <div class="text-center" style="padding: 2rem;">
-                                    <div style="font-size: 4rem; margin-bottom: 1rem; animation: float 6s ease-in-out infinite;">🏠</div>
-                                    <h3 class="font-ashen-subtitle" style="font-size: 1.5rem; margin-bottom: 0.5rem;">Dorothy in Orphanage</h3>
-                                    <p class="text-gray-400 text-sm">Where the journey began</p>
-                                    <div class="text-xs text-gray-500 mt-2">Category: Character</div>
-                                </div>
-                            </div>
-                            <div style="margin-top: 1rem;">
-                                <h3 class="font-ashen-subtitle text-amber" style="font-size: 1.25rem; margin-bottom: 0.5rem;">The Orphanage Years</h3>
-                                <p class="text-gray-300 text-sm">
-                                    Dorothy's early life in the Kansas orphanage, where her first memories were formed 
-                                    and where the seeds of her journey were planted. A place of both safety and mystery.
-                                </p>
-                            </div>
+                        <div class="font-ashen-subtitle text-amber mb-4" style="font-size: 1.5rem;">
+                            Visual Archive
                         </div>
-                        
-                        <!-- ID 6: Boss Encounter - Phase 1 -->
-                        <div class="story-card" onclick="openStoryLightbox('id-6')">
-                            <div class="image-id-label">ID: 6</div>
-                            <div class="image-placeholder">
-                                <div class="text-center" style="padding: 2rem;">
-                                    <div style="font-size: 4rem; margin-bottom: 1rem;">👹</div>
-                                    <h3 class="font-ashen-subtitle" style="font-size: 1.5rem; margin-bottom: 0.5rem;">Boss Encounter - Phase 1</h3>
-                                    <p class="text-gray-400 text-sm">First major confrontation</p>
-                                    <div class="text-xs text-gray-500 mt-2">Category: Gameplay</div>
-                                </div>
-                            </div>
-                            <div style="margin-top: 1rem;">
-                                <h3 class="font-ashen-subtitle text-amber" style="font-size: 1.25rem; margin-bottom: 0.5rem;">The First Trial</h3>
-                                <p class="text-gray-300 text-sm">
-                                    Dorothy's first major encounter in Ashen OZ, testing her combat skills and 
-                                    determination. This battle marks her transition from frightened orphan to 
-                                    determined survivor.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Texto narrativo -->
-                    <div class="story-card" style="margin-top: 2rem;">
-                        <h3 class="font-ashen-subtitle text-amber" style="font-size: 1.5rem; margin-bottom: 1rem;">
-                            From Orphanage to Ashen World
-                        </h3>
-                        <p class="text-gray-300 leading-relaxed">
-                            <span class="text-red-700 font-bold">The Ashen OZ</span> begins not with magic, but with loss. 
-                            Dorothy's journey starts in the <span class="text-amber">Kansas orphanage</span> where 
-                            she grew up, a place haunted by half-remembered dreams and whispered secrets.
-                            When the <span class="text-red-700 font-bold">hurricane</span> strikes and transports her to 
-                            the ashen world, she must quickly adapt to survive her first encounters with 
-                            <span class="text-amber">Oz's corrupted inhabitants</span>.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Divider -->
-                <div class="section-divider"></div>
-
-                <!-- Seção Combat Mechanics com IDs 13 e 14 -->
-                <div style="margin-bottom: 4rem;">
-                    <div class="text-center mb-8">
-                        <h2 class="font-ashen-title" style="font-size: 2.5rem; margin-bottom: 1rem;">
-                            <span class="text-white">DOROTHY'S</span>
-                            <span class="text-red-700 crimson-glow"> COMBAT JOURNEY</span>
-                        </h2>
-                        <div style="width: 128px; height: 2px; background: linear-gradient(to right, #DAA520, #8B0000); margin: 0 auto;"></div>
-                    </div>
-                    
-                    <!-- Cards de Combat Mechanics -->
-                    <div style="display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 800px; margin: 0 auto;">
-                        <!-- ID 13: Combat Mechanics - Basic Attack -->
-                        <div class="story-card" onclick="openStoryLightbox('id-13')">
-                            <div class="image-id-label">ID: 13</div>
-                            <div class="image-placeholder">
-                                <div class="text-center" style="padding: 2rem;">
-                                    <div style="font-size: 4rem; margin-bottom: 1rem;">⚔️</div>
-                                    <h3 class="font-ashen-subtitle" style="font-size: 1.5rem; margin-bottom: 0.5rem;">Combat Mechanics - Basic Attack</h3>
-                                    <p class="text-gray-400 text-sm">Foundation of combat</p>
-                                    <div class="text-xs text-gray-500 mt-2">Category: Gameplay</div>
-                                </div>
-                            </div>
-                            <div style="margin-top: 1rem;">
-                                <h3 class="font-ashen-subtitle text-amber" style="font-size: 1.25rem; margin-bottom: 0.5rem;">Mastering the Basics</h3>
-                                <p class="text-gray-300 text-sm">
-                                    Dorothy learns to wield the Eastern Witch's Umbrella with precision. 
-                                    Basic attacks form the foundation of her combat style, allowing for 
-                                    quick strikes and defensive maneuvers.
-                                </p>
-                            </div>
-                        </div>
-                        
-                        <!-- ID 14: Chained Move - Dreamcatcher -->
-                        <div class="story-card" onclick="openStoryLightbox('id-14')">
-                            <div class="image-id-label">ID: 14</div>
-                            <div class="image-placeholder">
-                                <div class="text-center" style="padding: 2rem;">
-                                    <div style="font-size: 4rem; margin-bottom: 1rem;">🔗</div>
-                                    <h3 class="font-ashen-subtitle" style="font-size: 1.5rem; margin-bottom: 0.5rem;">Chained Move - Dreamcatcher</h3>
-                                    <p class="text-gray-400 text-sm">Advanced combat technique</p>
-                                    <div class="text-xs text-gray-500 mt-2">Category: Gameplay</div>
-                                </div>
-                            </div>
-                            <div style="margin-top: 1rem;">
-                                <h3 class="font-ashen-subtitle text-amber" style="font-size: 1.25rem; margin-bottom: 0.5rem;">The Dreamcatcher Combo</h3>
-                                <p class="text-gray-300 text-sm">
-                                    An advanced combat technique where Dorothy chains multiple attacks together, 
-                                    creating a "dreamcatcher" pattern that traps enemies in a devastating sequence 
-                                    of strikes.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Divider -->
-                <div class="section-divider"></div>
-
-                <!-- Seção Memory Fragments com ID 48 -->
-                <div>
-                    <div class="text-center mb-8">
-                        <h2 class="font-ashen-title" style="font-size: 2.5rem; margin-bottom: 1rem;">
-                            <span class="text-red-700 crimson-glow">MEMORY FRAGMENTS</span>
-                            <span class="text-white"> & TRUTH</span>
-                        </h2>
-                        <div style="width: 128px; height: 2px; background: linear-gradient(to right, #8B0000, #DAA520, #006400); margin: 0 auto;"></div>
-                        <p class="text-gray-400" style="max-width: 600px; margin: 1.5rem auto;">
-                            The final piece of the puzzle—Dorothy's forgotten past
+                        <p class="text-gray-300">
+                            57 images of concept art, gameplay, characters, and environments from The Ashen OZ
                         </p>
                     </div>
                     
-                    <!-- ID 48: Memory Fragment -->
-                    <div class="story-card" onclick="openStoryLightbox('id-48')" style="max-width: 800px; margin: 0 auto;">
-                        <div class="image-id-label">ID: 48</div>
-                        <div class="image-placeholder">
-                            <div class="text-center" style="padding: 2rem;">
-                                <div style="font-size: 4rem; margin-bottom: 1rem; animation: float 6s ease-in-out infinite 0.5s;">🧩</div>
-                                <h3 class="font-ashen-subtitle" style="font-size: 1.5rem; margin-bottom: 0.5rem;">Memory Fragment</h3>
-                                <p class="text-gray-400 text-sm">The final revelation</p>
-                                <div class="text-xs text-gray-500 mt-2">Category: Story</div>
-                            </div>
+                    <div class="gallery-filters" id="gallery-filters">
+                        <button class="filter-btn active" data-filter="all">All Images</button>
+                        <button class="filter-btn" data-filter="concept">Concept Art</button>
+                        <button class="filter-btn" data-filter="gameplay">Gameplay</button>
+                        <button class="filter-btn" data-filter="character">Characters</button>
+                        <button class="filter-btn" data-filter="environment">Environments</button>
+                        <button class="filter-btn" data-filter="ui">UI/Interface</button>
+                    </div>
+                    
+                    <div class="gallery-grid" id="gallery-container">
+                        <!-- Gallery will be loaded dynamically -->
+                    </div>
+                    
+                    <!-- Gallery Navigation -->
+                    <div class="text-center mt-8">
+                        <div style="display: flex; justify-content: center; gap: 1rem; align-items: center;">
+                            <button id="prev-page" class="filter-btn" disabled>← Previous</button>
+                            <span class="text-gray-300" id="page-info">Page 1 of 5</span>
+                            <button id="next-page" class="filter-btn">Next →</button>
                         </div>
-                        <div style="margin-top: 1.5rem;">
-                            <h3 class="font-ashen-subtitle text-amber" style="font-size: 1.5rem; margin-bottom: 1rem;">
-                                The Final Memory
-                            </h3>
-                            <p class="text-gray-300 leading-relaxed">
-                                This memory fragment represents the <span class="text-red-700 font-bold">key revelation</span> 
-                                that ties Dorothy's entire journey together. It's the piece of her past that explains 
-                                why she was in the orphanage, how she came to possess the ashen die, and what truly 
-                                happened during the hurricane.
-                            </p>
-                            <div style="background: rgba(0, 0, 0, 0.5); border: 1px solid var(--ashen-gray-light); border-radius: 8px; padding: 1rem; margin-top: 1rem;">
-                                <h4 class="font-ashen-subtitle text-green-500" style="font-size: 1rem; margin-bottom: 0.5rem;">Memory Themes:</h4>
-                                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
-                                    <span class="theme-keyword">Childhood Trauma</span>
-                                    <span class="theme-keyword">Suppressed Memories</span>
-                                    <span class="theme-keyword">Psychological Manifestation</span>
-                                    <span class="theme-keyword">Self-Discovery</span>
-                                </div>
-                            </div>
-                        </div>
+                        <p class="text-gray-400 text-sm mt-4" id="image-counter">
+                            Showing 1-12 of 57 images
+                        </p>
                     </div>
                 </div>
             </div>
         </section>
         
-        <!-- NOVA SEÇÃO: About (Team) -->
-        <section id="about" class="bg-dark">
+        <!-- Seção 7: Team -->
+        <section id="team">
             <div class="section-container">
-                <h2 class="section-title amber-glow">About</h2>
-                
-                <!-- Team Overview -->
-                <div class="text-center mb-8">
-                    <div class="font-subtitle text-amber mb-6" style="font-size: 2rem;">
-                        ASHBONE GAMES
-                    </div>
-                    <p class="text-gray-300 mb-6" style="font-size: 1.25rem;">
-                        We are a small indie development team with 
-                        <span class="text-amber font-bold">10–20 years of accumulated experience</span>
-                    </p>
-                    <p class="text-gray-400 italic">
-                        "Building a single, cohesive world with unwavering dedication."
-                    </p>
-                </div>
-                
-                <!-- Our First Project -->
-                <div class="border-gradient p-6 mb-8">
-                    <h3 class="font-subtitle text-crimson mb-4" style="font-size: 1.5rem;">Our First Project</h3>
-                    <p class="text-gray-300 mb-4">
-                        <span class="text-amber font-bold">"The Ashen Oz"</span> - A 2D dark fantasy action roguelite 
-                        that reimagines The Wizard of Oz through a darker, more emotional lens.
-                    </p>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <div>
-                            <h4 class="text-amber mb-2">🎯 What We Value</h4>
-                            <ul class="text-gray-400" style="padding-left: 1rem;">
-                                <li>Fast, satisfying combat</li>
-                                <li>Metroidvania exploration</li>
-                                <li>Narrative centered on memory & loss</li>
-                                <li>Striking visual moments</li>
-                            </ul>
+                <h2 class="section-title amber-glow">Team</h2>
+                <div class="team-section">
+                    
+                    <!-- Team Overview -->
+                    <div class="text-center mb-8">
+                        <div class="font-ashen-subtitle text-amber mb-6" style="font-size: 2rem;">
+                            ASHBONE GAMES
                         </div>
-                        <div>
-                            <h4 class="text-amber mb-2">🎮 Game Pillars</h4>
-                            <ul class="text-gray-400" style="padding-left: 1rem;">
-                                <li>Sensory Gameplay Experience</li>
-                                <li>World-Gameplay Unity</li>
-                                <li>Uncompromising Quality</li>
-                            </ul>
+                        <p class="text-gray-300 mb-6" style="font-size: 1.25rem;">
+                            We are a small indie development team with 
+                            <span class="text-amber font-bold">10–20 years of accumulated experience</span>
+                        </p>
+                        <p class="text-gray-400 italic">
+                            "Building a single, cohesive world with unwavering dedication."
+                        </p>
+                    </div>
+                    
+                    <!-- Team Stats -->
+                    <div class="team-stats">
+                        <div class="stat-card">
+                            <div class="stat-number">5</div>
+                            <div class="stat-label">Core Team Members</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">15</div>
+                            <div class="stat-label">Years Combined Experience</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">57</div>
+                            <div class="stat-label">Art Assets Created</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">1</div>
+                            <div class="stat-label">Shared Vision</div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Development Philosophy -->
-                <div class="mb-8">
-                    <h3 class="font-subtitle text-center text-amber mb-6" style="font-size: 1.5rem;">Our Philosophy</h3>
-                    <div class="philosophy-grid">
-                        <div class="philosophy-card">
-                            <div class="font-subtitle text-amber mb-2">🎮 Sensory Gameplay</div>
-                            <p class="text-gray-400">
-                                Responsive, fast-paced controls with impactful feedback that ignite a strong desire to challenge and retry.
-                            </p>
-                        </div>
-                        <div class="philosophy-card">
-                            <div class="font-subtitle text-amber mb-2">🌍 World-Gameplay Unity</div>
-                            <p class="text-gray-400">
-                                A world that can be felt without excessive exposition, where every event converges into a single compelling whole.
-                            </p>
-                        </div>
-                        <div class="philosophy-card">
-                            <div class="font-subtitle text-amber mb-2">⭐ Uncompromising Quality</div>
-                            <p class="text-gray-400">
-                                The passion to create the game we've always dreamed of. Small team, solid results. Every detail matters.
-                            </p>
+                    
+                    <!-- Our First Project -->
+                    <div class="border-gradient p-6 mb-8">
+                        <h3 class="font-ashen-subtitle text-crimson mb-4" style="font-size: 1.5rem;">Our First Project</h3>
+                        <p class="text-gray-300 mb-4">
+                            <span class="text-amber font-bold">"The Ashen Oz"</span> - A 2D dark fantasy action roguelite 
+                            that reimagines The Wizard of Oz through a darker, more emotional lens.
+                        </p>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div>
+                                <h4 class="text-amber mb-2">🎯 What We Value</h4>
+                                <ul class="text-gray-400" style="padding-left: 1rem;">
+                                    <li>Fast, satisfying combat</li>
+                                    <li>Metroidvania exploration</li>
+                                    <li>Narrative centered on memory & loss</li>
+                                    <li>Striking visual moments</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="text-amber mb-2">🎮 Game Pillars</h4>
+                                <ul class="text-gray-400" style="padding-left: 1rem;">
+                                    <li>Sensory Gameplay Experience</li>
+                                    <li>World-Gameplay Unity</li>
+                                    <li>Uncompromising Quality</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Looking Ahead -->
-                <div class="text-center border-gradient p-6">
-                    <h3 class="font-subtitle text-amber mb-4" style="font-size: 1.5rem;">Looking Ahead</h3>
-                    <p class="text-gray-300 mb-4">
-                        The Ashen Oz is a project still in its early stages—growing, evolving, and finding its form.
-                    </p>
-                    <p class="text-gray-400 italic">
-                        "At the end of this road, we hope to leave behind a world that will be remembered for a long time."
-                    </p>
+                    
+                    <!-- Development Philosophy -->
+                    <div class="mb-8">
+                        <h3 class="font-ashen-subtitle text-center text-amber mb-6" style="font-size: 1.5rem;">Our Philosophy</h3>
+                        <div class="philosophy-grid">
+                            <div class="philosophy-card">
+                                <div class="font-ashen-subtitle text-amber mb-2">🎮 Sensory Gameplay</div>
+                                <p class="text-gray-400">
+                                    Responsive, fast-paced controls with impactful feedback that ignite a strong desire to challenge and retry.
+                                </p>
+                            </div>
+                            <div class="philosophy-card">
+                                <div class="font-ashen-subtitle text-amber mb-2">🌍 World-Gameplay Unity</div>
+                                <p class="text-gray-400">
+                                    A world that can be felt without excessive exposition, where every event converges into a single compelling whole.
+                                </p>
+                            </div>
+                            <div class="philosophy-card">
+                                <div class="font-ashen-subtitle text-amber mb-2">⭐ Uncompromising Quality</div>
+                                <p class="text-gray-400">
+                                    The passion to create the game we've always dreamed of. Small team, solid results. Every detail matters.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Looking Ahead -->
+                    <div class="text-center border-gradient p-6">
+                        <h3 class="font-ashen-subtitle text-amber mb-4" style="font-size: 1.5rem;">Looking Ahead</h3>
+                        <p class="text-gray-300 mb-4">
+                            The Ashen Oz is a project still in its early stages—growing, evolving, and finding its form.
+                        </p>
+                        <p class="text-gray-400 italic">
+                            "At the end of this road, we hope to leave behind a world that will be remembered for a long time."
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
         
-        <!-- SEÇÃO CONTACT ATUALIZADA -->
-        <section id="contact">
+        <!-- Seção 8: Contact -->
+        <section id="contact" class="bg-dark">
             <div class="section-container">
                 <h2 class="section-title amber-glow">Contact</h2>
-                
-                <!-- Email Destacado -->
-                <div class="text-center mb-8">
-                    <div class="border-gradient p-6 mb-6" style="max-width: 600px; margin: 0 auto;">
+                <div class="gallery-section" style="max-width: 600px; margin: 0 auto;">
+                    <div class="text-center mb-8">
                         <p class="text-gray-400 mb-2">Official Email (Primary)</p>
                         <a href="mailto:ashbonegames@gmail.com" 
-                           class="font-subtitle text-amber" 
-                           style="font-size: 1.5rem; text-decoration: none;">
+                           class="font-ashen-subtitle text-amber" 
+                           style="font-size: 1.25rem; text-decoration: none; display: block; margin-bottom: 1rem;">
                            ashbonegames@gmail.com
                         </a>
-                        <a href="mailto:ashbonegames@gmail.com" 
-                           class="btn-primary mt-4"
-                           style="width: auto; display: inline-block;">
-                           Send Email →
-                        </a>
+                        <p class="text-gray-300">
+                            Ready to discuss publishing, partnerships, or media inquiries? We're here to collaborate.
+                        </p>
                     </div>
-                    <p class="text-gray-300">
-                        Ready to discuss publishing, partnerships, or media inquiries? We're here to collaborate.
-                    </p>
-                </div>
-                
-                <!-- Contact Channels -->
-                <div class="mb-8">
-                    <h3 class="font-subtitle text-center text-crimson mb-6" style="font-size: 1.5rem;">Contact Channels</h3>
-                    <div class="contact-channels">
-                        <div class="channel-card">
-                            <div class="channel-icon">📰</div>
-                            <h4 class="text-amber mb-2">Media Inquiries</h4>
-                            <p class="text-gray-400 text-sm">Press kits, interviews, review copies</p>
-                        </div>
-                        <div class="channel-card">
-                            <div class="channel-icon">🤝</div>
-                            <h4 class="text-amber mb-2">Partnerships</h4>
-                            <p class="text-gray-400 text-sm">Collaboration, publishing, business opportunities</p>
-                        </div>
-                        <div class="channel-card">
-                            <div class="channel-icon">🎮</div>
-                            <h4 class="text-amber mb-2">Platform Distribution</h4>
-                            <p class="text-gray-400 text-sm">Storefronts, platform releases</p>
-                        </div>
-                        <div class="channel-card">
-                            <div class="channel-icon">💬</div>
-                            <h4 class="text-amber mb-2">General Inquiries</h4>
-                            <p class="text-gray-400 text-sm">Community, feedback, support</p>
-                        </div>
+                    
+                    <!-- Contact Form -->
+                    <div class="border-gradient p-6">
+                        <h3 class="font-ashen-subtitle text-center text-amber mb-6" style="font-size: 1.5rem;">Direct Message</h3>
+                        <form id="contact-form" class="contact-form">
+                            <div class="form-group">
+                                <label for="name">Your Name *</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="inquiry-type">Type of Inquiry *</label>
+                                <select id="inquiry-type" name="inquiry-type" required>
+                                    <option value="" disabled selected>Select an option</option>
+                                    <option value="media">Media/Press</option>
+                                    <option value="partnership">Partnership/Collaboration</option>
+                                    <option value="platform">Platform/Distribution</option>
+                                    <option value="general">General Inquiry</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message *</label>
+                                <textarea id="message" name="message" rows="5" required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary">
+                                SEND MESSAGE
+                            </button>
+                        </form>
                     </div>
-                </div>
-                
-                <!-- Contact Form -->
-                <div class="border-gradient p-6">
-                    <h3 class="font-subtitle text-center text-amber mb-6" style="font-size: 1.5rem;">Direct Message</h3>
-                    <form id="contact-form" class="contact-form">
-                        <div class="form-group">
-                            <label for="name">Your Name *</label>
-                            <input type="text" id="name" name="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email Address *</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="inquiry-type">Type of Inquiry *</label>
-                            <select id="inquiry-type" name="inquiry-type" required>
-                                <option value="" disabled selected>Select an option</option>
-                                <option value="media">Media/Press</option>
-                                <option value="partnership">Partnership/Collaboration</option>
-                                <option value="platform">Platform/Distribution</option>
-                                <option value="general">General Inquiry</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message *</label>
-                            <textarea id="message" name="message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn-primary">
-                            SEND MESSAGE
-                        </button>
-                    </form>
                 </div>
             </div>
         </section>
     </main>
     
     <!-- Footer -->
-    <footer class="bg-dark border-t border-gray-700 py-8 text-center">
+    <footer>
         <div class="section-container">
             <div class="logo-style" style="font-size: 1.5rem;">The Ashen OZ</div>
             <p class="text-gray-400 text-sm mt-2">© 2024 Ashbone Games. All rights reserved.</p>
             <p class="text-gray-500 text-xs mt-2">Official email: ashbonegames@gmail.com</p>
         </div>
     </footer>
-    
+
     <script>
-        // Dados da Galeria (fixos para evitar erros)
-    const galleryData = [
-        // Dados compartilhados
-        // Imagens 1-10
+        // Dados da Galeria
+        const galleryData = [
+
         { id: 1, title: "Key Visual - Main Poster", category: "concept", imageUrl: "assets/images/gallery/1.png" },
         { id: 2, title: "Dorothy in Orphanage", category: "character", imageUrl: "assets/images/gallery/2.png" },
         { id: 3, title: "Whispering Forest", category: "environment", imageUrl: "assets/images/gallery/3.png" },
@@ -1105,8 +1061,6 @@
         { id: 8, title: "Combat Room Layout", category: "gameplay", imageUrl: "assets/images/gallery/8.png" },
         { id: 9, title: "Exploration Room", category: "environment", imageUrl: "assets/images/gallery/9.png" },
         { id: 10, title: "Event Room Dialogue", category: "ui", imageUrl: "assets/images/gallery/10.png" },
-
-        // Imagens 11-20
         { id: 11, title: "Mini-Boss Room - Design", category: "environment", imageUrl: "assets/images/gallery/11.png" },
         { id: 12, title: "Boss Room - Entrance", category: "gameplay", imageUrl: "assets/images/gallery/12.png" },
         { id: 13, title: "Combat Mechanics - Basic Attack", category: "gameplay", imageUrl: "assets/images/gallery/13.png" },
@@ -1117,7 +1071,6 @@
         { id: 18, title: "Witch's Umbrella Design", category: "concept", imageUrl: "assets/images/gallery/18.png" },
         { id: 19, title: "Blood Shoes Movement", category: "gameplay", imageUrl: "assets/images/gallery/19.png" },
          { id: 20, title: "Weapon Switching UI", category:"ui", imageUrl:"assets/images/gallery/20.png" },
-            // Imagens 21-30
         { id: 21, title: "Scarecrow's Scythe", category: "concept", imageUrl: "assets/images/gallery/21.png" },
         { id: 22, title: "Tin Man's Hammer", category: "concept", imageUrl: "assets/images/gallery/22.png" },
         { id: 23, title: "Lion's Claws", category: "concept", imageUrl: "assets/images/gallery/23.png" },
@@ -1128,8 +1081,6 @@
         { id: 28, title: "Phantom Dice Face", category: "concept", imageUrl: "assets/images/gallery/28.png" },
         { id: 29, title: "Thunderveil Dice Face", category: "concept", imageUrl: "assets/images/gallery/29.png" },
         { id: 30, title: "Combat Flow Visual", category: "gameplay", imageUrl: "assets/images/gallery/30.png" },
-            
-        // Imagens 31-40
         { id: 31, title: "Map Exploration", category: "gameplay", imageUrl: "assets/images/gallery/31.png" },
         { id: 32, title: "Enemy Designs - Set 1", category: "concept", imageUrl: "assets/images/gallery/32.png" },
         { id: 33, title: "Enemy Designs - Set 2", category: "concept", imageUrl: "assets/images/gallery/33.png" },
@@ -1140,8 +1091,6 @@
         { id: 38, title: "Lighting Studies", category: "concept", imageUrl:"assets/images/gallery/38.png" },
         { id: 39, title: "Color Palette", category: "concept", imageUrl: "assets/images/gallery/39.png" },
         { id: 40, title: "Character Expressions", category: "character", imageUrl: "assets/images/gallery/40.png" },
-            
-        // Imagens 41-50
         { id: 41, title: "Environment Mood - Rain", category: "environment", imageUrl: "assets/images/gallery/41.png" },
         { id: 42, title: "Environment Mood - Storm", category: "environment", imageUrl: "assets/images/gallery/42.png" },
         { id: 43, title: "Environment Mood - Ruins", category: "environment", imageUrl: "assets/images/gallery/43.png" },
@@ -1152,8 +1101,6 @@
         {id: 48, title: "Character Interaction UI", category: "ui", imageUrl:"assets/images/gallery/48.png" },
         { id: 49, title: "Environment - Swamp Area", category: "environment", imageUrl:"assets/images/gallery/49.png" },
         { id: 50, title: "Environment - Deserted Village", category: "environment", imageUrl:"assets/images/gallery/50.png" },
-
-        // Imagens 50-57
         {id: 51, title: "Character - Mysterious Stranger", category: "character", imageUrl:"assets/images/gallery/51.png" },
         { id: 52, title: "Character - Village Elder", category: "character", imageUrl:"assets/images/gallery/52.png" },
         { id: 53, title: "Gameplay - Stealth Mechanics", category: "gameplay", imageUrl:"assets/images/gallery/53.png" },
@@ -1163,134 +1110,18 @@
         { id: 57, title: "UI - Skill Tree", category: "ui", imageUrl:"assets/images/gallery/57.png" }
     ];
 
-    // ==============================
-        // CONFIGURAÇÕES
+        // ==============================
+        // CONFIGURAÇÕES DO SISTEMA
         // ==============================
         const IMAGES_PER_PAGE = 12;
-        const CACHE_VERSION = 'v1.0';
-        const CACHE_PREFIX = 'ashenoz_';
+        const IMAGE_BASE_URL = 'https://picsum.photos/400/225';
+        const IMAGE_BASE_URL_HIGH = 'https://picsum.photos/1200/675';
         
-        // ==============================
-        // ESTADO DA APLICAÇÃO
-        // ==============================
         let currentPage = 1;
         let currentFilter = 'all';
+        let currentGallery = 'main';
         let currentLightboxIndex = 0;
-        let imageCache = new Map();
-        let loadedImages = new Set();
-        let cacheSize = 0;
-        
-        // ==============================
-        // SISTEMA DE CACHE
-        // ==============================
-        class ImageCacheSystem {
-            constructor() {
-                this.cache = new Map();
-                this.init();
-            }
-            
-            async init() {
-                await this.loadCacheFromStorage();
-            }
-            
-            async loadCacheFromStorage() {
-                try {
-                    const saved = localStorage.getItem(`${CACHE_PREFIX}${CACHE_VERSION}`);
-                    if (saved) {
-                        const data = JSON.parse(saved);
-                        this.cache = new Map(data.cache || []);
-                        cacheSize = data.size || 0;
-                        this.updateCacheStats();
-                    }
-                } catch (e) {
-                    console.warn('Failed to load cache from storage:', e);
-                }
-            }
-            
-            saveCacheToStorage() {
-                try {
-                    const data = {
-                        cache: Array.from(this.cache.entries()),
-                        size: cacheSize,
-                        timestamp: Date.now()
-                    };
-                    localStorage.setItem(`${CACHE_PREFIX}${CACHE_VERSION}`, JSON.stringify(data));
-                } catch (e) {
-                    console.warn('Failed to save cache to storage:', e);
-                }
-            }
-            
-            async getImage(imageData, isThumbnail = true) {
-                const url = isThumbnail ? 
-                    `https://picsum.photos/400/225?random=${imageData.id}&blur=2` :
-                    `https://picsum.photos/1200/675?random=${imageData.id}`;
-                
-                if (this.cache.has(url)) {
-                    return this.cache.get(url);
-                }
-                
-                return this.loadImage(url);
-            }
-            
-            async loadImage(url) {
-                return new Promise((resolve, reject) => {
-                    const img = new Image();
-                    img.crossOrigin = 'anonymous';
-                    
-                    img.onload = () => {
-                        this.cache.set(url, img);
-                        cacheSize += img.width * img.height * 4;
-                        this.saveCacheToStorage();
-                        this.updateCacheStats();
-                        resolve(img);
-                    };
-                    
-                    img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
-                    img.src = url;
-                });
-            }
-            
-            clear() {
-                this.cache.clear();
-                cacheSize = 0;
-                localStorage.removeItem(`${CACHE_PREFIX}${CACHE_VERSION}`);
-                this.updateCacheStats();
-                this.showNotification('Cache cleared');
-            }
-            
-            updateCacheStats() {
-                const statsElement = document.getElementById('image-counter');
-                if (statsElement) {
-                    const mb = (cacheSize / (1024 * 1024)).toFixed(1);
-                    statsElement.innerHTML = `Cache: <span class="text-amber">${mb} MB</span> • ${this.cache.size} images`;
-                }
-            }
-            
-            showNotification(message) {
-                // Cria notificação temporária
-                const notification = document.createElement('div');
-                notification.style.cssText = `
-                    position: fixed;
-                    bottom: 1rem;
-                    right: 1rem;
-                    background: rgba(10, 10, 10, 0.9);
-                    border: 1px solid var(--ashen-gray-light);
-                    border-radius: 0.5rem;
-                    padding: 0.75rem 1rem;
-                    font-size: 0.75rem;
-                    color: var(--ashen-emerald);
-                    z-index: 100;
-                    animation: fadeIn 0.3s ease-out;
-                `;
-                notification.textContent = message;
-                document.body.appendChild(notification);
-                
-                setTimeout(() => {
-                    notification.style.animation = 'fadeIn 0.3s ease-out reverse';
-                    setTimeout(() => notification.remove(), 300);
-                }, 3000);
-            }
-        }
+        let loadedImages = new Map();
 
         // ==============================
         // ELEMENTOS DOM
@@ -1298,17 +1129,15 @@
         const backgroundContainer = document.getElementById('background');
         const dynamicBg = document.getElementById('dynamic-bg');
         const indicatorDots = document.querySelectorAll('.indicator-dot');
-        const galleryContainer = document.getElementById('gallery-container');
+        const navLinks = document.querySelectorAll('.nav-links a');
         const lightbox = document.getElementById('lightbox');
         const lightboxImage = document.getElementById('lightbox-image');
         const lightboxClose = document.getElementById('lightbox-close');
         const lightboxPrev = document.getElementById('lightbox-prev');
         const lightboxNext = document.getElementById('lightbox-next');
-        const lightboxTitle = document.getElementById('lightbox-title');
-        const lightboxCategory = document.getElementById('lightbox-category');
-        const lightboxCounter = document.getElementById('lightbox-counter');
+        const lightboxInfo = document.getElementById('lightbox-info');
         const lightboxLoader = document.getElementById('lightbox-loader');
-        
+
         // ==============================
         // SISTEMA DE BACKGROUND DINÂMICO
         // ==============================
@@ -1320,27 +1149,6 @@
                     'radial-gradient(circle at 80% 20%, rgba(139, 0, 0, 0.1) 0%, transparent 50%)'
                 ]
             },
-            'overview': {
-                bgColor: 'var(--section-overview)',
-                radialColors: [
-                    'radial-gradient(circle at 20% 80%, rgba(93, 83, 70, 0.2) 0%, transparent 50%)',
-                    'radial-gradient(circle at 80% 20%, rgba(70, 60, 140, 0.1) 0%, transparent 50%)'
-                ]
-            },
-            'features': {
-                bgColor: 'var(--section-features)',
-                radialColors: [
-                    'radial-gradient(circle at 20% 80%, rgba(180, 80, 100, 0.15) 0%, transparent 50%)',
-                    'radial-gradient(circle at 80% 20%, rgba(160, 60, 80, 0.15) 0%, transparent 50%)'
-                ]
-            },
-            'gallery': {
-                bgColor: 'var(--section-gallery)',
-                radialColors: [
-                    'radial-gradient(circle at 20% 80%, rgba(80, 140, 180, 0.2) 0%, transparent 50%)',
-                    'radial-gradient(circle at 80% 20%, rgba(60, 120, 160, 0.2) 0%, transparent 50%)'
-                ]
-            },
             'story': {
                 bgColor: 'var(--section-story)',
                 radialColors: [
@@ -1348,174 +1156,53 @@
                     'radial-gradient(circle at 80% 20%, rgba(255, 120, 80, 0.25) 0%, transparent 50%)'
                 ]
             },
-            'about': {
-                bgColor: 'var(--section-about)',
+            'characters': {
+                bgColor: 'var(--section-characters)',
                 radialColors: [
-                    'radial-gradient(circle at 20% 80%, rgba(255, 90, 90, 0.2) 0%, transparent 50%)',
-                    'radial-gradient(circle at 80% 20%, rgba(255, 120, 80, 0.2) 0%, transparent 50%)'
+                    'radial-gradient(circle at 20% 80%, rgba(75, 0, 130, 0.2) 0%, transparent 50%)',
+                    'radial-gradient(circle at 80% 20%, rgba(139, 0, 0, 0.15) 0%, transparent 50%)'
+                ]
+            },
+            'systems': {
+                bgColor: 'var(--section-systems)',
+                radialColors: [
+                    'radial-gradient(circle at 20% 80%, rgba(139, 0, 0, 0.2) 0%, transparent 50%)',
+                    'radial-gradient(circle at 80% 20%, rgba(218, 165, 32, 0.15) 0%, transparent 50%)'
+                ]
+            },
+            'bestiary': {
+                bgColor: 'var(--section-bestiary)',
+                radialColors: [
+                    'radial-gradient(circle at 20% 80%, rgba(30, 58, 95, 0.2) 0%, transparent 50%)',
+                    'radial-gradient(circle at 80% 20%, rgba(0, 100, 0, 0.15) 0%, transparent 50%)'
+                ]
+            },
+            'gallery': {
+                bgColor: 'var(--section-gallery)',
+                radialColors: [
+                    'radial-gradient(circle at 20% 80%, rgba(11, 16, 25, 0.25) 0%, transparent 50%)',
+                    'radial-gradient(circle at 80% 20%, rgba(0, 100, 0, 0.15) 0%, transparent 50%)'
+                ]
+            },
+            'team': {
+                bgColor: 'var(--section-team)',
+                radialColors: [
+                    'radial-gradient(circle at 20% 80%, rgba(45, 35, 35, 0.25) 0%, transparent 50%)',
+                    'radial-gradient(circle at 80% 20%, rgba(218, 165, 32, 0.2) 0%, transparent 50%)'
                 ]
             },
             'contact': {
                 bgColor: 'var(--section-contact)',
                 radialColors: [
-                    'radial-gradient(circle at 20% 80%, rgba(218, 165, 32, 0.3) 0%, transparent 50%)',
-                    'radial-gradient(circle at 80% 20%, rgba(139, 0, 0, 0.25) 0%, transparent 50%)'
+                    'radial-gradient(circle at 20% 80%, rgba(30, 51, 32, 0.25) 0%, transparent 50%)',
+                    'radial-gradient(circle at 80% 20%, rgba(218, 165, 32, 0.2) 0%, transparent 50%)'
                 ]
             }
         };
 
         // ==============================
-        // INICIALIZAÇÃO
+        // FUNÇÕES DE UTILIDADE
         // ==============================
-        const cacheSystem = new ImageCacheSystem();
-        
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('The Ashen OZ - Site inicializado');
-            
-            // Inicializar sistemas
-            initializeGallery();
-            setupEventListeners();
-            updateGallery();
-            
-            // Inicializar background
-            updateBackground();
-            
-            // Inicializar scroll listener
-            window.addEventListener('scroll', updateBackground);
-            
-            // Inicializar sistema de cache
-            cacheSystem.updateCacheStats();
-        });
-
-        // ==============================
-        // FUNÇÕES DA GALERIA
-        // ==============================
-        function initializeGallery() {
-            galleryContainer.innerHTML = '';
-            
-            // Cria placeholders
-            for (let i = 0; i < IMAGES_PER_PAGE; i++) {
-                const placeholder = createOptimizedPlaceholder(i);
-                galleryContainer.appendChild(placeholder);
-            }
-        }
-        
-        function createOptimizedPlaceholder(index) {
-            const placeholder = document.createElement('div');
-            placeholder.className = 'gallery-item';
-            placeholder.dataset.index = index;
-            
-            placeholder.innerHTML = `
-                <div class="image-loading w-full h-full flex items-center justify-center">
-                    <div class="text-center">
-                        <div class="text-3xl opacity-30 mb-2">🖼️</div>
-                        <div class="text-xs text-gray-500">Loading...</div>
-                    </div>
-                </div>
-                <div class="image-number">${index + 1}</div>
-            `;
-            
-            return placeholder;
-        }
-        
-        function setupEventListeners() {
-            // Filtros da galeria
-            document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
-                    this.classList.add('active');
-                    currentFilter = this.dataset.filter;
-                    currentPage = 1;
-                    updateGallery();
-                });
-            });
-            
-            // Botão de limpar cache
-            document.getElementById('clear-cache-btn').addEventListener('click', () => {
-                if (confirm('Clear all cached images? This will free up storage but images will need to reload.')) {
-                    cacheSystem.clear();
-                    loadedImages.clear();
-                    updateGallery();
-                }
-            });
-            
-            // Navegação de página
-            document.getElementById('prev-page').addEventListener('click', () => {
-                if (currentPage > 1) {
-                    currentPage--;
-                    updateGallery();
-                }
-            });
-            
-            document.getElementById('next-page').addEventListener('click', () => {
-                const totalPages = Math.ceil(getFilteredImages().length / IMAGES_PER_PAGE);
-                if (currentPage < totalPages) {
-                    currentPage++;
-                    updateGallery();
-                }
-            });
-            
-            // Lightbox
-            lightboxClose.addEventListener('click', closeLightbox);
-            lightboxPrev.addEventListener('click', showPrevImage);
-            lightboxNext.addEventListener('click', showNextImage);
-            
-            // Navegação por teclado
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') closeLightbox();
-                if (lightbox.classList.contains('active')) {
-                    if (e.key === 'ArrowLeft') showPrevImage();
-                    if (e.key === 'ArrowRight') showNextImage();
-                }
-            });
-            
-            // Fechar lightbox ao clicar fora
-            lightbox.addEventListener('click', (e) => {
-                if (e.target === lightbox) {
-                    closeLightbox();
-                }
-            });
-            
-            // Navegação por indicadores
-            indicatorDots.forEach(dot => {
-                dot.addEventListener('click', () => {
-                    const section = document.getElementById(dot.dataset.section);
-                    if (section) {
-                        section.scrollIntoView({ behavior: 'smooth' });
-                    }
-                });
-            });
-            
-            // Formulário de contato
-            document.getElementById('contact-form').addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('Thank you for your message! We will respond soon.');
-                this.reset();
-            });
-            
-            // Navegação suave para links internos
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    if (targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if (targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-        }
-        
-        function getFilteredImages() {
-            if (currentFilter === 'all') return galleryData;
-            return galleryData.filter(img => img.category === currentFilter);
-        }
-        
         function getCategoryName(category) {
             const names = {
                 'concept': 'Concept Art',
@@ -1526,7 +1213,7 @@
             };
             return names[category] || 'Artwork';
         }
-        
+
         function getCategoryIcon(category) {
             const icons = {
                 'concept': '🎨',
@@ -1537,8 +1224,39 @@
             };
             return icons[category] || '🖼️';
         }
-        
-        async function updateGallery() {
+
+        function getFilteredImages() {
+            if (currentFilter === 'all') return galleryData;
+            
+            // Para diferentes galerias
+            if (currentGallery === 'characters') {
+                return galleryData.filter(img => 
+                    img.tags.some(tag => tag === currentFilter) || 
+                    img.category === currentFilter
+                );
+            }
+            
+            if (currentGallery === 'systems') {
+                return galleryData.filter(img => 
+                    img.tags.some(tag => tag === currentFilter)
+                );
+            }
+            
+            if (currentGallery === 'bestiary') {
+                return galleryData.filter(img => 
+                    img.tags.some(tag => tag === currentFilter)
+                );
+            }
+            
+            // Galeria principal
+            return galleryData.filter(img => img.category === currentFilter);
+        }
+
+        // ==============================
+        // FUNÇÕES DA GALERIA
+        // ==============================
+        function renderGallery(galleryId = 'gallery-container') {
+            const galleryContainer = document.getElementById(galleryId);
             const filteredImages = getFilteredImages();
             const startIndex = (currentPage - 1) * IMAGES_PER_PAGE;
             const endIndex = startIndex + IMAGES_PER_PAGE;
@@ -1546,147 +1264,140 @@
             
             galleryContainer.innerHTML = '';
             
-            // Carrega imagens com cache
-            const loadPromises = pageImages.map(async (image, index) => {
-                const item = document.createElement('div');
-                item.className = 'gallery-item';
-                item.dataset.id = image.id;
-                item.dataset.index = startIndex + index;
+            pageImages.forEach((image, index) => {
+                const galleryItem = document.createElement('div');
+                galleryItem.className = 'gallery-item';
+                galleryItem.dataset.id = image.id;
+                galleryItem.dataset.index = startIndex + index;
                 
-                try {
-                    // Tenta carregar do cache
-                    const cachedImg = await cacheSystem.getImage(image, true);
-                    
-                    if (cachedImg) {
-                        item.innerHTML = `
-                            <img src="${cachedImg.src}" 
-                                 alt="${image.title}"
-                                 loading="lazy">
-                            <div class="gallery-overlay">
-                                <h3 class="font-ashen-subtitle font-bold mb-1">${image.title}</h3>
-                                <p class="text-sm text-gray-400">${getCategoryName(image.category)} • #${image.id}</p>
-                            </div>
-                            <div class="image-number">${image.id}</div>
-                        `;
-                        loadedImages.add(image.id);
-                    }
-                } catch (error) {
-                    // Fallback para placeholder
-                    item.innerHTML = `
-                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-900 to-black">
-                            <div class="text-center">
-                                <div class="text-4xl mb-2">${getCategoryIcon(image.category)}</div>
-                                <p class="text-sm text-gray-400">${image.title}</p>
-                            </div>
+                // Use cache or load new image
+                const cacheKey = `${image.id}_${currentGallery}`;
+                if (loadedImages.has(cacheKey)) {
+                    galleryItem.innerHTML = loadedImages.get(cacheKey);
+                } else {
+                    const imgHtml = `
+                        <img src="${IMAGE_BASE_URL}?random=${image.id}&blur=1" 
+                             alt="${image.title}"
+                             loading="lazy">
+                        <div class="gallery-overlay">
+                            <h3 class="font-ashen-subtitle font-bold mb-1">${image.title}</h3>
+                            <p class="text-sm text-gray-400">${getCategoryName(image.category)} • #${image.id}</p>
                         </div>
                         <div class="image-number">${image.id}</div>
                     `;
+                    loadedImages.set(cacheKey, imgHtml);
+                    galleryItem.innerHTML = imgHtml;
                 }
                 
-                item.addEventListener('click', () => openLightbox(startIndex + index));
-                return item;
+                galleryItem.addEventListener('click', () => openLightbox(startIndex + index, galleryId));
+                galleryContainer.appendChild(galleryItem);
             });
             
-            const items = await Promise.all(loadPromises);
-            items.forEach(item => galleryContainer.appendChild(item));
-            
-            updatePagination(filteredImages.length);
-            updateImageCounter(filteredImages.length);
+            updatePagination(filteredImages.length, galleryId);
         }
-        
-        function updatePagination(totalImages) {
-            const totalPages = Math.ceil(totalImages / IMAGES_PER_PAGE);
+
+        function updatePagination(totalItems, galleryId = 'gallery-container') {
+            const totalPages = Math.ceil(totalItems / IMAGES_PER_PAGE);
+            const pageInfo = document.getElementById('page-info');
+            const imageCounter = document.getElementById('image-counter');
+            
+            if (pageInfo) {
+                pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+            }
+            
+            if (imageCounter) {
+                const start = (currentPage - 1) * IMAGES_PER_PAGE + 1;
+                const end = Math.min(currentPage * IMAGES_PER_PAGE, totalItems);
+                imageCounter.textContent = `Showing ${start}-${end} of ${totalItems} images`;
+            }
+            
+            // Update button states
             const prevBtn = document.getElementById('prev-page');
             const nextBtn = document.getElementById('next-page');
-            const pageInfo = document.getElementById('page-info');
             
-            prevBtn.disabled = currentPage === 1;
-            nextBtn.disabled = currentPage === totalPages;
-            
-            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-            
-            // Estilização dos botões
-            prevBtn.className = `filter-btn ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`;
-            nextBtn.className = `filter-btn ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`;
+            if (prevBtn && nextBtn) {
+                prevBtn.disabled = currentPage === 1;
+                nextBtn.disabled = currentPage === totalPages;
+                
+                prevBtn.classList.toggle('active', currentPage > 1);
+                nextBtn.classList.toggle('active', currentPage < totalPages);
+            }
         }
-        
-        function updateImageCounter(totalImages) {
-            const counter = document.getElementById('image-counter');
-            const startIndex = (currentPage - 1) * IMAGES_PER_PAGE + 1;
-            const endIndex = Math.min(currentPage * IMAGES_PER_PAGE, totalImages);
-            
-            counter.innerHTML = `
-                Showing <span class="text-amber">${startIndex}-${endIndex}</span> of ${totalImages} images
-            `;
-        }
-        
-        async function openLightbox(index) {
+
+        // ==============================
+        // LIGHTBOX SYSTEM
+        // ==============================
+        function openLightbox(index, galleryId = 'gallery-container') {
             const filteredImages = getFilteredImages();
-            currentLightboxIndex = index;
+            if (index < 0 || index >= filteredImages.length) return;
             
+            currentLightboxIndex = index;
             const image = filteredImages[currentLightboxIndex];
             
-            // Mostra loader
+            // Show loader
             lightboxLoader.style.display = 'block';
             lightboxImage.style.opacity = '0';
             lightboxImage.classList.remove('loaded');
             
-            // Atualiza info
-            lightboxTitle.textContent = image.title;
-            lightboxCategory.textContent = getCategoryName(image.category);
-            lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${filteredImages.length} • Loading...`;
+            // Update info
+            lightboxInfo.innerHTML = `
+                <div class="text-center">
+                    <h3 class="font-ashen-subtitle mb-2">${image.title}</h3>
+                    <p class="text-sm text-gray-400">
+                        ${getCategoryName(image.category)} • Image ${currentLightboxIndex + 1} of ${filteredImages.length}
+                    </p>
+                </div>
+            `;
             
-            // Abre lightbox
-            lightbox.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            
-            try {
-                // Carrega imagem em alta resolução
-                const cachedImg = await cacheSystem.getImage(image, false);
-                
-                // Atualiza imagem
-                lightboxImage.src = cachedImg.src;
+            // Load high-res image
+            const highResImg = new Image();
+            highResImg.onload = () => {
+                lightboxImage.src = highResImg.src;
                 lightboxImage.alt = image.title;
                 
-                // Esconde loader e mostra imagem
+                // Hide loader and show image
                 setTimeout(() => {
                     lightboxLoader.style.display = 'none';
                     lightboxImage.style.opacity = '1';
                     lightboxImage.classList.add('loaded');
-                    lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${filteredImages.length}`;
-                }, 100);
-                
-            } catch (error) {
-                console.warn('Failed to load lightbox image:', error);
+                }, 300);
+            };
+            
+            highResImg.onerror = () => {
+                // Fallback to low-res
+                lightboxImage.src = `${IMAGE_BASE_URL}?random=${image.id}`;
                 lightboxLoader.style.display = 'none';
-                lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${filteredImages.length} • Load error`;
-                
-                // Fallback
-                lightboxImage.src = `https://picsum.photos/1200/675?random=${image.id}`;
                 lightboxImage.style.opacity = '1';
-            }
+            };
+            
+            highResImg.src = `${IMAGE_BASE_URL_HIGH}?random=${image.id}`;
+            
+            // Show lightbox
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
-        
+
         function closeLightbox() {
             lightbox.classList.remove('active');
             document.body.style.overflow = 'auto';
             lightboxImage.src = '';
+            lightboxInfo.innerHTML = '';
         }
-        
+
         function showPrevImage() {
             const filteredImages = getFilteredImages();
             currentLightboxIndex = (currentLightboxIndex - 1 + filteredImages.length) % filteredImages.length;
             openLightbox(currentLightboxIndex);
         }
-        
+
         function showNextImage() {
             const filteredImages = getFilteredImages();
             currentLightboxIndex = (currentLightboxIndex + 1) % filteredImages.length;
             openLightbox(currentLightboxIndex);
         }
-        
+
         // ==============================
-        // SISTEMA DE BACKGROUND DINÂMICO
+        // BACKGROUND SYSTEM
         // ==============================
         function updateBackground() {
             let currentSection = '';
@@ -1705,15 +1416,158 @@
                 backgroundContainer.style.backgroundColor = sectionColors[currentSection].bgColor;
                 dynamicBg.style.backgroundImage = sectionColors[currentSection].radialColors.join(', ');
                 
-                // Atualizar indicadores
+                // Update scroll indicators
                 indicatorDots.forEach(dot => {
                     dot.classList.remove('active');
                     if (dot.dataset.section === currentSection) {
                         dot.classList.add('active');
                     }
                 });
+                
+                // Update navigation
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSection}`) {
+                        link.classList.add('active');
+                    }
+                });
             }
         }
+
+        // ==============================
+        // EVENT LISTENERS
+        // ==============================
+        function setupEventListeners() {
+            // Navigation links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+
+            // Scroll indicators
+            indicatorDots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const section = document.getElementById(dot.dataset.section);
+                    if (section) {
+                        section.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+
+            // Filter buttons
+            document.querySelectorAll('.gallery-filters').forEach(container => {
+                container.addEventListener('click', function(e) {
+                    if (e.target.classList.contains('filter-btn')) {
+                        // Get the gallery ID from parent section
+                        const gallerySection = e.target.closest('section');
+                        currentGallery = gallerySection ? gallerySection.id : 'main';
+                        
+                        // Update active filter
+                        container.querySelectorAll('.filter-btn').forEach(btn => {
+                            btn.classList.remove('active');
+                        });
+                        e.target.classList.add('active');
+                        
+                        currentFilter = e.target.dataset.filter;
+                        currentPage = 1;
+                        
+                        // Determine which gallery to update
+                        let galleryId = 'gallery-container';
+                        if (currentGallery === 'characters') galleryId = 'characters-gallery';
+                        if (currentGallery === 'systems') galleryId = 'systems-gallery';
+                        if (currentGallery === 'bestiary') galleryId = 'bestiary-gallery';
+                        
+                        renderGallery(galleryId);
+                    }
+                });
+            });
+
+            // Pagination
+            document.getElementById('prev-page')?.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderGallery('gallery-container');
+                }
+            });
+
+            document.getElementById('next-page')?.addEventListener('click', () => {
+                const filteredImages = getFilteredImages();
+                const totalPages = Math.ceil(filteredImages.length / IMAGES_PER_PAGE);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderGallery('gallery-container');
+                }
+            });
+
+            // Lightbox
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightboxPrev.addEventListener('click', showPrevImage);
+            lightboxNext.addEventListener('click', showNextImage);
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (lightbox.classList.contains('active')) {
+                    if (e.key === 'Escape') closeLightbox();
+                    if (e.key === 'ArrowLeft') showPrevImage();
+                    if (e.key === 'ArrowRight') showNextImage();
+                }
+            });
+
+            // Close lightbox when clicking outside
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+
+            // Contact form
+            document.getElementById('contact-form')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Thank you for your message! We will respond soon.');
+                this.reset();
+            });
+        }
+
+        // ==============================
+        // INITIALIZATION
+        // ==============================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('The Ashen OZ - Site inicializado');
+            
+            // Setup event listeners
+            setupEventListeners();
+            
+            // Initialize galleries
+            renderGallery('gallery-container');
+            renderGallery('characters-gallery');
+            renderGallery('systems-gallery');
+            renderGallery('bestiary-gallery');
+            
+            // Initialize background
+            updateBackground();
+            
+            // Initialize scroll listener
+            window.addEventListener('scroll', updateBackground);
+            
+            // Preload first few images
+            setTimeout(() => {
+                galleryData.slice(0, 6).forEach(image => {
+                    const img = new Image();
+                    img.src = `${IMAGE_BASE_URL}?random=${image.id}`;
+                });
+            }, 1000);
+        });
     </script>
 </body>
 </html>
