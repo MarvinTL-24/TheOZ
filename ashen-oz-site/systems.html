@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Systems | The Ashen OZ</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fontes: Black Ops One (estilo do jogo) + Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <!-- Configuração Tailwind personalizada -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ashen-black': '#0A0A0A',
+                        'ashen-gray-dark': '#1A1A1A',
+                        'ashen-gray-light': '#3A3A3A',
+                        'ashen-crimson': '#8B0000',
+                        'ashen-amber': '#DAA520',
+                        'ashen-emerald': '#006400',
+                        'ashen-purple': '#4B0082',
+                        'ashen-blue': '#1E3A5F',
+                    },
+                    fontFamily: {
+                        'heading': ['Black Ops One', 'cursive'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'float': 'float 6s ease-in-out infinite',
+                        'dice-spin': 'diceSpin 3s linear infinite',
+                    },
+                    keyframes: {
+                        glow: {
+                            'from': { 
+                                'box-shadow': '0 0 5px #DAA520, 0 0 10px #DAA520',
+                                'text-shadow': '0 0 5px #DAA520, 0 0 10px #DAA520'
+                            },
+                            'to': { 
+                                'box-shadow': '0 0 10px #8B0000, 0 0 20px #8B0000',
+                                'text-shadow': '0 0 10px #8B0000, 0 0 20px #8B0000'
+                            }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' }
+                        },
+                        diceSpin: {
+                            '0%': { transform: 'rotate(0deg)' },
+                            '100%': { transform: 'rotate(360deg)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos específicos para a página de sistemas */
+        :root {
+            --ashen-black: #0A0A0A;
+            --ashen-gray-dark: #1A1A1A;
+            --ashen-gray-light: #3A3A3A;
+            --ashen-crimson: #8B0000;
+            --ashen-amber: #DAA520;
+            --ashen-emerald: #006400;
+        }
+        
+        body {
+            background-color: var(--ashen-black);
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .game-font {
+            font-family: 'Black Ops One', cursive;
+            letter-spacing: 1px;
+        }
+        
+        .crimson-glow {
+            text-shadow: 0 0 10px rgba(139, 0, 0, 0.7);
+        }
+        
+        .amber-glow {
+            text-shadow: 0 0 10px rgba(218, 165, 32, 0.7);
+        }
+        
+        .system-section {
+            @apply py-20 relative overflow-hidden;
+        }
+        
+        .quote-box {
+            @apply border-l-4 border-amber-500 pl-6 py-4 bg-black/50 backdrop-blur-sm my-8;
+        }
+        
+        .system-card {
+            @apply bg-gradient-to-br from-gray-900/80 to-black/80 border border-gray-700 rounded-xl p-6 hover:border-amber-500 transition-all duration-300;
+        }
+        
+        .dice-face {
+            @apply aspect-square flex flex-col items-center justify-center p-4 border-2 rounded-lg bg-gradient-to-br from-gray-900 to-black;
+        }
+        
+        .room-card {
+            @apply bg-gradient-to-br from-gray-900/90 to-black/90 border border-gray-700 rounded-xl overflow-hidden hover:scale-[1.02] transition-transform duration-300;
+        }
+        
+        .image-id-label {
+            @apply absolute top-2 left-2 bg-black/70 text-xs px-2 py-1 rounded border border-gray-600 z-10;
+        }
+        
+        .section-divider {
+            @apply w-full h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent my-16;
+        }
+        
+        /* Tabelas estilizadas */
+        .system-table {
+            @apply w-full border-collapse;
+        }
+        
+        .system-table th {
+            @apply bg-gray-900/80 text-left py-3 px-4 border-b border-gray-700 font-heading font-bold text-amber-400;
+        }
+        
+        .system-table td {
+            @apply py-3 px-4 border-b border-gray-700 text-gray-300;
+        }
+        
+        .system-table tr:hover {
+            @apply bg-gray-900/50;
+        }
+        
+        /* Animações */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+    <!-- Header / Navegação -->
+    <header class="sticky top-0 z-50 bg-black/90 backdrop-blur-sm border-b border-gray-700">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <!-- Logo -->
+                <div class="mb-4 md:mb-0">
+                    <a href="index.html" class="game-font text-2xl font-bold tracking-wider">
+                        <span class="text-white">THE ASHEN</span>
+                        <span class="text-red-700 crimson-glow">OZ</span>
+                    </a>
+                    <p class="text-xs text-gray-400 mt-1">Core Systems & Mechanics</p>
+                </div>
+                
+                <!-- Menu Principal -->
+                <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+                    <a href="index.html" class="text-gray-300 hover:text-amber-400 transition-colors">Home</a>
+                    <a href="story.html" class="text-gray-300 hover:text-amber-400 transition-colors">Story</a>
+                    <a href="characters.html" class="text-gray-300 hover:text-amber-400 transition-colors">Characters</a>
+                    <a href="systems.html" class="text-amber-400 hover:text-white transition-colors border-b-2 border-amber-400 pb-1">Systems</a>
+                    <a href="bestiary.html" class="text-gray-300 hover:text-amber-400 transition-colors">Bestiary</a>
+                    <a href="gallery.html" class="text-gray-300 hover:text-amber-400 transition-colors">Gallery</a>
+                    <a href="team.html" class="text-gray-300 hover:text-amber-400 transition-colors">Team</a>
+                    <a href="contact.html" class="bg-red-800 hover:bg-red-700 px-4 py-2 rounded transition-colors">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section - Core Systems -->
+    <section class="system-section bg-gradient-to-br from-black via-purple-900/20 to-black">
+        <!-- Elementos decorativos -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-1/4 left-1/4 text-7xl animate-float">⚔️</div>
+            <div class="absolute bottom-1/3 right-1/4 text-6xl animate-float" style="animation-delay: 1s;">🎮</div>
+            <div class="absolute top-1/3 right-1/3 text-5xl animate-float" style="animation-delay: 2s;">🎲</div>
+        </div>
+        
+        <!-- Conteúdo -->
+        <div class="relative z-10 container mx-auto px-4 py-20">
+            <div class="max-w-6xl mx-auto text-center">
+                <!-- Cabeçalho -->
+                <div class="mb-12">
+                    <div class="inline-block mb-6">
+                        <span class="game-font text-amber-400 font-bold text-lg tracking-widest">05 • CORE SYSTEMS</span>
+                    </div>
+                    <h1 class="game-font text-6xl md:text-8xl font-bold mb-8 leading-tight">
+                        <span class="text-white">COMBAT</span>
+                        <span class="block text-red-700 crimson-glow">MECHANICS</span>
+                    </h1>
+                    
+                    <!-- Citação épica -->
+                    <div class="quote-box max-w-3xl mx-auto">
+                        <p class="text-2xl md:text-3xl italic text-gray-300 leading-relaxed">
+                            "Hesitate for a beat, and you are swallowed.<br>
+                            Rush a beat ahead, and you tear through."
+                        </p>
+                    </div>
+                    
+                    <p class="text-xl text-gray-300 max-w-3xl mx-auto mt-8">
+                        A combat system built around <span class="text-amber-400 font-bold">tempo, rhythm, player input</span>,
+                        and the core concept of the <span class="text-red-700 font-bold">Chain System</span>.
+                    </p>
+                </div>
+                
+                <!-- Navegação rápida -->
+                <div class="flex flex-wrap justify-center gap-4 mt-12">
+                    <a href="#base-weapon" class="px-4 py-2 bg-black/50 border border-gray-700 rounded-lg hover:border-amber-500 transition-colors">Base Weapon</a>
+                    <a href="#chained-system" class="px-4 py-2 bg-black/50 border border-gray-700 rounded-lg hover:border-amber-500 transition-colors">Chained System</a>
+                    <a href="#ashen-dice" class="px-4 py-2 bg-black/50 border border-gray-700 rounded-lg hover:border-amber-500 transition-colors">Ashen Dice</a>
+                    <a href="#rooms" class="px-4 py-2 bg-black/50 border border-gray-700 rounded-lg hover:border-amber-500 transition-colors">Room System</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção: Base Weapon com ID 4 -->
+    <section id="base-weapon" class="system-section bg-gray-900/30 scroll-animate">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <!-- Título -->
+                <div class="text-center mb-16">
+                    <h2 class="game-font text-4xl font-bold mb-6">
+                        <span class="text-red-700">A) </span>
+                        <span class="text-white">BASE WEAPON</span>
+                    </h2>
+                    <div class="w-32 h-1 bg-gradient-to-r from-red-700 to-amber-500 mx-auto"></div>
+                </div>
+                
+                <!-- Conteúdo -->
+                <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
+                    <!-- Coluna 1 - Texto -->
+                    <div>
+                        <h3 class="game-font text-2xl font-bold mb-6 text-amber-400">
+                            Witch's Umbrella
+                        </h3>
+                        
+                        <div class="space-y-6">
+                            <p class="text-gray-300 leading-relaxed">
+                                The <span class="text-amber-400 font-bold">Witch's Umbrella</span> is Dorothy's primary weapon, 
+                                discovered early in her journey through Ashen OZ. This mystical artifact 
+                                serves as both a defensive tool and an offensive instrument.
+                            </p>
+                            
+                            <div class="bg-black/50 border-l-4 border-amber-500 pl-4 py-3 my-6">
+                                <p class="text-gray-300 italic">
+                                    "A three-hit basic combo that forms the foundation of all combat gameplay."
+                                </p>
+                            </div>
+                            
+                            <p class="text-gray-300 leading-relaxed">
+                                The umbrella's combat style emphasizes <span class="text-red-700 font-bold">precision and rhythm</span>. 
+                                Each of the three hits in the basic combo has different properties:
+                            </p>
+                            
+                            <ul class="space-y-3 text-gray-300">
+                                <li class="flex items-start">
+                                    <span class="text-amber-400 mr-2">•</span>
+                                    <span><span class="font-bold">First Hit:</span> Quick jab to initiate combat</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-amber-400 mr-2">•</span>
+                                    <span><span class="font-bold">Second Hit:</span> Wide swing for crowd control</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-amber-400 mr-2">•</span>
+                                    <span><span class="font-bold">Third Hit:</span> Powerful overhead strike</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Coluna 2 - Imagem ID 4 -->
+                    <div class="relative group cursor-pointer" onclick="openLightbox('id-4')">
+                        <div class="image-id-label">ID: 4</div>
+                        <div class="aspect-video bg-gradient-to-br from-black to-emerald-900/30 border border-gray-700 rounded-xl overflow-hidden flex items-center justify-center">
+                            <div class="text-center p-6">
+                                <div class="text-6xl mb-4 animate-float">☔</div>
+                                <h4 class="game-font text-2xl mb-2">Witch's Umbrella</h4>
+                                <p class="text-gray-400">Basic weapon combo</p>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                            <span class="text-amber-400 font-bold">Click to view details</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- IDs 16, 19, 20 - Weapon Mechanics -->
+                <div class="grid md:grid-cols-3 gap-6 mt-12">
+                    <!-- ID 16: Dorothy Age 7 Concept -->
+                    <div class="system-card group cursor-pointer" onclick="openLightbox('id-16')">
+                        <div class="image-id-label">ID: 16</div>
+                        <div class="text-center mb-4">
+                            <div class="text-4xl mb-3">👧</div>
+                            <h4 class="game-font text-lg font-bold text-amber-400">Dorothy Age 7 Concept</h4>
+                        </div>
+                        <p class="text-gray-300 text-sm text-center">
+                            Dorothy's physical regression affects her combat style and weapon handling
+                        </p>
+                    </div>
+                    
+                    <!-- ID 19: Blood Shoes Movement -->
+                    <div class="system-card group cursor-pointer" onclick="openLightbox('id-19')">
+                        <div class="image-id-label">ID: 19</div>
+                        <div class="text-center mb-4">
+                            <div class="text-4xl mb-3">👟</div>
+                            <h4 class="game-font text-lg font-bold text-amber-400">Blood Shoes Movement</h4>
+                        </div>
+                        <p class="text-gray-300 text-sm text-center">
+                            Movement equipment with double jump, wall cling, and dash abilities
+                        </p>
+                    </div>
+                    
+                    <!-- ID 20: Weapon Switching UI -->
+                    <div class="system-card group cursor-pointer" onclick="openLightbox('id-20')">
+                        <div class="image-id-label">ID: 20</div>
+                        <div class="text-center mb-4">
+                            <div class="text-4xl mb-3">🔄</div>
+                            <h4 class="game-font text-lg font-bold text-amber-400">Weapon Switching UI</h4>
+                        </div>
+                        <p class="text-gray-300 text-sm text-center">
+                            Interface for switching between different weapons and combat styles
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção: Chained System com ID 30 -->
+    <section id="chained-system" class="system-section scroll-animate">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <!-- Título -->
+                <div class="text-center mb-16">
+                    <h2 class="game-font text-4xl font-bold mb-6">
+                        <span class="text-white">D) CORE SYSTEM: </span>
+                        <span class="text-red-700 crimson-glow">"CHAINED SYSTEM"</span>
+                    </h2>
+                    <div class="w-32 h-1 bg-gradient-to-r from-amber-500 to-red-700 mx-auto"></div>
+                </div>
+                
+                <!-- ID 30: Combat Flow Visual -->
+                <div class="memory-card bg-gradient-to-br from-gray-900/80 to-black/80 border border-gray-700 rounded-xl p-8 mb-12 group cursor-pointer" onclick="openLightbox('id-30')">
+                    <div class="image-id-label">ID: 30</div>
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <!-- Coluna 1 - Texto -->
+                        <div>
+                            <h3 class="game-font text-2xl font-bold mb-4 text-amber-400">
+                                Chained System Overview
+                            </h3>
+                            <p class="text-gray-300 leading-relaxed mb-6">
+                                The <span class="text-amber-400 font-bold">Chained System</span> is the core action mechanic 
+                                that runs through both <span class="text-red-700">combat and exploration</span> in The Ashen OZ.
+                            </p>
+                            
+                            <div class="bg-black/50 border border-gray-700 rounded-lg p-4">
+                                <h4 class="game-font text-lg font-bold mb-2 text-green-500">System Structure</h4>
+                                <table class="w-full text-sm">
+                                    <tr>
+                                        <td class="py-2 font-bold text-amber-400">Chained Attack</td>
+                                        <td class="py-2 text-gray-300">Drive chain into enemies to dash and initiate combat</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-2 font-bold text-amber-400">Chained Move</td>
+                                        <td class="py-2 text-gray-300">Embed chains into anchors for movement and repositioning</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <!-- Coluna 2 - Imagem -->
+                        <div class="aspect-video bg-gradient-to-br from-black to-amber-900/30 border border-gray-700 rounded-xl overflow-hidden flex items-center justify-center">
+                            <div class="text-center p-6">
+                                <div class="text-6xl mb-4 animate-float" style="animation-delay: 0.5s;">🔗</div>
+                                <h4 class="game-font text-xl mb-2">Combat Flow Visual</h4>
+                                <p class="text-gray-400 text-sm">Chained System in action</p>
+                                <div class="mt-4 text-xs text-gray-500">ID: 30 - Gameplay</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Filosofia do sistema -->
+                <div class="mt-12">
+                    <h3 class="game-font text-2xl font-bold mb-6 text-center text-amber-400">
+                        Core Philosophy
+                    </h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div class="system-card">
+                            <div class="text-3xl mb-4 text-center text-amber-400">♻️</div>
+                            <h4 class="game-font text-lg font-bold mb-3 text-center">Continuity</h4>
+                            <p class="text-gray-300 text-sm text-center">
+                                Combat and movement unified into a single input flow with no rhythmic breaks
+                            </p>
+                        </div>
+                        
+                        <div class="system-card">
+                            <div class="text-3xl mb-4 text-center text-red-700">⚡</div>
+                            <h4 class="game-font text-lg font-bold mb-3 text-center">Momentum</h4>
+                            <p class="text-gray-300 text-sm text-center">
+                                Speed with rhythm and weight, creating distinct momentum and action satisfaction
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- IDs relacionados ao Chained System -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+                    <!-- ID 53: Chained Move Visual -->
+                    <div class="system-card group cursor-pointer" onclick="openLightbox('id-53')">
+                        <div class="image-id-label">ID: 53</div>
+                        <div class="text-center">
+                            <div class="text-3xl mb-3">🎯</div>
+                            <h5 class="game-font font-bold text-amber-400">Chained Move</h5>
+                            <p class="text-gray-300 text-xs">Movement & Repositioning</p>
+                        </div>
+                    </div>
+                    
+                    <!-- ID 54: Chained Attack Visual -->
+                    <div class="system-card group cursor-pointer" onclick="openLightbox('id-54')">
+                        <div class="image-id-label">ID: 54</div>
+                        <div class="text-center">
+                            <div class="text-3xl mb-3">⚔️</div>
+                            <h5 class="game-font font-bold text-amber-400">Chained Attack</h5>
+                            <p class="text-gray-300 text-xs">Combat Initiation</p>
+                        </div>
+                    </div>
+                    
+                    <!-- ID 55: Chain Integration -->
+                    <div class="system-card group cursor-pointer" onclick="openLightbox('id-55')">
+                        <div class="image-id-label">ID: 55</div>
+                        <div class="text-center">
+                            <div class="text-3xl mb-3">🔄</div>
+                            <h5 class="game-font font-bold text-amber-400">System Integration</h5>
+                            <p class="text-gray-300 text-xs">Combat + Movement</p>
+                        </div>
+                    </div>
+                    
+                    <!-- ID 56: Advanced Chains -->
+                    <div class="system-card group cursor-pointer" onclick="openLightbox('id-56')">
+                        <div class="image-id-label">ID: 56</div>
+                        <div class="text-center">
+                            <div class="text-3xl mb-3">🌟</div>
+                            <h5 class="game-font font-bold text-amber-400">Advanced Chains</h5>
+                            <p class="text-gray-300 text-xs">Master Techniques</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="section-divider"></div>
+
+    <!-- Seção: Ashen Dice com ID 7 -->
+    <section id="ashen-dice" class="system-section bg-gradient-to-b from-gray-900/30 to-black scroll-animate">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <!-- Título -->
+                <div class="text-center mb-16">
+                    <h2 class="game-font text-4xl font-bold mb-6">
+                        <span class="text-white">E) </span>
+                        <span class="text-red-700 crimson-glow">THE ASHEN DICE</span>
+                    </h2>
+                    <div class="w-32 h-1 bg-gradient-to-r from-purple-600 to-red-700 mx-auto"></div>
+                    <p class="text-gray-400 max-w-2xl mx-auto mt-6">
+                        "Dorothy picked up an old die amid the ruins of the orphanage."
+                    </p>
+                </div>
+                
+                <!-- ID 7: Ashen Dice - Phantom Face -->
+                <div class="memory-card bg-gradient-to-br from-gray-900/80 to-black/80 border border-gray-700 rounded-xl p-8 mb-12 group cursor-pointer" onclick="openLightbox('id-7')">
+                    <div class="image-id-label">ID: 7</div>
+                    <div class="grid md:grid-cols-2 gap-8 items-center">
+                        <!-- Coluna 1 - Imagem -->
+                        <div class="aspect-square bg-gradient-to-br from-black to-purple-900/30 border border-gray-700 rounded-xl overflow-hidden flex items-center justify-center">
+                            <div class="text-center p-6">
+                                <div class="text-7xl mb-4 animate-dice-spin">🎲</div>
+                                <h4 class="game-font text-xl mb-2">Ashen Dice - Phantom Face</h4>
+                                <p class="text-gray-400 text-sm">One of six mystical faces</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Coluna 2 - Texto -->
+                        <div>
+                            <h3 class="game-font text-2xl font-bold mb-4 text-amber-400">
+                                System Overview
+                            </h3>
+                            <p class="text-gray-300 leading-relaxed mb-6">
+                                Structured similarly to <span class="text-amber-400">Hades' 'Boons of the Gods'</span>, 
+                                the Ashen Dice system allows players to roll for powerful upgrades after combat rewards, 
+                                memory fractures, or specific events.
+                            </p>
+                            
+                            <div class="bg-black/50 border border-gray-700 rounded-lg p-4">
+                                <h4 class="game-font text-lg font-bold mb-2 text-green-500">Mechanics:</h4>
+                                <ul class="text-gray-300 text-sm space-y-2">
+                                    <li class="flex items-start">
+                                        <span class="text-amber-400 mr-2">•</span>
+                                        <span>Choose one of three faces after rolling</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-amber-400 mr-2">•</span>
+                                        <span>Assign to skill slots (jump, attack, chained action, etc.)</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <span class="text-amber-400 mr-2">•</span>
+                                        <span>Each face has unique attributes and visual themes</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- As Seis Faces do Dado -->
+                <div class="mb-12">
+                    <h3 class="game-font text-2xl font-bold mb-8 text-center text-amber-400">
+                        The Six Faces of the Dice
+                    </h3>
+                    
+                    <div class="overflow-x-auto rounded-xl border border-gray-700">
+                        <table class="system-table">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Face Name</th>
+                                    <th>Symbolism / Lore</th>
+                                    <th>Effect</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Face 1 -->
+                                <tr>
+                                    <td class="font-bold text-amber-400">1</td>
+                                    <td class="font-bold">Hurricane</td>
+                                    <td>Wind / Movement / Impact</td>
+                                    <td class="text-sm">Enhances dash and chained actions with speed</td>
+                                </tr>
+                                
+                                <!-- Face 2 -->
+                                <tr>
+                                    <td class="font-bold text-red-700">2</td>
+                                    <td class="font-bold">Ashfire</td>
+                                    <td>Fire / Ash / Annihilation</td>
+                                    <td class="text-sm">Builds Ashfire stacks for damage-over-time burns</td>
+                                </tr>
+                                
+                                <!-- Face 3 -->
+                                <tr>
+                                    <td class="font-bold text-blue-400">3</td>
+                                    <td class="font-bold">Frostveil</td>
+                                    <td>Ice / Stasis / Memory</td>
+                                    <td class="text-sm">Slows enemies and applies freeze effects</td>
+                                </tr>
+                                
+                                <!-- Face 4 -->
+                                <tr>
+                                    <td class="font-bold text-gray-400">4</td>
+                                    <td class="font-bold">Null</td>
+                                    <td>Darkness / Drain / Void</td>
+                                    <td class="text-sm">HP-consuming empowered attacks with lifesteal</td>
+                                </tr>
+                                
+                                <!-- Face 5 -->
+                                <tr>
+                                    <td class="font-bold text-purple-400">5</td>
+                                    <td class="font-bold">Phantom</td>
+                                    <td>Soul / Summoning / Afterimage</td>
+                                    <td class="text-sm">Summons phantoms and enhances companions</td>
+                                </tr>
+                                
+                                <!-- Face 6 -->
+                                <tr>
+                                    <td class="font-bold text-yellow-400">6</td>
+                                    <td class="font-bold">Thunderveil</td>
+                                    <td>Lightning / Speed / Conduction</td>
+                                    <td class="text-sm">Charges electricity for chain discharges</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- IDs das faces do dado -->
+                <div class="grid md:grid-cols-3 lg:grid-cols-6 gap-4 mt-12">
+                    <!-- ID 24: Hurricane Dice Face -->
+                    <div class="dice-face group cursor-pointer hover:border-amber-500" onclick="openLightbox('id-24')">
+                        <div class="image-id-label">ID: 24</div>
+                        <div class="text-3xl mb-2">🌪️</div>
+                        <h5 class="game-font font-bold text-center">Hurricane</h5>
+                    </div>
+                    
+                    <!-- ID 25: Ashfire Dice Face -->
+                    <div class="dice-face group cursor-pointer hover:border-red-700" onclick="openLightbox('id-25')">
+                        <div class="image-id-label">ID: 25</div>
+                        <div class="text-3xl mb-2">🔥</div>
+                        <h5 class="game-font font-bold text-center">Ashfire</h5>
+                    </div>
+                    
+                    <!-- ID 26: Frostveil Dice Face -->
+                    <div class="dice-face group cursor-pointer hover:border-blue-400" onclick="openLightbox('id-26')">
+                        <div class="image-id-label">ID: 26</div>
+                        <div class="text-3xl mb-2">❄️</div>
+                        <h5 class="game-font font-bold text-center">Frostveil</h5>
+                    </div>
+                    
+                    <!-- ID 27: Null Dice Face -->
+                    <div class="dice-face group cursor-pointer hover:border-gray-400" onclick="openLightbox('id-27')">
+                        <div class="image-id-label">ID: 27</div>
+                        <div class="text-3xl mb-2">⚫</div>
+                        <h5 class="game-font font-bold text-center">Null</h5>
+                    </div>
+                    
+                    <!-- ID 28: Phantom Dice Face -->
+                    <div class="dice-face group cursor-pointer hover:border-purple-400" onclick="openLightbox('id-28')">
+                        <div class="image-id-label">ID: 28</div>
+                        <div class="text-3xl mb-2">👻</div>
+                        <h5 class="game-font font-bold text-center">Phantom</h5>
+                    </div>
+                    
+                    <!-- ID 29: Thunderveil Dice Face -->
+                    <div class="dice-face group cursor-pointer hover:border-yellow-400" onclick="openLightbox('id-29')">
+                        <div class="image-id-label">ID: 29</div>
+                        <div class="text-3xl mb-2">⚡</div>
+                        <h5 class="game-font font-bold text-center">Thunderveil</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção: Random-Room Combat -->
+    <section id="rooms" class="system-section scroll-animate">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <!-- Título -->
+                <div class="text-center mb-16">
+                    <h2 class="game-font text-4xl font-bold mb-6">
+                        <span class="text-white">F) </span>
+                        <span class="text-red-700 crimson-glow">RANDOM-ROOM COMBAT</span>
+                    </h2>
+                    <div class="w-32 h-1 bg-gradient-to-r from-red-700 to-amber-500 mx-auto"></div>
+                    <p class="text-gray-400 max-w-2xl mx-auto mt-6">
+                        "Every run delivers different battles, different enemies, and varied map layouts."
+                    </p>
+                </div>
+                
+                <!-- Tipos de Sala -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Combat Room - ID 51 -->
+                    <div class="room-card group cursor-pointer" onclick="openLightbox('id-51')">
+                        <div class="image-id-label">ID: 51</div>
+                        <div class="aspect-video bg-gradient-to-br from-black to-red-900/30 flex items-center justify-center">
+                            <div class="text-center p-6">
+                                <div class="text-4xl mb-3">⚔️</div>
+                                <h4 class="game-font text-lg font-bold mb-2">Combat Room</h4>
+                                <p class="text-gray-400 text-sm">Fast-paced enemy encounters</p>
+                            </div>
+                        </div>
+                        <div class="p-4 border-t border-gray-700">
+                            <p class="text-gray-300 text-xs">
+                                Entry → Small enemy waves → Elite/Mini-Boss → Die reward
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Exploration Room - ID 50 -->
+                    <div class="room-card group cursor-pointer" onclick="openLightbox('id-50')">
+                        <div class="image-id-label">ID: 50</div>
+                        <div class="aspect-video bg-gradient-to-br from-black to-emerald-900/30 flex items-center justify-center">
+                            <div class="text-center p-6">
+                                <div class="text-4xl mb-3">🔍</div>
+                                <h4 class="game-font text-lg font-bold mb-2">Exploration Room</h4>
+                                <p class="text-gray-400 text-sm">Environmental puzzles</p>
+                            </div>
+                        </div>
+                        <div class="p-4 border-t border-gray-700">
+                            <p class="text-gray-300 text-xs">
+                                Platforming puzzles and chain-based movement sections
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Event Room - ID 23 -->
+                    <div class="room-card group cursor-pointer" onclick="openLightbox('id-23')">
+                        <div class="image-id-label">ID: 23</div>
+                        <div class="aspect-video bg-gradient-to-br from-black to-purple-900/30 flex items-center justify-center">
+                            <div class="text-center p-6">
+                                <div class="text-4xl mb-3">💬</div>
+                                <h4 class="game-font text-lg font-bold mb-2">Event Room</h4>
+                                <p class="text-gray-400 text-sm">Narrative progression</p>
+                            </div>
+                        </div>
+                        <div class="p-4 border-t border-gray-700">
+                            <p class="text-gray-300 text-xs">
+                                Choice-driven dialogue with risk-reward decisions
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Mini-Boss Room - ID 57 -->
+                    <div class="room-card group cursor-pointer" onclick="openLightbox('id-57')">
+                        <div class="image-id-label">ID: 57</div>
+                        <div class="aspect-video bg-gradient-to-br from-black to-amber-900/30 flex items-center justify-center">
+                            <div class="text-center p-6">
+                                <div class="text-4xl mb-3">👹</div>
+                                <h4 class="game-font text-lg font-bold mb-2">Mini-Boss Room</h4>
+                                <p class="text-gray-400 text-sm">Themed encounters</p>
+                            </div>
+                        </div>
+                        <div class="p-4 border-t border-gray-700">
+                            <p class="text-gray-300 text-xs">
+                                Two-phase fights with emotional overdrive mechanics
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Weapon Switching com IDs 21, 22, 23 -->
+                <div class="mt-16 pt-16 border-t border-gray-700">
+                    <h3 class="game-font text-2xl font-bold mb-8 text-center text-amber-400">
+                        Weapon Switching & Soul Pacts
+                    </h3>
+                    
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <!-- ID 21: Scarecrow's Scythe -->
+                        <div class="system-card group cursor-pointer" onclick="openLightbox('id-21')">
+                            <div class="image-id-label">ID: 21</div>
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">⚔️</div>
+                                <h4 class="game-font text-lg font-bold text-amber-400">Scarecrow's Scythe</h4>
+                            </div>
+                            <p class="text-gray-300 text-sm text-center">
+                                Wide-area attacks focused on crowd control and wisdom-based abilities
+                            </p>
+                        </div>
+                        
+                        <!-- ID 22: Tin Man's Hammer -->
+                        <div class="system-card group cursor-pointer" onclick="openLightbox('id-22')">
+                            <div class="image-id-label">ID: 22</div>
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">🔨</div>
+                                <h4 class="game-font text-lg font-bold text-amber-400">Tin Man's Hammer</h4>
+                            </div>
+                            <p class="text-gray-300 text-sm text-center">
+                                Heavy, slow attacks with high damage and armor-breaking capabilities
+                            </p>
+                        </div>
+                        
+                        <!-- ID 23: Lion's Claws -->
+                        <div class="system-card group cursor-pointer" onclick="openLightbox('id-23')">
+                            <div class="image-id-label">ID: 23</div>
+                            <div class="text-center mb-4">
+                                <div class="text-4xl mb-3">🐾</div>
+                                <h4 class="game-font text-lg font-bold text-amber-400">Lion's Claws</h4>
+                            </div>
+                            <p class="text-gray-300 text-sm text-center">
+                                Fast, multi-hit combos with bleeding effects and courage-based enhancements
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="py-20 bg-gradient-to-r from-red-900/10 via-amber-900/10 to-purple-900/10">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="game-font text-3xl md:text-4xl font-bold mb-8">
+                <span class="text-white">MASTER THE</span>
+                <span class="block text-amber-400">SYSTEMS</span>
+            </h2>
+            
+            <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12">
+                Combine the Chained System, Ashen Dice, and weapon switching to create your unique combat style
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="bestiary.html" 
+                   class="group bg-gradient-to-r from-red-900 to-purple-900 hover:from-red-800 hover:to-purple-800 px-8 py-4 rounded-lg game-font text-lg font-bold tracking-wider transition-all duration-300 hover:scale-105 transform inline-flex items-center justify-center">
+                   <span>STUDY ENEMY PATTERNS</span>
+                   <span class="ml-3 group-hover:translate-x-2 transition-transform">👹</span>
+                </a>
+                
+                <a href="gallery.html" 
+                   class="group border-2 border-amber-500 text-amber-400 hover:bg-amber-500 hover:text-black px-8 py-4 rounded-lg game-font text-lg font-bold tracking-wider transition-all duration-300 inline-flex items-center justify-center">
+                   <span>VIEW SYSTEM VISUALS</span>
+                   <span class="ml-3 group-hover:rotate-180 transition-transform">🎮</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black border-t border-gray-800 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <!-- Logo e Descrição -->
+                <div>
+                    <h3 class="game-font text-2xl font-bold mb-4">
+                        <span class="text-white">THE ASHEN</span>
+                        <span class="text-red-700"> OZ</span>
+                    </h3>
+                    <p class="text-gray-400 mb-4">
+                        A grimdark reimagining of the magical land of Oz. 
+                        Developed with passion by Ashbone Games.
+                    </p>
+                    <p class="text-sm text-gray-500">
+                        "The Oz you knew is gone."
+                    </p>
+                </div>
+                
+                <!-- Links Rápidos -->
+                <div>
+                    <h4 class="game-font text-xl font-bold mb-4 text-amber-400">System Sections</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#base-weapon" class="text-gray-400 hover:text-amber-400 transition-colors">Base Weapon</a></li>
+                        <li><a href="#chained-system" class="text-gray-400 hover:text-amber-400 transition-colors">Chained System</a></li>
+                        <li><a href="#ashen-dice" class="text-gray-400 hover:text-amber-400 transition-colors">Ashen Dice</a></li>
+                        <li><a href="#rooms" class="text-gray-400 hover:text-amber-400 transition-colors">Room System</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contato -->
+                <div>
+                    <h4 class="game-font text-xl font-bold mb-4 text-amber-400">Contact</h4>
+                    <p class="text-gray-400 mb-4">
+                        For gameplay and system inquiries:
+                    </p>
+                    <a href="mailto:ashbonegames@gmail.com" class="text-amber-400 hover:text-red-600 transition-colors font-medium">
+                        ashbonegames@gmail.com
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+                <p>&copy; 2025 Ashbone Games. "The Ashen OZ" is a dark fantasy reimagining. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 hidden" onclick="closeLightbox()">
+        <div class="relative max-w-4xl mx-auto" onclick="event.stopPropagation()">
+            <button onclick="closeLightbox()" class="absolute -top-12 right-0 text-3xl text-white hover:text-amber-400 transition-colors">
+                ✕
+            </button>
+            <div id="lightbox-content" class="bg-gradient-to-br from-gray-900 to-black rounded-xl p-8 max-w-2xl mx-auto">
+                <!-- Conteúdo será inserido via JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Lightbox functionality para todos os IDs
+        function openLightbox(imageId) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxContent = document.getElementById('lightbox-content');
+            
+            // Dados para cada ID
+            const imageData = {
+                // Base Weapon IDs
+                'id-4': {
+                    title: 'Witch\'s Umbrella',
+                    emoji: '☔',
+                    description: 'Basic weapon three-hit combo',
+                    category: 'Weapon',
+                    details: 'The Witch\'s Umbrella serves as Dorothy\'s primary weapon. Its three-hit combo forms the foundation of all combat gameplay, with each hit having different properties for initiating attacks, crowd control, and finishing blows.',
+                    system: 'Base Weapon System'
+                },
+                'id-16': {
+                    title: 'Dorothy Age 7 Concept',
+                    emoji: '👧',
+                    description: 'Character design at physical age 7',
+                    category: 'Character',
+                    details: 'Dorothy\'s physical regression to age 7 affects her combat style and weapon handling. This transformation represents her return to vulnerability while awakening suppressed memories and powers.',
+                    system: 'Character Progression'
+                },
+                'id-19': {
+                    title: 'Blood Shoes Movement',
+                    emoji: '👟',
+                    description: 'Movement equipment with advanced abilities',
+                    category: 'Equipment',
+                    details: 'Blood Shoes provide movement upgrades including double jump, wall cling, and mid-air dash. These abilities are essential for both combat evasion and exploration in the ashen world.',
+                    system: 'Movement System'
+                },
+                'id-20': {
+                    title: 'Weapon Switching UI',
+                    emoji: '🔄',
+                    description: 'Interface for changing weapons',
+                    category: 'UI/UX',
+                    details: 'The weapon switching interface allows players to change between different weapons through level progression or resource expenditure. Each weapon fundamentally alters combat style and strategy.',
+                    system: 'Weapon System'
+                },
+                
+                // Chained System IDs
+                'id-30': {
+                    title: 'Combat Flow Visual',
+                    emoji: '🔗',
+                    description: 'Chained System in action',
+                    category: 'Gameplay',
+                    details: 'Visual representation of how the Chained System integrates combat and movement into a single fluid experience. Shows the seamless transition between attacking enemies and traversing the environment.',
+                    system: 'Chained System'
+                },
+                'id-53': {
+                    title: 'Chained Move Visual',
+                    emoji: '🎯',
+                    description: 'Movement and repositioning with chains',
+                    category: 'Gameplay',
+                    details: 'Demonstrates how Dorothy embeds chains into Dreamcatchers (anchors) to propel herself through space, enabling advanced movement techniques and environmental traversal.',
+                    system: 'Chained System'
+                },
+                'id-54': {
+                    title: 'Chained Attack Visual',
+                    emoji: '⚔️',
+                    description: 'Combat initiation with chains',
+                    category: 'Gameplay',
+                    details: 'Shows how Dorothy drives chains into enemies to dash forward and initiate combat. This creates the ignition point for combat loops and allows for aggressive engagement strategies.',
+                    system: 'Chained System'
+                },
+                'id-55': {
+                    title: 'Chain Integration',
+                    emoji: '🔄',
+                    description: 'Seamless combat-movement integration',
+                    category: 'Gameplay',
+                    details: 'Illustrates how the Chained System eliminates the separation between combat and exploration, creating a continuous flow of action without rhythmic breaks.',
+                    system: 'Chained System'
+                },
+                'id-56': {
+                    title: 'Advanced Chains',
+                    emoji: '🌟',
+                    description: 'Master-level chain techniques',
+                    category: 'Gameplay',
+                    details: 'Advanced applications of the Chained System that expert players can master, including complex chain combinations and environmental manipulation.',
+                    system: 'Chained System'
+                },
+                
+                // Ashen Dice IDs
+                'id-7': {
+                    title: 'Ashen Dice - Phantom Face',
+                    emoji: '🎲',
+                    description: 'One of six mystical dice faces',
+                    category: 'Roguelite System',
+                    details: 'The Phantom face represents soul, summoning, and afterimage abilities. It enhances summons (companions, Toto) and triggers additional afterimage strikes during combat.',
+                    system: 'Ashen Dice System'
+                },
+                'id-24': {
+                    title: 'Hurricane Dice Face',
+                    emoji: '🌪️',
+                    description: 'Wind/Movement/Impact face',
+                    category: 'Dice Face',
+                    details: 'Enhances dash and chained actions with speed and charge power. Collisions trigger wind explosions that can damage multiple enemies.',
+                    system: 'Ashen Dice System'
+                },
+                'id-25': {
+                    title: 'Ashfire Dice Face',
+                    emoji: '🔥',
+                    description: 'Fire/Ash/Annihilation face',
+                    category: 'Dice Face',
+                    details: 'Attacks build Ashfire stacks, causing damage-over-time burns and explosive damage. Has a chance to trigger explosions on hit.',
+                    system: 'Ashen Dice System'
+                },
+                'id-26': {
+                    title: 'Frostveil Dice Face',
+                    emoji: '❄️',
+                    description: 'Ice/Stasis/Memory face',
+                    category: 'Dice Face',
+                    details: 'Slows enemy actions, applies freeze effects, and grants brief invincibility when hit. Excellent for defensive playstyles.',
+                    system: 'Ashen Dice System'
+                },
+                'id-27': {
+                    title: 'Null Dice Face',
+                    emoji: '⚫',
+                    description: 'Darkness/Drain/Void face',
+                    category: 'Dice Face',
+                    details: 'HP-consuming empowered attacks with lifesteal on hit. Amplifies residual damage and rewards aggressive, high-risk play.',
+                    system: 'Ashen Dice System'
+                },
+                'id-28': {
+                    title: 'Phantom Dice Face',
+                    emoji: '👻',
+                    description: 'Soul/Summoning/Afterimage face',
+                    category: 'Dice Face',
+                    details: 'Summons phantoms to fight alongside Dorothy. Enhances companion abilities and triggers additional afterimage strikes.',
+                    system: 'Ashen Dice System'
+                },
+                'id-29': {
+                    title: 'Thunderveil Dice Face',
+                    emoji: '⚡',
+                    description: 'Lightning/Speed/Conduction face',
+                    category: 'Dice Face',
+                    details: 'Charges electricity during attacks and movement, releasing chain discharges. Enables speed-based explosive builds.',
+                    system: 'Ashen Dice System'
+                },
+                
+                // Room System IDs
+                'id-23': {
+                    title: 'Event Room',
+                    emoji: '💬',
+                    description: 'Narrative progression room',
+                    category: 'Room Type',
+                    details: 'Event rooms feature choice-driven dialogue interfaces where players make emotional choices with risk-reward consequences (buffs vs. penalties).',
+                    system: 'Random-Room System'
+                },
+                'id-50': {
+                    title: 'Exploration Room',
+                    emoji: '🔍',
+                    description: 'Environmental puzzle room',
+                    category: 'Room Type',
+                    details: 'Exploration rooms provide relief from combat fatigue with environmental exploration, hidden paths, short platforming puzzles, and chain-based movement sections.',
+                    system: 'Random-Room System'
+                },
+                'id-51': {
+                    title: 'Combat Room',
+                    emoji: '⚔️',
+                    description: 'Fast-paced combat room',
+                    category: 'Room Type',
+                    details: 'Combat rooms deliver fast, exhilarating combat experiences with small enemy waves leading to elite or mini-boss encounters, culminating in Ashen Dice rewards.',
+                    system: 'Random-Room System'
+                },
+                'id-57': {
+                    title: 'Mini-Boss Room',
+                    emoji: '👹',
+                    description: 'Themed mini-boss encounter',
+                    category: 'Room Type',
+                    details: 'Mini-boss rooms feature two-phase fights with narrative linkages before companion unlocks. Phase 2 introduces Emotional Overdrive mechanics.',
+                    system: 'Random-Room System'
+                },
+                
+                // Weapon Switching IDs
+                'id-21': {
+                    title: 'Scarecrow\'s Scythe',
+                    emoji: '⚔️',
+                    description: 'Wisdom-based weapon',
+                    category: 'Weapon',
+                    details: 'Unlocked through a Soul Pact with the Scarecrow. Features wide-area attacks focused on crowd control and wisdom-based abilities that enhance strategic play.',
+                    system: 'Weapon Switching'
+                },
+                'id-22': {
+                    title: 'Tin Man\'s Hammer',
+                    emoji: '🔨',
+                    description: 'Compassion-based weapon',
+                    category: 'Weapon',
+                    details: 'Unlocked through a Soul Pact with the Tin Man. Delivers heavy, slow attacks with high damage and armor-breaking capabilities, rewarding precise timing.',
+                    system: 'Weapon Switching'
+                },
+                'id-23-weapon': {
+                    title: 'Lion\'s Claws',
+                    emoji: '🐾',
+                    description: 'Courage-based weapon',
+                    category: 'Weapon',
+                    details: 'Unlocked through a Soul Pact with the Lion. Provides fast, multi-hit combos with bleeding effects and courage-based enhancements for aggressive playstyles.',
+                    system: 'Weapon Switching'
+                }
+            };
+            
+            const data = imageData[imageId] || {
+                title: 'System Visual',
+                emoji: '🎮',
+                description: 'Gameplay mechanic visualization',
+                category: 'Gameplay',
+                details: 'Detailed information about this gameplay system or visual element.',
+                system: 'Core Systems'
+            };
+            
+            // Criar conteúdo do lightbox
+            lightboxContent.innerHTML = `
+                <div class="text-center">
+                    <div class="text-7xl mb-4">${data.emoji}</div>
+                    <div class="inline-block bg-black/70 px-4 py-1 rounded-full border border-gray-600 mb-3">
+                        <span class="text-sm font-bold">ID: ${imageId.replace('id-', '')}</span>
+                    </div>
+                    <h3 class="game-font text-3xl mb-2">${data.title}</h3>
+                    <p class="text-gray-300 mb-4">${data.description}</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-black/50 border border-gray-700 rounded-lg p-4">
+                            <h4 class="game-font text-lg font-bold mb-2 text-amber-400">Category</h4>
+                            <p>${data.category}</p>
+                        </div>
+                        <div class="bg-black/50 border border-gray-700 rounded-lg p-4">
+                            <h4 class="game-font text-lg font-bold mb-2 text-amber-400">System</h4>
+                            <p>${data.system}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-black/50 border border-gray-700 rounded-lg p-4">
+                        <h4 class="game-font text-lg font-bold mb-2 text-green-500">Details</h4>
+                        <p class="text-gray-300 text-sm">${data.details}</p>
+                    </div>
+                </div>
+            `;
+            
+            lightbox.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+        
+        // Fechar lightbox com ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+        
+        // Animações ao scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+            
+            document.querySelectorAll('.scroll-animate').forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Navegação suave
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
