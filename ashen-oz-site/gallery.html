@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Gallery | The Ashen OZ</title>
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fontes -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Configuração Tailwind personalizada -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'ashen-black': '#0A0A0A',
+                        'ashen-gray-dark': '#2A2A2A',
+                        'ashen-gray-light': '#4A4A4A',
+                        'ashen-crimson': '#B22222',
+                        'ashen-amber': '#FF8C00',
+                        'ashen-emerald': '#50C878',
+                    },
+                    fontFamily: {
+                        'heading': ['Orbitron', 'sans-serif'],
+                        'body': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'float': 'float 6s ease-in-out infinite',
+                        'fade-in': 'fadeIn 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        glow: {
+                            'from': { 
+                                'box-shadow': '0 0 5px #FF8C00, 0 0 10px #FF8C00',
+                                'text-shadow': '0 0 5px #FF8C00, 0 0 10px #FF8C00'
+                            },
+                            'to': { 
+                                'box-shadow': '0 0 10px #B22222, 0 0 20px #B22222',
+                                'text-shadow': '0 0 10px #B22222, 0 0 20px #B22222'
+                            }
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        fadeIn: {
+                            'from': { opacity: '0', transform: 'scale(0.95)' },
+                            'to': { opacity: '1', transform: 'scale(1)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Estilos específicos para a galeria */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border-radius: 0.75rem;
+            border: 1px solid #4A4A4A;
+            background: linear-gradient(145deg, #2A2A2A, #1A1A1A);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-4px);
+            border-color: #FF8C00;
+            box-shadow: 0 10px 30px rgba(178, 34, 34, 0.2);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(10, 10, 10, 0.9), transparent);
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+        
+        .image-number {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: rgba(10, 10, 10, 0.8);
+            color: #FF8C00;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            border: 1px solid #4A4A4A;
+        }
+        
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .lightbox.active {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 0.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+        
+        .lightbox-btn {
+            background: rgba(10, 10, 10, 0.8);
+            color: #FF8C00;
+            border: 1px solid #4A4A4A;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            pointer-events: all;
+            margin: 0 1rem;
+        }
+        
+        .lightbox-btn:hover {
+            background: #B22222;
+            color: white;
+            border-color: #FF8C00;
+            transform: scale(1.1);
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: -2.5rem;
+            right: 0;
+            background: rgba(10, 10, 10, 0.8);
+            color: #FF8C00;
+            border: 1px solid #4A4A4A;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .lightbox-close:hover {
+            background: #B22222;
+            color: white;
+            border-color: #FF8C00;
+        }
+        
+        .lightbox-info {
+            position: absolute;
+            bottom: -3rem;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: #E0E0E0;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .image-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: #FF8C00;
+        }
+        
+        .image-counter {
+            font-size: 0.875rem;
+            color: #B8B8B8;
+        }
+        
+        /* Filtros */
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid #4A4A4A;
+            background: #2A2A2A;
+            color: #E0E0E0;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.875rem;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #B22222;
+            color: white;
+            border-color: #FF8C00;
+        }
+        
+        /* Loading */
+        .loading-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #2A2A2A 25%, #3A3A3A 50%, #2A2A2A 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4A4A4A;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-ashen-black text-white font-body">
+    <!-- Header / Navegação -->
+    <header class="sticky top-0 z-50 bg-ashen-black/95 backdrop-blur-sm border-b border-ashen-gray-dark">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <!-- Logo -->
+                <div class="mb-4 md:mb-0">
+                    <a href="index.html" class="font-heading text-2xl font-bold tracking-wider">
+                        <span class="text-ashen-crimson">THE ASHEN</span>
+                        <span class="text-ashen-amber"> OZ</span>
+                    </a>
+                    <p class="text-xs text-ashen-gray-light font-body mt-1">A grimdark reimagining</p>
+                </div>
+                
+                <!-- Menu Principal -->
+                <div class="flex flex-wrap justify-center gap-4 md:gap-8">
+                    <a href="index.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Home</a>
+                    <a href="story.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Story</a>
+                    <a href="characters.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Characters</a>
+                    <a href="systems.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Systems</a>
+                    <a href="bestiary.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Bestiary</a>
+                    <a href="gallery.html" class="text-ashen-amber hover:text-white transition-colors border-b-2 border-ashen-amber pb-1">Gallery</a>
+                    <a href="team.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Team</a>
+                    <a href="contact.html" class="bg-ashen-crimson hover:bg-red-800 px-4 py-2 rounded transition-colors">Contact</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[40vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-ashen-black via-purple-900/20 to-ashen-black">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-1/4 left-1/4 text-7xl animate-float">🎨</div>
+            <div class="absolute bottom-1/3 right-1/4 text-6xl animate-float" style="animation-delay: 1s;">🖼️</div>
+            <div class="absolute top-1/3 right-1/3 text-5xl animate-float" style="animation-delay: 2s;">📸</div>
+        </div>
+        
+        <div class="relative z-10 container mx-auto px-4 py-12 text-center">
+            <div class="inline-block mb-6">
+                <span class="font-heading text-ashen-amber font-bold text-lg tracking-widest">07 • ART GALLERY</span>
+            </div>
+            
+            <h1 class="font-heading text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                <span class="text-white">VISUAL</span>
+                <span class="block text-ashen-crimson">ARCHIVE</span>
+            </h1>
+            
+            <div class="max-w-2xl mx-auto">
+                <div class="bg-gradient-to-r from-ashen-gray-dark/50 to-ashen-black/50 border-l-4 border-ashen-amber pl-6 py-4 mb-8 backdrop-blur-sm">
+                    <p class="text-lg md:text-xl italic text-gray-300 leading-relaxed">
+                        "You can explore concept art created during development, along with actual gameplay footage."
+                    </p>
+                </div>
+                
+                <p class="text-gray-400">
+                    47 unique pieces of concept art and gameplay visuals from The Ashen OZ
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filtros -->
+    <section class="py-8 bg-ashen-gray-dark/30 border-y border-ashen-gray-light">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap justify-center gap-3">
+                <button class="filter-btn active" data-filter="all">All Images</button>
+                <button class="filter-btn" data-filter="concept">Concept Art</button>
+                <button class="filter-btn" data-filter="gameplay">Gameplay</button>
+                <button class="filter-btn" data-filter="character">Characters</button>
+                <button class="filter-btn" data-filter="environment">Environments</button>
+                <button class="filter-btn" data-filter="ui">UI/Interface</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeria -->
+    <section class="py-12">
+        <div class="container mx-auto px-4">
+            <div class="gallery-grid" id="gallery-container">
+                <!-- As imagens serão geradas via JavaScript -->
+            </div>
+            
+            <!-- Contador -->
+            <div class="mt-12 pt-8 border-t border-ashen-gray-light text-center">
+                <p class="text-gray-400" id="image-counter">
+                    Loading 47 images...
+                </p>
+                <div class="mt-4 flex justify-center items-center space-x-4">
+                    <button id="prev-page" class="filter-btn" disabled>← Previous</button>
+                    <span class="text-sm text-gray-400" id="page-info">Page 1 of 5</span>
+                    <button id="next-page" class="filter-btn">Next →</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Info Section -->
+    <section class="py-20 bg-gradient-to-b from-ashen-gray-dark/30 to-ashen-black">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="font-heading text-3xl font-bold mb-6 text-ashen-amber">
+                        Development Visuals
+                    </h2>
+                    <div class="w-24 h-1 bg-gradient-to-r from-ashen-crimson to-ashen-amber mx-auto"></div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-gradient-to-br from-ashen-gray-dark/80 to-ashen-black/80 border border-ashen-gray-light rounded-xl p-6">
+                        <div class="text-4xl mb-4 text-ashen-amber">🎨</div>
+                        <h3 class="font-heading text-xl font-bold mb-3">Concept Art</h3>
+                        <p class="text-gray-300">
+                            Early visual development including character designs, environment concepts, 
+                            and key art that defines the grimdark aesthetic of The Ashen OZ.
+                        </p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-ashen-gray-dark/80 to-ashen-black/80 border border-ashen-gray-light rounded-xl p-6">
+                        <div class="text-4xl mb-4 text-ashen-crimson">🎮</div>
+                        <h3 class="font-heading text-xl font-bold mb-3">Gameplay Footage</h3>
+                        <p class="text-gray-300">
+                            Screenshots and frames from actual gameplay showing the Chained System, 
+                            combat mechanics, and the atmospheric world of Oz.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-ashen-gray-dark border-t border-ashen-gray-light py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <!-- Logo e Descrição -->
+                <div>
+                    <h3 class="font-heading text-2xl font-bold mb-4">
+                        <span class="text-ashen-crimson">THE ASHEN</span>
+                        <span class="text-ashen-amber"> OZ</span>
+                    </h3>
+                    <p class="text-gray-400 mb-4">
+                        A grimdark reimagining of the magical land of Oz. 
+                        Developed with passion by Ashbone Games.
+                    </p>
+                    <p class="text-sm text-ashen-gray-light">
+                        "The Oz you knew is gone."
+                    </p>
+                </div>
+                
+                <!-- Links Rápidos -->
+                <div>
+                    <h4 class="font-heading text-xl font-bold mb-4 text-ashen-amber">Explore More</h4>
+                    <ul class="space-y-2">
+                        <li><a href="story.html" class="text-gray-400 hover:text-ashen-amber transition-colors">Story & World</a></li>
+                        <li><a href="characters.html" class="text-gray-400 hover:text-ashen-amber transition-colors">Characters</a></li>
+                        <li><a href="systems.html" class="text-gray-400 hover:text-ashen-amber transition-colors">Game Systems</a></li>
+                        <li><a href="bestiary.html" class="text-gray-400 hover:text-ashen-amber transition-colors">Bestiary</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Contato -->
+                <div>
+                    <h4 class="font-heading text-xl font-bold mb-4 text-ashen-amber">Contact</h4>
+                    <p class="text-gray-400 mb-4">
+                        For media inquiries or asset requests:
+                    </p>
+                    <a href="mailto:ashbonegames@gmail.com" class="text-ashen-amber hover:text-ashen-crimson transition-colors font-medium">
+                        ashbonegames@gmail.com
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Copyright -->
+            <div class="pt-8 border-t border-ashen-gray-light text-center text-gray-500 text-sm">
+                <p>&copy; 2025 Ashbone Games. "The Ashen OZ" is a dark fantasy reimagining. All rights reserved.</p>
+                <p class="mt-2">All artwork and visuals are property of Ashbone Games.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightbox-close">×</button>
+            
+            <div class="lightbox-nav">
+                <button class="lightbox-btn" id="lightbox-prev">←</button>
+                <button class="lightbox-btn" id="lightbox-next">→</button>
+            </div>
+            
+            <img id="lightbox-image" class="lightbox-img" src="" alt="">
+            
+            <div class="lightbox-info">
+                <div class="image-title" id="lightbox-title">Image Title</div>
+                <div class="image-counter" id="lightbox-counter">1 / 47</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Dados da galeria - 47 imagens
+        const galleryData = [
+            // Imagens 1-10
+            { id: 1, title: "Key Visual - Main Poster", category: "concept" },
+            { id: 2, title: "Dorothy in Orphanage", category: "character" },
+            { id: 3, title: "Whispering Forest", category: "environment" },
+            { id: 4, title: "Emerald City Ruins", category: "environment" },
+            { id: 5, title: "Chained Attack Combo", category: "gameplay" },
+            { id: 6, title: "Boss Encounter - Phase 1", category: "gameplay" },
+            { id: 7, title: "Ashen Dice - Phantom Face", category: "concept" },
+            { id: 8, title: "Combat Room Layout", category: "gameplay" },
+            { id: 9, title: "Exploration Room", category: "environment" },
+            { id: 10, title: "Event Room Dialogue", category: "ui" },
+            
+            // Imagens 11-20
+            { id: 11, title: "Mini-Boss Room - Design", category: "environment" },
+            { id: 12, title: "Boss Room - Entrance", category: "gameplay" },
+            { id: 13, title: "Combat Mechanics - Basic Attack", category: "gameplay" },
+            { id: 14, title: "Chained Move - Dreamcatcher", category: "gameplay" },
+            { id: 15, title: "Region Entry", category: "environment" },
+            { id: 16, title: "Dorothy Age 7 Concept", category: "character" },
+            { id: 17, title: "The Seat - Rest Area", category: "environment" },
+            { id: 18, title: "Witch's Umbrella Design", category: "concept" },
+            { id: 19, title: "Blood Shoes Movement", category: "gameplay" },
+            { id: 20, title: "Weapon Switching UI", category: "ui" },
+            
+            // Imagens 21-30
+            { id: 21, title: "Scarecrow's Scythe", category: "concept" },
+            { id: 22, title: "Tin Man's Hammer", category: "concept" },
+            { id: 23, title: "Lion's Claws", category: "concept" },
+            { id: 24, title: "Hurricane Dice Face", category: "concept" },
+            { id: 25, title: "Ashfire Dice Face", category: "concept" },
+            { id: 26, title: "Frostveil Dice Face", category: "concept" },
+            { id: 27, title: "Null Dice Face", category: "concept" },
+            { id: 28, title: "Phantom Dice Face", category: "concept" },
+            { id: 29, title: "Thunderveil Dice Face", category: "concept" },
+            { id: 30, title: "Combat Flow Visual", category: "gameplay" },
+            
+            // Imagens 31-40
+            { id: 31, title: "Map Exploration", category: "gameplay" },
+            { id: 32, title: "Enemy Designs - Set 1", category: "concept" },
+            { id: 33, title: "Enemy Designs - Set 2", category: "concept" },
+            { id: 34, title: "Boss Design - Concept", category: "concept" },
+            { id: 35, title: "UI Layout - Combat", category: "ui" },
+            { id: 36, title: "UI Layout - Inventory", category: "ui" },
+            { id: 37, title: "Particle Effects - Combat", category: "gameplay" },
+            { id: 38, title: "Lighting Studies", category: "concept" },
+            { id: 39, title: "Color Palette", category: "concept" },
+            { id: 40, title: "Character Expressions", category: "character" },
+            
+            // Imagens 41-47
+            { id: 41, title: "Environment Mood - Rain", category: "environment" },
+            { id: 42, title: "Environment Mood - Storm", category: "environment" },
+            { id: 43, title: "Environment Mood - Ruins", category: "environment" },
+            { id: 44, title: "Promotional Art 1", category: "concept" },
+            { id: 45, title: "Promotional Art 2", category: "concept" },
+            { id: 46, title: "Development Progress", category: "concept" },
+            { id: 47, title: "Title Screen Concept", category: "ui" }
+        ];
+
+        // Configurações
+        const IMAGES_PER_PAGE = 12;
+        let currentPage = 1;
+        let currentFilter = 'all';
+        let currentLightboxIndex = 0;
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeGallery();
+            setupEventListeners();
+            updateGallery();
+        });
+
+        function initializeGallery() {
+            const container = document.getElementById('gallery-container');
+            container.innerHTML = '';
+            
+            // Criar placeholders para carregamento
+            for (let i = 0; i < IMAGES_PER_PAGE; i++) {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'gallery-item';
+                placeholder.innerHTML = `
+                    <div class="loading-placeholder">
+                        <div class="text-4xl opacity-30">🖼️</div>
+                    </div>
+                    <div class="image-number">${i + 1}</div>
+                `;
+                container.appendChild(placeholder);
+            }
+        }
+
+        function setupEventListeners() {
+            // Filtros
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.filter;
+                    currentPage = 1;
+                    updateGallery();
+                });
+            });
+
+            // Navegação de página
+            document.getElementById('prev-page').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    updateGallery();
+                }
+            });
+
+            document.getElementById('next-page').addEventListener('click', () => {
+                const totalPages = Math.ceil(getFilteredImages().length / IMAGES_PER_PAGE);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    updateGallery();
+                }
+            });
+
+            // Lightbox
+            document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+            document.getElementById('lightbox-prev').addEventListener('click', showPrevImage);
+            document.getElementById('lightbox-next').addEventListener('click', showNextImage);
+
+            // Fechar lightbox com ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeLightbox();
+                if (document.getElementById('lightbox').classList.contains('active')) {
+                    if (e.key === 'ArrowLeft') showPrevImage();
+                    if (e.key === 'ArrowRight') showNextImage();
+                }
+            });
+        }
+
+        function getFilteredImages() {
+            if (currentFilter === 'all') return galleryData;
+            return galleryData.filter(img => img.category === currentFilter);
+        }
+
+        function updateGallery() {
+            const filteredImages = getFilteredImages();
+            const startIndex = (currentPage - 1) * IMAGES_PER_PAGE;
+            const endIndex = startIndex + IMAGES_PER_PAGE;
+            const pageImages = filteredImages.slice(startIndex, endIndex);
+            
+            const container = document.getElementById('gallery-container');
+            container.innerHTML = '';
+            
+            pageImages.forEach((image, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.dataset.index = startIndex + index;
+                
+                // Em produção real, estas seriam imagens reais
+                // Por enquanto, usamos placeholders com efeitos visuais
+                const placeholderColors = [
+                    'from-ashen-crimson/20 to-ashen-black',
+                    'from-ashen-amber/20 to-ashen-black',
+                    'from-ashen-emerald/20 to-ashen-black',
+                    'from-purple-900/20 to-ashen-black',
+                    'from-blue-900/20 to-ashen-black'
+                ];
+                const colorIndex = image.id % placeholderColors.length;
+                
+                item.innerHTML = `
+                    <div class="w-full h-full bg-gradient-to-br ${placeholderColors[colorIndex]} flex items-center justify-center">
+                        <div class="text-center p-6">
+                            <div class="text-5xl mb-4 animate-float">${getCategoryIcon(image.category)}</div>
+                            <h3 class="font-heading text-lg font-bold mb-2">${image.title}</h3>
+                            <p class="text-sm text-ashen-gray-light">${getCategoryName(image.category)}</p>
+                        </div>
+                    </div>
+                    <div class="gallery-overlay">
+                        <h3 class="font-heading font-bold mb-1">${image.title}</h3>
+                        <p class="text-sm text-gray-400">Click to view full image</p>
+                    </div>
+                    <div class="image-number">${image.id}</div>
+                `;
+                
+                item.addEventListener('click', () => openLightbox(startIndex + index));
+                container.appendChild(item);
+            });
+            
+            updatePagination(filteredImages.length);
+            updateImageCounter(filteredImages.length);
+        }
+
+        function getCategoryIcon(category) {
+            const icons = {
+                'concept': '🎨',
+                'gameplay': '🎮',
+                'character': '👤',
+                'environment': '🌳',
+                'ui': '🖥️'
+            };
+            return icons[category] || '🖼️';
+        }
+
+        function getCategoryName(category) {
+            const names = {
+                'concept': 'Concept Art',
+                'gameplay': 'Gameplay',
+                'character': 'Character',
+                'environment': 'Environment',
+                'ui': 'UI/Interface'
+            };
+            return names[category] || 'Artwork';
+        }
+
+        function updatePagination(totalImages) {
+            const totalPages = Math.ceil(totalImages / IMAGES_PER_PAGE);
+            const prevBtn = document.getElementById('prev-page');
+            const nextBtn = document.getElementById('next-page');
+            const pageInfo = document.getElementById('page-info');
+            
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+            
+            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+            
+            // Estilização dos botões
+            prevBtn.className = `filter-btn ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`;
+            nextBtn.className = `filter-btn ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`;
+        }
+
+        function updateImageCounter(totalImages) {
+            const counter = document.getElementById('image-counter');
+            const startIndex = (currentPage - 1) * IMAGES_PER_PAGE + 1;
+            const endIndex = Math.min(currentPage * IMAGES_PER_PAGE, totalImages);
+            
+            counter.textContent = `Showing images ${startIndex}-${endIndex} of ${totalImages} total`;
+        }
+
+        function openLightbox(index) {
+            const filteredImages = getFilteredImages();
+            currentLightboxIndex = index;
+            
+            const image = filteredImages[currentLightboxIndex];
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const lightboxTitle = document.getElementById('lightbox-title');
+            const lightboxCounter = document.getElementById('lightbox-counter');
+            
+            // Em produção real, carregaria a imagem real
+            // Por enquanto, mostramos um placeholder melhorado
+            lightboxImage.src = ''; // Limpar src real
+            lightboxImage.alt = image.title;
+            
+            // Criar placeholder visual para lightbox
+            const placeholderDiv = document.createElement('div');
+            placeholderDiv.className = 'w-full h-full flex flex-col items-center justify-center p-8';
+            placeholderDiv.innerHTML = `
+                <div class="text-8xl mb-6 animate-float">${getCategoryIcon(image.category)}</div>
+                <h2 class="font-heading text-3xl font-bold mb-4 text-center">${image.title}</h2>
+                <p class="text-lg text-gray-400 mb-2">${getCategoryName(image.category)}</p>
+                <p class="text-sm text-gray-500">Image #${image.id} / assets/images/gallery/${image.id}.webp</p>
+                <div class="mt-6 p-4 bg-ashen-gray-dark/50 rounded-lg">
+                    <p class="text-sm text-gray-300">In the full version, this would display the actual image file</p>
+                </div>
+            `;
+            
+            // Limpar conteúdo anterior
+            while (lightboxImage.firstChild) {
+                lightboxImage.removeChild(lightboxImage.firstChild);
+            }
+            
+            lightboxImage.appendChild(placeholderDiv);
+            lightboxTitle.textContent = image.title;
+            lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${filteredImages.length}`;
+            
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function showPrevImage() {
+            const filteredImages = getFilteredImages();
+            currentLightboxIndex = (currentLightboxIndex - 1 + filteredImages.length) % filteredImages.length;
+            openLightbox(currentLightboxIndex);
+        }
+
+        function showNextImage() {
+            const filteredImages = getFilteredImages();
+            currentLightboxIndex = (currentLightboxIndex + 1) % filteredImages.length;
+            openLightbox(currentLightboxIndex);
+        }
+    </script>
+</body>
+</html>

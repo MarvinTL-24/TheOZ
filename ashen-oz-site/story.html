@@ -6,12 +6,10 @@
     <title>Story & World | The Ashen OZ</title>
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Fontes -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Fontes: Black Ops One (estilo do jogo) + Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
-    <!-- Estilos personalizados -->
-    <link rel="stylesheet" href="css/styles.css">
     <!-- Configuração Tailwind personalizada -->
     <script>
         tailwind.config = {
@@ -19,15 +17,15 @@
                 extend: {
                     colors: {
                         'ashen-black': '#0A0A0A',
-                        'ashen-gray-dark': '#2A2A2A',
-                        'ashen-gray-light': '#4A4A4A',
-                        'ashen-crimson': '#B22222',
-                        'ashen-amber': '#FF8C00',
-                        'ashen-emerald': '#50C878',
+                        'ashen-gray-dark': '#1A1A1A',
+                        'ashen-gray-light': '#3A3A3A',
+                        'ashen-crimson': '#8B0000',
+                        'ashen-amber': '#DAA520',
+                        'ashen-emerald': '#006400',
                         'ashen-storm': '#1E3A5F',
                     },
                     fontFamily: {
-                        'heading': ['Orbitron', 'sans-serif'],
+                        'heading': ['Black Ops One', 'cursive'], /* Fonte do jogo */
                         'body': ['Inter', 'sans-serif'],
                     },
                     animation: {
@@ -35,16 +33,17 @@
                         'glow': 'glow 2s ease-in-out infinite alternate',
                         'float': 'float 6s ease-in-out infinite',
                         'storm': 'storm 8s linear infinite',
+                        'dice-spin': 'spin 3s linear infinite',
                     },
                     keyframes: {
                         glow: {
                             'from': { 
-                                'box-shadow': '0 0 5px #FF8C00, 0 0 10px #FF8C00',
-                                'text-shadow': '0 0 5px #FF8C00, 0 0 10px #FF8C00'
+                                'box-shadow': '0 0 5px #DAA520, 0 0 10px #DAA520',
+                                'text-shadow': '0 0 5px #DAA520, 0 0 10px #DAA520'
                             },
                             'to': { 
-                                'box-shadow': '0 0 10px #B22222, 0 0 20px #B22222',
-                                'text-shadow': '0 0 10px #B22222, 0 0 20px #B22222'
+                                'box-shadow': '0 0 10px #8B0000, 0 0 20px #8B0000',
+                                'text-shadow': '0 0 10px #8B0000, 0 0 20px #8B0000'
                             }
                         },
                         float: {
@@ -68,6 +67,34 @@
     </script>
     <style>
         /* Estilos específicos para a página de história */
+        :root {
+            --ashen-black: #0A0A0A;
+            --ashen-gray-dark: #1A1A1A;
+            --ashen-gray-light: #3A3A3A;
+            --ashen-crimson: #8B0000;
+            --ashen-amber: #DAA520;
+            --ashen-emerald: #006400;
+        }
+        
+        body {
+            background-color: var(--ashen-black);
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .game-font {
+            font-family: 'Black Ops One', cursive;
+            letter-spacing: 1px;
+        }
+        
+        .crimson-glow {
+            text-shadow: 0 0 10px rgba(139, 0, 0, 0.7);
+        }
+        
+        .amber-glow {
+            text-shadow: 0 0 10px rgba(218, 165, 32, 0.7);
+        }
+        
         .fullscreen-image {
             @apply w-full min-h-[80vh] object-cover;
         }
@@ -89,7 +116,7 @@
         }
         
         .theme-keyword {
-            @apply inline-block px-4 py-2 rounded-full border border-ashen-gray-light bg-ashen-black/50 text-sm font-medium;
+            @apply inline-block px-4 py-2 rounded-full border border-ashen-gray-light bg-ashen-black/50 text-sm font-medium hover:border-ashen-amber hover:text-ashen-amber transition-colors;
         }
         
         .lightbox-overlay {
@@ -99,32 +126,63 @@
         .lightbox-image {
             @apply max-w-full max-h-[90vh] object-contain rounded-lg;
         }
+        
+        /* Estilo dos IDs de imagem específicos */
+        .image-id-label {
+            @apply absolute top-4 left-4 bg-black/70 text-xs px-2 py-1 rounded border border-gray-600;
+        }
+        
+        /* Efeitos visuais */
+        .image-placeholder {
+            @apply aspect-video bg-gradient-to-br from-gray-900 to-black border border-gray-700 rounded-xl overflow-hidden flex items-center justify-center relative;
+        }
+        
+        .image-placeholder-content {
+            @apply text-center p-6;
+        }
+        
+        /* Animação de entrada */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
     </style>
 </head>
-<body class="bg-ashen-black text-white font-body min-h-screen">
+<body class="min-h-screen">
     <!-- Header / Navegação -->
-    <header class="sticky top-0 z-50 bg-ashen-black/95 backdrop-blur-sm border-b border-ashen-gray-dark">
+    <header class="sticky top-0 z-50 bg-black/90 backdrop-blur-sm border-b border-gray-700">
         <nav class="container mx-auto px-4 py-4">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <!-- Logo -->
                 <div class="mb-4 md:mb-0">
-                    <a href="index.html" class="font-heading text-2xl font-bold tracking-wider">
-                        <span class="text-ashen-crimson">THE ASHEN</span>
-                        <span class="text-ashen-amber"> OZ</span>
+                    <a href="index.html" class="game-font text-2xl font-bold tracking-wider">
+                        <span class="text-white">THE ASHEN</span>
+                        <span class="text-red-700 crimson-glow">OZ</span>
                     </a>
-                    <p class="text-xs text-ashen-gray-light font-body mt-1">A grimdark reimagining</p>
+                    <p class="text-xs text-gray-400 mt-1">A grimdark reimagining</p>
                 </div>
                 
                 <!-- Menu Principal -->
-                <div class="flex flex-wrap justify-center gap-4 md:gap-8">
-                    <a href="index.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Home</a>
-                    <a href="story.html" class="text-ashen-amber hover:text-white transition-colors border-b-2 border-ashen-amber pb-1">Story</a>
-                    <a href="characters.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Characters</a>
-                    <a href="systems.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Systems</a>
-                    <a href="bestiary.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Bestiary</a>
-                    <a href="gallery.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Gallery</a>
-                    <a href="team.html" class="text-gray-300 hover:text-ashen-amber transition-colors">Team</a>
-                    <a href="contact.html" class="bg-ashen-crimson hover:bg-red-800 px-4 py-2 rounded transition-colors">Contact</a>
+                <div class="flex flex-wrap justify-center gap-4 md:gap-6">
+                    <a href="index.html" class="text-gray-300 hover:text-amber-400 transition-colors">Home</a>
+                    <a href="story.html" class="text-amber-400 hover:text-white transition-colors border-b-2 border-amber-400 pb-1">Story</a>
+                    <a href="characters.html" class="text-gray-300 hover:text-amber-400 transition-colors">Characters</a>
+                    <a href="systems.html" class="text-gray-300 hover:text-amber-400 transition-colors">Systems</a>
+                    <a href="bestiary.html" class="text-gray-300 hover:text-amber-400 transition-colors">Bestiary</a>
+                    <a href="gallery.html" class="text-gray-300 hover:text-amber-400 transition-colors">Gallery</a>
+                    <a href="team.html" class="text-gray-300 hover:text-amber-400 transition-colors">Team</a>
+                    <a href="contact.html" class="bg-red-800 hover:bg-red-700 px-4 py-2 rounded transition-colors">Contact</a>
                 </div>
             </div>
         </nav>
@@ -133,7 +191,7 @@
     <!-- Hero Section - Fullscreen Image -->
     <section class="relative min-h-screen overflow-hidden">
         <!-- Imagem de fundo fullscreen -->
-        <div class="absolute inset-0 bg-gradient-to-br from-ashen-storm via-ashen-black to-ashen-crimson/20 animate-storm"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-black to-red-900/20 animate-storm"></div>
         
         <!-- Elementos de tempestade -->
         <div class="absolute inset-0 opacity-30">
@@ -150,12 +208,12 @@
         <div class="relative z-10 container mx-auto px-4 h-full flex items-center">
             <div class="max-w-3xl py-20">
                 <div class="inline-block mb-6">
-                    <span class="font-heading text-ashen-amber font-bold text-lg tracking-widest">03 • WORLD & STORY</span>
+                    <span class="game-font text-amber-400 font-bold text-lg tracking-widest">STORY & WORLD</span>
                 </div>
                 
-                <h1 class="font-heading text-5xl md:text-7xl font-bold mb-8 leading-tight">
-                    <span class="text-white">THE ASHEN</span>
-                    <span class="block text-ashen-crimson">WORLD</span>
+                <h1 class="game-font text-5xl md:text-7xl font-bold mb-8 leading-tight">
+                    <span class="text-white">THE FALLEN</span>
+                    <span class="block text-red-700 crimson-glow">MEMORY</span>
                 </h1>
                 
                 <!-- Resumo de uma frase -->
@@ -165,10 +223,10 @@
                 
                 <!-- Navegação interna -->
                 <div class="flex flex-wrap gap-4">
-                    <a href="#overview" class="border border-ashen-gray-light hover:border-ashen-amber px-4 py-2 rounded transition-colors">Overview</a>
-                    <a href="#premise" class="border border-ashen-gray-light hover:border-ashen-amber px-4 py-2 rounded transition-colors">Premise</a>
-                    <a href="#themes" class="border border-ashen-gray-light hover:border-ashen-amber px-4 py-2 rounded transition-colors">Core Themes</a>
-                    <a href="#gallery" class="border border-ashen-gray-light hover:border-ashen-amber px-4 py-2 rounded transition-colors">World Gallery</a>
+                    <a href="#overview" class="border border-gray-700 hover:border-amber-500 px-4 py-2 rounded transition-colors">Overview</a>
+                    <a href="#dorothy" class="border border-gray-700 hover:border-amber-500 px-4 py-2 rounded transition-colors">Dorothy's Journey</a>
+                    <a href="#memories" class="border border-gray-700 hover:border-amber-500 px-4 py-2 rounded transition-colors">Lost Memories</a>
+                    <a href="#gallery" class="border border-gray-700 hover:border-amber-500 px-4 py-2 rounded transition-colors">World Gallery</a>
                 </div>
             </div>
         </div>
@@ -176,432 +234,347 @@
         <!-- Scroll Indicator -->
         <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10">
             <a href="#overview" class="animate-bounce inline-block">
-                <div class="w-6 h-10 border-2 border-ashen-amber rounded-full flex justify-center">
-                    <div class="w-1 h-3 bg-ashen-amber rounded-full mt-2 animate-pulse"></div>
+                <div class="w-6 h-10 border-2 border-amber-500 rounded-full flex justify-center">
+                    <div class="w-1 h-3 bg-amber-500 rounded-full mt-2 animate-pulse"></div>
                 </div>
             </a>
         </div>
     </section>
 
-    <!-- Seção Overview -->
+    <!-- Seção Overview com IDs 2 e 6 -->
     <section id="overview" class="py-20 scroll-animate">
-        <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto">
-                <!-- Título da seção -->
-                <div class="text-center mb-16">
-                    <h2 class="font-heading text-4xl font-bold mb-6">
-                        <span class="text-ashen-crimson">A) </span>
-                        <span class="text-white">OVERVIEW</span>
-                    </h2>
-                    <div class="w-32 h-1 bg-gradient-to-r from-ashen-crimson to-ashen-amber mx-auto"></div>
-                </div>
-                
-                <!-- Conteúdo Overview -->
-                <div class="space-y-8">
-                    <div class="memory-card">
-                        <h3 class="font-heading text-2xl font-bold mb-4 text-ashen-amber">
-                            The Girl from Kansas
-                        </h3>
-                        <p class="text-gray-300 leading-relaxed">
-                            <span class="text-ashen-crimson font-bold">The Ashen OZ</span> tells the story of a young girl whose journey begins 
-                            in an orphanage in <span class="text-ashen-amber">early-1900s Kansas, USA</span>. It follows the 
-                            <span class="italic">inner collapse and search for salvation</span> of 
-                            <span class="text-ashen-emerald font-bold">Dorothy Ashborne</span>, and presents a 
-                            grimdark fantasy narrative built around a repeating loop.
-                        </p>
-                    </div>
-                    
-                    <!-- Imagem 1 -->
-                    <div class="relative group mt-12 mb-8 cursor-pointer" onclick="openLightbox('region-entry')">
-                        <div class="fullscreen-image bg-gradient-to-br from-ashen-gray-dark to-ashen-black border border-ashen-gray-light rounded-xl overflow-hidden">
-                            <div class="aspect-video flex flex-col items-center justify-center p-8">
-                                <div class="text-center">
-                                    <div class="text-6xl mb-4 animate-float">🌳</div>
-                                    <h4 class="font-heading text-2xl mb-2">Region Entry</h4>
-                                    <p class="text-ashen-gray-light">Entering the fallen Emerald City</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-ashen-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                            <div class="p-6 w-full">
-                                <p class="text-sm text-gray-300">Click to enlarge</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="memory-card">
-                        <h3 class="font-heading text-2xl font-bold mb-4 text-ashen-amber">
-                            A World of Ash and Memory
-                        </h3>
-                        <p class="text-gray-300 leading-relaxed">
-                            The <span class="text-ashen-amber">"Oz"</span> of this story is no longer a land of magic. 
-                            It is an <span class="text-ashen-crimson font-bold">ashen world</span>, shaped and manifested from 
-                            Dorothy's <span class="italic">wounds, despair, and fragmented memories</span>.
-                        </p>
-                    </div>
-                    
-                    <!-- Grid de imagens -->
-                    <div class="grid md:grid-cols-2 gap-6 mt-12">
-                        <!-- Imagem 2 -->
-                        <div class="relative group cursor-pointer" onclick="openLightbox('whispering-forest')">
-                            <div class="aspect-video bg-gradient-to-br from-ashen-black to-ashen-emerald/20 border border-ashen-gray-light rounded-xl overflow-hidden flex items-center justify-center">
-                                <div class="text-center p-6">
-                                    <div class="text-5xl mb-4">🌲</div>
-                                    <h4 class="font-heading text-xl">Whispering Forest</h4>
-                                    <p class="text-sm text-ashen-gray-light">The haunted woods of Oz</p>
-                                </div>
-                            </div>
-                            <div class="absolute inset-0 bg-ashen-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                <span class="text-ashen-amber font-bold">Click to view</span>
-                            </div>
-                        </div>
-                        
-                        <!-- Imagem 3 -->
-                        <div class="relative group cursor-pointer" onclick="openLightbox('chapter-entry')">
-                            <div class="aspect-video bg-gradient-to-br from-ashen-black to-ashen-crimson/20 border border-ashen-gray-light rounded-xl overflow-hidden flex items-center justify-center">
-                                <div class="text-center p-6">
-                                    <div class="text-5xl mb-4">🚪</div>
-                                    <h4 class="font-heading text-xl">Chapter Entry</h4>
-                                    <p class="text-sm text-ashen-gray-light">Entering new memories</p>
-                                </div>
-                            </div>
-                            <div class="absolute inset-0 bg-ashen-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                                <span class="text-ashen-amber font-bold">Click to view</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="memory-card mt-8">
-                        <h3 class="font-heading text-2xl font-bold mb-4 text-ashen-amber">
-                            The Journey of Discovery
-                        </h3>
-                        <p class="text-gray-300 leading-relaxed mb-6">
-                            By chance, she comes into possession of a witch's umbrella and a pair of enchanted shoes, 
-                            imbued with eerie and formidable power. Through her journey, and through her encounters with 
-                            the Scarecrow, the Tin Girl, the Lion, and Toto, she begins to piece together her forgotten memories.
-                        </p>
-                        <p class="text-gray-300 leading-relaxed">
-                            And at the end of her journey, every story the girl once believed in becomes entangled—
-                            revealing an unexpected and shocking truth.
-                        </p>
-                    </div>
-                    
-                    <!-- Imagem 4 (Roadmap) -->
-                    <div class="relative group mt-12 cursor-pointer" onclick="openLightbox('roadmap')">
-                        <div class="bg-gradient-to-br from-ashen-gray-dark to-ashen-black border border-ashen-gray-light rounded-xl overflow-hidden">
-                            <div class="aspect-[16/9] flex flex-col items-center justify-center p-8">
-                                <div class="text-center mb-6">
-                                    <div class="text-6xl mb-4 animate-float">🗺️</div>
-                                    <h4 class="font-heading text-2xl mb-2">Story Roadmap</h4>
-                                    <p class="text-ashen-gray-light">Dorothy's journey through memory</p>
-                                </div>
-                                <!-- Elementos do roadmap -->
-                                <div class="flex flex-wrap justify-center gap-8">
-                                    <div class="text-center">
-                                        <div class="text-2xl mb-2">🏠</div>
-                                        <p class="text-xs">Orphanage</p>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="text-2xl mb-2">🌪️</div>
-                                        <p class="text-xs">Storm</p>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="text-2xl mb-2">🌳</div>
-                                        <p class="text-xs">Forest</p>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="text-2xl mb-2">🏰</div>
-                                        <p class="text-xs">Emerald City</p>
-                                    </div>
-                                    <div class="text-center">
-                                        <div class="text-2xl mb-2">👁️</div>
-                                        <p class="text-xs">Truth</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="absolute inset-0 bg-gradient-to-t from-ashen-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-                            <div class="p-6 w-full">
-                                <p class="text-sm text-gray-300">Click to enlarge the roadmap</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Divider -->
-    <div class="section-divider"></div>
-
-    <!-- Seção Premise -->
-    <section id="premise" class="py-20 scroll-animate">
-        <div class="container mx-auto px-4">
-            <div class="max-w-4xl mx-auto">
-                <!-- Título da seção -->
-                <div class="text-center mb-16">
-                    <h2 class="font-heading text-4xl font-bold mb-6">
-                        <span class="text-ashen-crimson">B) </span>
-                        <span class="text-white">PREMISE</span>
-                    </h2>
-                    <div class="w-32 h-1 bg-gradient-to-r from-ashen-amber to-ashen-crimson mx-auto"></div>
-                </div>
-                
-                <!-- Conteúdo Premise -->
-                <div class="relative">
-                    <!-- Elemento de dados no fundo -->
-                    <div class="absolute -top-20 -left-20 text-9xl opacity-5 animate-float">🎲</div>
-                    <div class="absolute -bottom-20 -right-20 text-9xl opacity-5 animate-float" style="animation-delay: 2s;">🎲</div>
-                    
-                    <div class="relative z-10">
-                        <div class="bg-gradient-to-br from-ashen-gray-dark/80 to-ashen-black/80 backdrop-blur-sm border border-ashen-gray-light rounded-2xl p-8 md:p-12">
-                            <div class="text-center mb-10">
-                                <div class="text-7xl mb-6 animate-float">🌪️</div>
-                                <h3 class="font-heading text-3xl font-bold mb-6 text-ashen-amber">
-                                    The Storm That Changed Everything
-                                </h3>
-                            </div>
-                            
-                            <div class="space-y-6 text-lg text-gray-300 leading-relaxed">
-                                <p>
-                                    On a stormy night, Dorothy discovers a strange, 
-                                    <span class="text-ashen-crimson font-bold">ashen die</span> hidden away in the attic of her orphanage.
-                                </p>
-                                
-                                <p>
-                                    In that very moment, a <span class="text-ashen-amber font-bold">hurricane</span> engulfs the building,
-                                    and Dorothy is transported into <span class="text-ashen-emerald font-bold">Ashen OZ</span>.
-                                </p>
-                                
-                                <p>
-                                    Within Oz, she embarks on a <span class="italic">grotesque yet mysterious journey</span>,
-                                    seeking to uncover her <span class="text-ashen-amber">lost memories</span>—and the 
-                                    <span class="text-ashen-crimson">secrets buried within them</span>.
-                                </p>
-                            </div>
-                            
-                            <!-- Elementos simbólicos -->
-                            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 pt-8 border-t border-ashen-gray-light">
-                                <div class="text-center">
-                                    <div class="text-3xl mb-2">🎲</div>
-                                    <p class="text-sm font-medium">Ashen Die</p>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-3xl mb-2">🌪️</div>
-                                    <p class="text-sm font-medium">The Hurricane</p>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-3xl mb-2">👧</div>
-                                    <p class="text-sm font-medium">Dorothy</p>
-                                </div>
-                                <div class="text-center">
-                                    <div class="text-3xl mb-2">🧠</div>
-                                    <p class="text-sm font-medium">Lost Memories</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Divider -->
-    <div class="section-divider"></div>
-
-    <!-- Seção Core Themes -->
-    <section id="themes" class="py-20 scroll-animate">
         <div class="container mx-auto px-4">
             <div class="max-w-6xl mx-auto">
                 <!-- Título da seção -->
                 <div class="text-center mb-16">
-                    <h2 class="font-heading text-4xl font-bold mb-6">
-                        <span class="text-ashen-crimson">C) </span>
-                        <span class="text-white">CORE THEMES</span>
+                    <h2 class="game-font text-4xl font-bold mb-6">
+                        <span class="text-red-700">THE ORPHANAGE</span>
+                        <span class="text-white"> & THE BEGINNING</span>
                     </h2>
-                    <div class="w-32 h-1 bg-gradient-to-r from-ashen-crimson via-ashen-amber to-ashen-emerald mx-auto"></div>
+                    <div class="w-32 h-1 bg-gradient-to-r from-red-700 to-amber-500 mx-auto"></div>
+                </div>
+                
+                <!-- Conteúdo Overview -->
+                <div class="grid md:grid-cols-2 gap-8 mb-16">
+                    <!-- ID 2: Dorothy in Orphanage -->
+                    <div class="memory-card group cursor-pointer" onclick="openLightbox('id-2')">
+                        <div class="image-id-label">ID: 2</div>
+                        <div class="image-placeholder">
+                            <div class="image-placeholder-content">
+                                <div class="text-6xl mb-4 animate-float">🏠</div>
+                                <h3 class="game-font text-2xl mb-2">Dorothy in Orphanage</h3>
+                                <p class="text-gray-400 text-sm">Where the journey began</p>
+                                <div class="mt-4 text-xs text-gray-500">Category: Character</div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="game-font text-xl font-bold mb-3 text-amber-400">The Orphanage Years</h3>
+                            <p class="text-gray-300 text-sm">
+                                Dorothy's early life in the Kansas orphanage, where her first memories were formed 
+                                and where the seeds of her journey were planted. A place of both safety and mystery.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- ID 6: Boss Encounter - Phase 1 -->
+                    <div class="memory-card group cursor-pointer" onclick="openLightbox('id-6')">
+                        <div class="image-id-label">ID: 6</div>
+                        <div class="image-placeholder">
+                            <div class="image-placeholder-content">
+                                <div class="text-6xl mb-4">👹</div>
+                                <h3 class="game-font text-2xl mb-2">Boss Encounter - Phase 1</h3>
+                                <p class="text-gray-400 text-sm">First major confrontation</p>
+                                <div class="mt-4 text-xs text-gray-500">Category: Gameplay</div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="game-font text-xl font-bold mb-3 text-amber-400">The First Trial</h3>
+                            <p class="text-gray-300 text-sm">
+                                Dorothy's first major encounter in Ashen OZ, testing her combat skills and 
+                                determination. This battle marks her transition from frightened orphan to 
+                                determined survivor.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Texto narrativo -->
+                <div class="memory-card">
+                    <h3 class="game-font text-2xl font-bold mb-4 text-amber-400">
+                        From Orphanage to Ashen World
+                    </h3>
+                    <p class="text-gray-300 leading-relaxed mb-4">
+                        <span class="text-red-700 font-bold">The Ashen OZ</span> begins not with magic, but with loss. 
+                        Dorothy's journey starts in the <span class="text-amber-400">Kansas orphanage</span> where 
+                        she grew up, a place haunted by half-remembered dreams and whispered secrets.
+                    </p>
+                    <p class="text-gray-300 leading-relaxed">
+                        When the <span class="text-red-700 font-bold">hurricane</span> strikes and transports her to 
+                        the ashen world, she must quickly adapt to survive her first encounters with 
+                        <span class="text-amber-400">Oz's corrupted inhabitants</span>. Each battle is not just 
+                        a test of skill, but a piece of her forgotten past.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="section-divider"></div>
+
+    <!-- Seção Combat Mechanics com IDs 13 e 14 -->
+    <section id="dorothy" class="py-20 scroll-animate">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <!-- Título da seção -->
+                <div class="text-center mb-16">
+                    <h2 class="game-font text-4xl font-bold mb-6">
+                        <span class="text-white">DOROTHY'S</span>
+                        <span class="text-red-700 crimson-glow"> COMBAT JOURNEY</span>
+                    </h2>
+                    <div class="w-32 h-1 bg-gradient-to-r from-amber-500 to-red-700 mx-auto"></div>
+                </div>
+                
+                <!-- Conteúdo Combat Mechanics -->
+                <div class="grid md:grid-cols-2 gap-8 mb-16">
+                    <!-- ID 13: Combat Mechanics - Basic Attack -->
+                    <div class="memory-card group cursor-pointer" onclick="openLightbox('id-13')">
+                        <div class="image-id-label">ID: 13</div>
+                        <div class="image-placeholder">
+                            <div class="image-placeholder-content">
+                                <div class="text-6xl mb-4">⚔️</div>
+                                <h3 class="game-font text-2xl mb-2">Combat Mechanics - Basic Attack</h3>
+                                <p class="text-gray-400 text-sm">Foundation of combat</p>
+                                <div class="mt-4 text-xs text-gray-500">Category: Gameplay</div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="game-font text-xl font-bold mb-3 text-amber-400">Mastering the Basics</h3>
+                            <p class="text-gray-300 text-sm">
+                                Dorothy learns to wield the Eastern Witch's Umbrella with precision. 
+                                Basic attacks form the foundation of her combat style, allowing for 
+                                quick strikes and defensive maneuvers.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- ID 14: Chained Move - Dreamcatcher -->
+                    <div class="memory-card group cursor-pointer" onclick="openLightbox('id-14')">
+                        <div class="image-id-label">ID: 14</div>
+                        <div class="image-placeholder">
+                            <div class="image-placeholder-content">
+                                <div class="text-6xl mb-4">🔗</div>
+                                <h3 class="game-font text-2xl mb-2">Chained Move - Dreamcatcher</h3>
+                                <p class="text-gray-400 text-sm">Advanced combat technique</p>
+                                <div class="mt-4 text-xs text-gray-500">Category: Gameplay</div>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <h3 class="game-font text-xl font-bold mb-3 text-amber-400">The Dreamcatcher Combo</h3>
+                            <p class="text-gray-300 text-sm">
+                                An advanced combat technique where Dorothy chains multiple attacks together, 
+                                creating a "dreamcatcher" pattern that traps enemies in a devastating sequence 
+                                of strikes.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Texto narrativo -->
+                <div class="memory-card">
+                    <h3 class="game-font text-2xl font-bold mb-4 text-amber-400">
+                        Evolution of a Fighter
+                    </h3>
+                    <p class="text-gray-300 leading-relaxed mb-4">
+                        Dorothy's combat journey mirrors her emotional one. Starting with 
+                        <span class="text-amber-400">basic, hesitant attacks</span>, she gradually 
+                        develops into a skilled fighter capable of executing complex 
+                        <span class="text-red-700 font-bold">chained maneuvers</span>.
+                    </p>
+                    <p class="text-gray-300 leading-relaxed">
+                        Each new combat technique she masters represents another memory reclaimed, 
+                        another piece of her past understood. The <span class="text-amber-400">Dreamcatcher combo</span> 
+                        is particularly significant—it's a technique she unconsciously remembers 
+                        from her forgotten childhood.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="section-divider"></div>
+
+    <!-- Seção ID 48: Memory Fragments -->
+    <section id="memories" class="py-20 scroll-animate">
+        <div class="container mx-auto px-4">
+            <div class="max-w-6xl mx-auto">
+                <!-- Título da seção -->
+                <div class="text-center mb-16">
+                    <h2 class="game-font text-4xl font-bold mb-6">
+                        <span class="text-red-700 crimson-glow">MEMORY FRAGMENTS</span>
+                        <span class="text-white"> & TRUTH</span>
+                    </h2>
+                    <div class="w-32 h-1 bg-gradient-to-r from-red-700 via-amber-500 to-green-600 mx-auto"></div>
                     <p class="text-gray-400 max-w-2xl mx-auto mt-6">
-                        The key concepts and symbols that define the world of The Ashen OZ
+                        The final piece of the puzzle—Dorothy's forgotten past
                     </p>
                 </div>
                 
-                <!-- Tabela de temas -->
-                <div class="overflow-x-auto rounded-xl border border-ashen-gray-light">
-                    <table class="w-full">
-                        <thead>
-                            <tr class="bg-ashen-gray-dark/80">
-                                <th class="py-4 px-6 text-left font-heading font-bold text-ashen-amber border-r border-ashen-gray-light">
-                                    Keyword
-                                </th>
-                                <th class="py-4 px-6 text-left font-heading font-bold text-ashen-amber">
-                                    Meaning
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-ashen-gray-light">
-                            <!-- Linha 1 -->
-                            <tr class="hover:bg-ashen-gray-dark/50 transition-colors">
-                                <td class="py-5 px-6">
-                                    <div class="flex items-center">
-                                        <div class="text-2xl mr-3">🌌</div>
-                                        <span class="font-bold text-lg">Void & Memory</span>
-                                    </div>
-                                </td>
-                                <td class="py-5 px-6 text-gray-300">
-                                    Oz is a world where Dorothy's shattered memories are reconstructed
-                                </td>
-                            </tr>
-                            
-                            <!-- Linha 2 -->
-                            <tr class="hover:bg-ashen-gray-dark/50 transition-colors">
-                                <td class="py-5 px-6">
-                                    <div class="flex items-center">
-                                        <div class="text-2xl mr-3">✨</div>
-                                        <span class="font-bold text-lg">Purification & Absorption</span>
-                                    </div>
-                                </td>
-                                <td class="py-5 px-6 text-gray-300">
-                                    Will you offer salvation, or bring ruin? — Multiple endings shaped by player choice
-                                </td>
-                            </tr>
-                            
-                            <!-- Linha 3 -->
-                            <tr class="hover:bg-ashen-gray-dark/50 transition-colors">
-                                <td class="py-5 px-6">
-                                    <div class="flex items-center">
-                                        <div class="text-2xl mr-3">🎲</div>
-                                        <span class="font-bold text-lg">The Dice</span>
-                                    </div>
-                                </td>
-                                <td class="py-5 px-6 text-gray-300">
-                                    A symbol of fate, choice, and repetition; the central device of the main narrative
-                                </td>
-                            </tr>
-                            
-                            <!-- Linha 4 -->
-                            <tr class="hover:bg-ashen-gray-dark/50 transition-colors">
-                                <td class="py-5 px-6">
-                                    <div class="flex items-center">
-                                        <div class="text-2xl mr-3">🧙‍♀️</div>
-                                        <span class="font-bold text-lg">The Four Witches</span>
-                                    </div>
-                                </td>
-                                <td class="py-5 px-6 text-gray-300">
-                                    Personified manifestations of Dorothy's emotions
-                                </td>
-                            </tr>
-                            
-                            <!-- Linha 5 -->
-                            <tr class="hover:bg-ashen-gray-dark/50 transition-colors">
-                                <td class="py-5 px-6">
-                                    <div class="flex items-center">
-                                        <div class="text-2xl mr-3">☔</div>
-                                        <span class="font-bold text-lg">Umbrella & Shoes</span>
-                                    </div>
-                                </td>
-                                <td class="py-5 px-6 text-gray-300">
-                                    Dorothy's first weapon and equipment, and the core mechanics of combat
-                                </td>
-                            </tr>
-                            
-                            <!-- Linha 6 -->
-                            <tr class="hover:bg-ashen-gray-dark/50 transition-colors">
-                                <td class="py-5 px-6">
-                                    <div class="flex items-center">
-                                        <div class="text-2xl mr-3">👥</div>
-                                        <span class="font-bold text-lg">Companions</span>
-                                    </div>
-                                </td>
-                                <td class="py-5 px-6 text-gray-300">
-                                    Powerful abilities unlocked through pacts with Toto, the Scarecrow, the Tin Girl, and the Lion
-                                </td>
-                            </tr>
-                            
-                            <!-- Linha 7 -->
-                            <tr class="hover:bg-ashen-gray-dark/50 transition-colors">
-                                <td class="py-5 px-6">
-                                    <div class="flex items-center">
-                                        <div class="text-2xl mr-3">♻️</div>
-                                        <span class="font-bold text-lg">The Memory Loop</span>
-                                    </div>
-                                </td>
-                                <td class="py-5 px-6 text-gray-300">
-                                    Upon death, the die's power rewinds the journey and forces a new beginning
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                <!-- ID 48: Memory Fragment -->
+                <div class="memory-card group cursor-pointer" onclick="openLightbox('id-48')">
+                    <div class="image-id-label">ID: 48</div>
+                    <div class="relative">
+                        <div class="image-placeholder">
+                            <div class="image-placeholder-content">
+                                <div class="text-6xl mb-4 animate-float" style="animation-delay: 0.5s;">🧩</div>
+                                <h3 class="game-font text-2xl mb-2">Memory Fragment</h3>
+                                <p class="text-gray-400 text-sm">The final revelation</p>
+                                <div class="mt-4 text-xs text-gray-500">Category: Story</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <h3 class="game-font text-2xl font-bold mb-4 text-amber-400">
+                            The Final Memory
+                        </h3>
+                        <p class="text-gray-300 leading-relaxed mb-4">
+                            This memory fragment represents the <span class="text-red-700 font-bold">key revelation</span> 
+                            that ties Dorothy's entire journey together. It's the piece of her past that explains 
+                            why she was in the orphanage, how she came to possess the ashen die, and what truly 
+                            happened during the hurricane.
+                        </p>
+                        <p class="text-gray-300 leading-relaxed mb-4">
+                            As Dorothy collects these fragments throughout her journey through Ashen OZ, 
+                            she begins to understand that the world around her is not just a random 
+                            fantasy realm—it's a <span class="text-amber-400">manifestation of her own trauma</span>, 
+                            shaped by memories she suppressed.
+                        </p>
+                        <div class="bg-black/50 border border-gray-700 rounded-lg p-4 mt-6">
+                            <h4 class="game-font text-lg font-bold mb-2 text-green-500">Memory Themes:</h4>
+                            <div class="flex flex-wrap gap-2 mt-2">
+                                <span class="theme-keyword">Childhood Trauma</span>
+                                <span class="theme-keyword">Suppressed Memories</span>
+                                <span class="theme-keyword">Psychological Manifestation</span>
+                                <span class="theme-keyword">Self-Discovery</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <!-- Keywords visuais -->
-                <div class="mt-12 flex flex-wrap gap-3 justify-center">
-                    <span class="theme-keyword hover:border-ashen-amber hover:text-ashen-amber transition-colors">Memory</span>
-                    <span class="theme-keyword hover:border-ashen-amber hover:text-ashen-amber transition-colors">Loss</span>
-                    <span class="theme-keyword hover:border-ashen-amber hover:text-ashen-amber transition-colors">Trauma</span>
-                    <span class="theme-keyword hover:border-ashen-amber hover:text-ashen-amber transition-colors">Repetition</span>
-                    <span class="theme-keyword hover:border-ashen-amber hover:text-ashen-amber transition-colors">Despair</span>
-                    <span class="theme-keyword hover:border-ashen-amber hover:text-ashen-amber transition-colors">Redemption</span>
-                    <span class="theme-keyword hover:border-ashen-amber hover:text-ashen-amber transition-colors">Identity</span>
-                    <span class="theme-keyword hover:border-ashen-amber hover:text-ashen-amber transition-colors">Fate</span>
+                <!-- Memory Collection Progress -->
+                <div class="grid md:grid-cols-3 gap-6 mt-12">
+                    <div class="memory-card">
+                        <div class="text-center">
+                            <div class="text-4xl mb-4">🔒</div>
+                            <h4 class="game-font text-lg font-bold mb-2">Suppressed Memories</h4>
+                            <p class="text-gray-300 text-sm">Memories Dorothy has hidden from herself</p>
+                        </div>
+                    </div>
+                    
+                    <div class="memory-card">
+                        <div class="text-center">
+                            <div class="text-4xl mb-4">🔓</div>
+                            <h4 class="game-font text-lg font-bold mb-2">Recovered Memories</h4>
+                            <p class="text-gray-300 text-sm">Fragments reclaimed through journey</p>
+                        </div>
+                    </div>
+                    
+                    <div class="memory-card">
+                        <div class="text-center">
+                            <div class="text-4xl mb-4">🧠</div>
+                            <h4 class="game-font text-lg font-bold mb-2">Integrated Truth</h4>
+                            <p class="text-gray-300 text-sm">Complete understanding of past</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Seção Gallery -->
-    <section id="gallery" class="py-20 bg-gradient-to-b from-ashen-gray-dark/30 to-ashen-black scroll-animate">
+    <section id="gallery" class="py-20 bg-gradient-to-b from-gray-900/30 to-black scroll-animate">
         <div class="container mx-auto px-4">
             <div class="text-center mb-16">
-                <h2 class="font-heading text-4xl font-bold mb-6">
-                    <span class="text-white">WORLD</span>
-                    <span class="text-ashen-amber"> GALLERY</span>
+                <h2 class="game-font text-4xl font-bold mb-6">
+                    <span class="text-white">STORY</span>
+                    <span class="text-red-700 crimson-glow"> GALLERY</span>
                 </h2>
-                <div class="w-32 h-1 bg-ashen-crimson mx-auto"></div>
+                <div class="w-32 h-1 bg-red-700 mx-auto"></div>
                 <p class="text-gray-400 max-w-2xl mx-auto mt-6">
-                    Explore the fallen landscapes and haunting environments of Ashen OZ
+                    Key moments from Dorothy's journey through Ashen OZ
                 </p>
             </div>
             
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
-                <!-- Gallery Item 1 -->
-                <div class="group relative cursor-pointer overflow-hidden rounded-xl border border-ashen-gray-light" onclick="openLightbox('gallery-1')">
-                    <div class="aspect-video bg-gradient-to-br from-ashen-black to-ashen-emerald/30 flex items-center justify-center">
+                <!-- Gallery Item - ID 2 -->
+                <div class="group relative cursor-pointer overflow-hidden rounded-xl border border-gray-700" onclick="openLightbox('id-2')">
+                    <div class="aspect-video bg-gradient-to-br from-gray-900 to-black flex items-center justify-center">
                         <div class="text-center p-6">
-                            <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">🌳</div>
-                            <h4 class="font-heading text-xl mb-2">The Whispering Woods</h4>
-                            <p class="text-sm text-ashen-gray-light">Where trees remember</p>
+                            <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">🏠</div>
+                            <h4 class="game-font text-xl mb-2">ID 2: Orphanage</h4>
+                            <p class="text-sm text-gray-400">Dorothy's beginning</p>
+                            <div class="image-id-label absolute top-2 left-2">ID: 2</div>
                         </div>
-                    </div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-ashen-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                        <p class="text-sm text-gray-300">Click to view full image</p>
                     </div>
                 </div>
                 
-                <!-- Gallery Item 2 -->
-                <div class="group relative cursor-pointer overflow-hidden rounded-xl border border-ashen-gray-light" onclick="openLightbox('gallery-2')">
-                    <div class="aspect-video bg-gradient-to-br from-ashen-black to-ashen-crimson/30 flex items-center justify-center">
+                <!-- Gallery Item - ID 6 -->
+                <div class="group relative cursor-pointer overflow-hidden rounded-xl border border-gray-700" onclick="openLightbox('id-6')">
+                    <div class="aspect-video bg-gradient-to-br from-gray-900 to-black flex items-center justify-center">
                         <div class="text-center p-6">
-                            <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">🏰</div>
-                            <h4 class="font-heading text-xl mb-2">Emerald Ruins</h4>
-                            <p class="text-sm text-ashen-gray-light">The fallen city</p>
+                            <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">👹</div>
+                            <h4 class="game-font text-xl mb-2">ID 6: First Boss</h4>
+                            <p class="text-sm text-gray-400">Initial confrontation</p>
+                            <div class="image-id-label absolute top-2 left-2">ID: 6</div>
                         </div>
-                    </div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-ashen-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                        <p class="text-sm text-gray-300">Click to view full image</p>
                     </div>
                 </div>
                 
-                <!-- Gallery Item 3 -->
-                <div class="group relative cursor-pointer overflow-hidden rounded-xl border border-ashen-gray-light" onclick="openLightbox('gallery-3')">
-                    <div class="aspect-video bg-gradient-to-br from-ashen-black to-ashen-amber/30 flex items-center justify-center">
+                <!-- Gallery Item - ID 13 -->
+                <div class="group relative cursor-pointer overflow-hidden rounded-xl border border-gray-700" onclick="openLightbox('id-13')">
+                    <div class="aspect-video bg-gradient-to-br from-gray-900 to-black flex items-center justify-center">
                         <div class="text-center p-6">
-                            <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">🌧️</div>
-                            <h4 class="font-heading text-xl mb-2">Ashen Rain</h4>
-                            <p class="text-sm text-ashen-gray-light">Endless storm</p>
+                            <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">⚔️</div>
+                            <h4 class="game-font text-xl mb-2">ID 13: Basic Combat</h4>
+                            <p class="text-sm text-gray-400">Learning to fight</p>
+                            <div class="image-id-label absolute top-2 left-2">ID: 13</div>
                         </div>
                     </div>
-                    <div class="absolute inset-0 bg-gradient-to-t from-ashen-black/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                        <p class="text-sm text-gray-300">Click to view full image</p>
+                </div>
+                
+                <!-- Gallery Item - ID 14 -->
+                <div class="group relative cursor-pointer overflow-hidden rounded-xl border border-gray-700" onclick="openLightbox('id-14')">
+                    <div class="aspect-video bg-gradient-to-br from-gray-900 to-black flex items-center justify-center">
+                        <div class="text-center p-6">
+                            <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">🔗</div>
+                            <h4 class="game-font text-xl mb-2">ID 14: Dreamcatcher</h4>
+                            <p class="text-sm text-gray-400">Advanced technique</p>
+                            <div class="image-id-label absolute top-2 left-2">ID: 14</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item - ID 48 -->
+                <div class="group relative cursor-pointer overflow-hidden rounded-xl border border-gray-700 md:col-span-2 lg:col-span-1" onclick="openLightbox('id-48')">
+                    <div class="aspect-video bg-gradient-to-br from-gray-900 to-black flex items-center justify-center">
+                        <div class="text-center p-6">
+                            <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">🧩</div>
+                            <h4 class="game-font text-xl mb-2">ID 48: Memory</h4>
+                            <p class="text-sm text-gray-400">Final revelation</p>
+                            <div class="image-id-label absolute top-2 left-2">ID: 48</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Gallery Item - Additional -->
+                <div class="group relative cursor-pointer overflow-hidden rounded-xl border border-gray-700" onclick="openLightbox('hurricane')">
+                    <div class="aspect-video bg-gradient-to-br from-gray-900 to-black flex items-center justify-center">
+                        <div class="text-center p-6">
+                            <div class="text-5xl mb-4 group-hover:scale-110 transition-transform">🌪️</div>
+                            <h4 class="game-font text-xl mb-2">The Hurricane</h4>
+                            <p class="text-sm text-gray-400">Transport to Oz</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -611,75 +584,75 @@
     <!-- CTA Final -->
     <section class="py-20">
         <div class="container mx-auto px-4 text-center">
-            <h2 class="font-heading text-3xl md:text-4xl font-bold mb-8">
+            <h2 class="game-font text-3xl md:text-4xl font-bold mb-8">
                 <span class="text-white">CONTINUE THE</span>
-                <span class="block text-ashen-amber">JOURNEY</span>
+                <span class="block text-red-700 crimson-glow">JOURNEY</span>
             </h2>
             
             <p class="text-xl text-gray-300 max-w-2xl mx-auto mb-12">
-                Discover the characters, creatures, and systems that bring the world of Ashen OZ to life
+                Explore the characters, combat systems, and world of Ashen OZ
             </p>
             
             <div class="flex flex-col sm:flex-row gap-6 justify-center">
                 <a href="characters.html" 
-                   class="group bg-gradient-to-r from-ashen-crimson to-purple-900 hover:from-red-800 hover:to-purple-800 px-8 py-4 rounded-lg font-heading text-lg font-bold tracking-wider transition-all duration-300 hover:scale-105 transform inline-flex items-center justify-center">
+                   class="group bg-gradient-to-r from-red-900 to-purple-900 hover:from-red-800 hover:to-purple-800 px-8 py-4 rounded-lg game-font text-lg font-bold tracking-wider transition-all duration-300 hover:scale-105 transform inline-flex items-center justify-center">
                    <span>MEET THE CHARACTERS</span>
                    <span class="ml-3 group-hover:translate-x-2 transition-transform">→</span>
                 </a>
                 
-                <a href="bestiary.html" 
-                   class="group border-2 border-ashen-amber text-ashen-amber hover:bg-ashen-amber hover:text-ashen-black px-8 py-4 rounded-lg font-heading text-lg font-bold tracking-wider transition-all duration-300 inline-flex items-center justify-center">
-                   <span>EXPLORE THE BESTIARY</span>
-                   <span class="ml-3 group-hover:rotate-90 transition-transform">👹</span>
+                <a href="systems.html" 
+                   class="group border-2 border-amber-500 text-amber-400 hover:bg-amber-500 hover:text-black px-8 py-4 rounded-lg game-font text-lg font-bold tracking-wider transition-all duration-300 inline-flex items-center justify-center">
+                   <span>EXPLORE COMBAT SYSTEMS</span>
+                   <span class="ml-3 group-hover:rotate-90 transition-transform">⚔️</span>
                 </a>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-ashen-gray-dark border-t border-ashen-gray-light py-12">
+    <footer class="bg-black border-t border-gray-800 py-12">
         <div class="container mx-auto px-4">
             <div class="grid md:grid-cols-3 gap-8 mb-8">
                 <!-- Logo e Descrição -->
                 <div>
-                    <h3 class="font-heading text-2xl font-bold mb-4">
-                        <span class="text-ashen-crimson">THE ASHEN</span>
-                        <span class="text-ashen-amber"> OZ</span>
+                    <h3 class="game-font text-2xl font-bold mb-4">
+                        <span class="text-white">THE ASHEN</span>
+                        <span class="text-red-700"> OZ</span>
                     </h3>
                     <p class="text-gray-400 mb-4">
                         A grimdark reimagining of the magical land of Oz. 
                         Developed with passion by Ashbone Games.
                     </p>
-                    <p class="text-sm text-ashen-gray-light">
+                    <p class="text-sm text-gray-500">
                         "The Oz you knew is gone."
                     </p>
                 </div>
                 
                 <!-- Links Rápidos -->
                 <div>
-                    <h4 class="font-heading text-xl font-bold mb-4 text-ashen-amber">Story Chapters</h4>
+                    <h4 class="game-font text-xl font-bold mb-4 text-amber-400">Story Sections</h4>
                     <ul class="space-y-2">
-                        <li><a href="#overview" class="text-gray-400 hover:text-ashen-amber transition-colors">World Overview</a></li>
-                        <li><a href="#premise" class="text-gray-400 hover:text-ashen-amber transition-colors">The Premise</a></li>
-                        <li><a href="#themes" class="text-gray-400 hover:text-ashen-amber transition-colors">Core Themes</a></li>
-                        <li><a href="#gallery" class="text-gray-400 hover:text-ashen-amber transition-colors">World Gallery</a></li>
+                        <li><a href="#overview" class="text-gray-400 hover:text-amber-400 transition-colors">The Orphanage</a></li>
+                        <li><a href="#dorothy" class="text-gray-400 hover:text-amber-400 transition-colors">Combat Journey</a></li>
+                        <li><a href="#memories" class="text-gray-400 hover:text-amber-400 transition-colors">Memory Fragments</a></li>
+                        <li><a href="#gallery" class="text-gray-400 hover:text-amber-400 transition-colors">Story Gallery</a></li>
                     </ul>
                 </div>
                 
                 <!-- Contato -->
                 <div>
-                    <h4 class="font-heading text-xl font-bold mb-4 text-ashen-amber">Contact</h4>
+                    <h4 class="game-font text-xl font-bold mb-4 text-amber-400">Contact</h4>
                     <p class="text-gray-400 mb-4">
-                        For inquiries about the story or world:
+                        For story inquiries and lore questions:
                     </p>
-                    <a href="mailto:ashbonegames@gmail.com" class="text-ashen-amber hover:text-ashen-crimson transition-colors font-medium">
+                    <a href="mailto:ashbonegames@gmail.com" class="text-amber-400 hover:text-red-600 transition-colors font-medium">
                         ashbonegames@gmail.com
                     </a>
                 </div>
             </div>
             
             <!-- Copyright -->
-            <div class="pt-8 border-t border-ashen-gray-light text-center text-gray-500 text-sm">
+            <div class="pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
                 <p>&copy; 2025 Ashbone Games. "The Ashen OZ" is a dark fantasy reimagining. All rights reserved.</p>
             </div>
         </div>
@@ -687,64 +660,108 @@
 
     <!-- Lightbox -->
     <div id="lightbox" class="lightbox-overlay" onclick="closeLightbox()">
-        <div class="relative" onclick="event.stopPropagation()">
-            <button onclick="closeLightbox()" class="absolute -top-12 right-0 text-3xl text-white hover:text-ashen-amber transition-colors">
+        <div class="relative max-w-4xl mx-auto" onclick="event.stopPropagation()">
+            <button onclick="closeLightbox()" class="absolute -top-12 right-0 text-3xl text-white hover:text-amber-400 transition-colors">
                 ✕
             </button>
-            <img id="lightbox-img" src="" alt="" class="lightbox-image">
+            <div id="lightbox-content" class="lightbox-image bg-gradient-to-br from-gray-900 to-black rounded-xl p-8">
+                <!-- Conteúdo será inserido via JavaScript -->
+            </div>
         </div>
     </div>
 
     <!-- JavaScript -->
-    <script src="js/main.js"></script>
     <script>
-        // Lightbox functionality
+        // Lightbox functionality para os IDs específicos
         function openLightbox(imageId) {
             const lightbox = document.getElementById('lightbox');
-            const lightboxImg = document.getElementById('lightbox-img');
+            const lightboxContent = document.getElementById('lightbox-content');
             
-            // Em um site real, aqui carregaria a imagem real
-            // Por enquanto, usamos placeholders
-            const images = {
-                'region-entry': '🌳 Region Entry',
-                'whispering-forest': '🌲 Whispering Forest',
-                'chapter-entry': '🚪 Chapter Entry',
-                'roadmap': '🗺️ Story Roadmap',
-                'gallery-1': '🌳 The Whispering Woods',
-                'gallery-2': '🏰 Emerald Ruins',
-                'gallery-3': '🌧️ Ashen Rain'
+            // Dados para cada ID
+            const imageData = {
+                'id-2': {
+                    title: 'Dorothy in Orphanage',
+                    emoji: '🏠',
+                    description: 'Dorothy\'s early years in the Kansas orphanage where her journey began.',
+                    category: 'Character',
+                    story: 'This image shows Dorothy as a young girl in the orphanage, a place filled with half-remembered dreams and whispered secrets. It\'s here that she first discovered the ashen die that would change her life forever.'
+                },
+                'id-6': {
+                    title: 'Boss Encounter - Phase 1',
+                    emoji: '👹',
+                    description: 'Dorothy\'s first major confrontation in Ashen OZ.',
+                    category: 'Gameplay',
+                    story: 'The initial boss battle tests Dorothy\'s combat skills and determination. This encounter marks her transition from frightened orphan to determined survivor of the ashen world.'
+                },
+                'id-13': {
+                    title: 'Combat Mechanics - Basic Attack',
+                    emoji: '⚔️',
+                    description: 'Foundation of Dorothy\'s combat style with the Eastern Witch\'s Umbrella.',
+                    category: 'Gameplay',
+                    story: 'Dorothy learns to wield the umbrella with precision. Basic attacks form the foundation of her combat style, representing her initial steps in mastering the weapons of Ashen OZ.'
+                },
+                'id-14': {
+                    title: 'Chained Move - Dreamcatcher',
+                    emoji: '🔗',
+                    description: 'Advanced combat technique for trapping enemies.',
+                    category: 'Gameplay',
+                    story: 'The Dreamcatcher combo is an advanced technique Dorothy unconsciously remembers from her forgotten childhood. It creates a pattern that traps enemies in devastating sequences of strikes.'
+                },
+                'id-48': {
+                    title: 'Memory Fragment',
+                    emoji: '🧩',
+                    description: 'The final piece of Dorothy\'s forgotten past.',
+                    category: 'Story',
+                    story: 'This memory fragment reveals the truth about Dorothy\'s past, explaining why she was in the orphanage and what truly happened during the hurricane. It\'s the key that ties her entire journey together.'
+                },
+                'hurricane': {
+                    title: 'The Hurricane',
+                    emoji: '🌪️',
+                    description: 'The storm that transported Dorothy to Ashen OZ.',
+                    category: 'Story',
+                    story: 'The catastrophic hurricane that engulfed the orphanage and transported Dorothy to the ashen world. This event marks the beginning of her journey through the fallen Oz.'
+                }
             };
             
-            lightboxImg.alt = images[imageId] || 'Image';
+            const data = imageData[imageId] || {
+                title: 'Image',
+                emoji: '🖼️',
+                description: 'No description available.',
+                category: 'Unknown',
+                story: 'No story information available.'
+            };
             
-            // Criar um placeholder visual
-            const placeholderDiv = document.createElement('div');
-            placeholderDiv.className = 'bg-gradient-to-br from-ashen-gray-dark to-ashen-black rounded-xl p-12 text-center';
-            placeholderDiv.innerHTML = `
-                <div class="text-9xl mb-6 animate-float">${imageId.includes('forest') ? '🌲' : 
-                    imageId.includes('region') ? '🌳' : 
-                    imageId.includes('chapter') ? '🚪' : 
-                    imageId.includes('roadmap') ? '🗺️' : 
-                    imageId.includes('gallery-1') ? '🌳' : 
-                    imageId.includes('gallery-2') ? '🏰' : '🌧️'}</div>
-                <h3 class="font-heading text-2xl mb-4">${images[imageId] || 'Image'}</h3>
-                <p class="text-gray-400">High-quality illustration placeholder</p>
+            // Criar conteúdo do lightbox
+            lightboxContent.innerHTML = `
+                <div class="text-center">
+                    <div class="text-8xl mb-6 animate-float">${data.emoji}</div>
+                    <div class="inline-block bg-black/50 px-4 py-1 rounded-full border border-gray-700 mb-4">
+                        <span class="text-sm font-bold">ID: ${imageId.replace('id-', '')}</span>
+                    </div>
+                    <h3 class="game-font text-3xl mb-4">${data.title}</h3>
+                    <p class="text-gray-300 mb-6">${data.description}</p>
+                    
+                    <div class="grid md:grid-cols-2 gap-6 mt-8">
+                        <div class="bg-black/50 border border-gray-700 rounded-lg p-4">
+                            <h4 class="game-font text-lg font-bold mb-2 text-amber-400">Category</h4>
+                            <p>${data.category}</p>
+                        </div>
+                        <div class="bg-black/50 border border-gray-700 rounded-lg p-4">
+                            <h4 class="game-font text-lg font-bold mb-2 text-amber-400">Story Significance</h4>
+                            <p class="text-sm">${data.story}</p>
+                        </div>
+                    </div>
+                </div>
             `;
             
-            // Limpar conteúdo anterior
-            while (lightboxImg.firstChild) {
-                lightboxImg.removeChild(lightboxImg.firstChild);
-            }
-            
-            lightboxImg.appendChild(placeholderDiv);
             lightbox.classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Prevenir scroll
+            document.body.style.overflow = 'hidden';
         }
         
         function closeLightbox() {
             const lightbox = document.getElementById('lightbox');
             lightbox.classList.add('hidden');
-            document.body.style.overflow = 'auto'; // Restaurar scroll
+            document.body.style.overflow = 'auto';
         }
         
         // Fechar lightbox com ESC
