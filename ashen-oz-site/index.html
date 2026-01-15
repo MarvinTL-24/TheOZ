@@ -470,7 +470,10 @@
         </div>
         <button class="lightbox-nav lightbox-next" id="lightbox-next">&#10095;</button>
     </div>
+     <div class="loading-progress" id="loading-progress"></div>
     
+    <!-- Status do cache -->
+    <div class="cache-status" id="cache-status"></div>
     <!-- Navegação -->
     <nav>
         <div class="nav-container">
@@ -577,34 +580,330 @@
             </div>
         </section>
         
-        <!-- Seção 4: Gallery -->
-        <section id="gallery">
-            <div class="section-container">
-                <h2 class="section-title emerald-glow">Gallery</h2>
-                <div id="gallery-container" class="gallery-grid">
-                    <!-- Galeria será gerada por JavaScript -->
+        <!-- Hero Section -->
+        <section class="relative min-h-[40vh] flex items-center justify-center overflow-hidden bg-gradient-to-br from-ashen-black via-purple-900/20 to-ashen-black">
+            <div class="absolute inset-0 opacity-20">
+                <div class="absolute top-1/4 left-1/4 text-7xl animate-float">🎨</div>
+                <div class="absolute bottom-1/3 right-1/4 text-6xl animate-float" style="animation-delay: 1s;">🖼️</div>
+                <div class="absolute top-1/3 right-1/3 text-5xl animate-float" style="animation-delay: 2s;">📸</div>
+            </div>
+            
+            <div class="relative z-10 container mx-auto px-4 py-12 text-center">
+                <div class="inline-block mb-6">
+                    <span class="font-heading text-ashen-amber font-bold text-lg tracking-widest">07 • ART GALLERY</span>
+                </div>
+                
+                <h1 class="font-heading text-5xl md:text-7xl font-bold mb-6 leading-tight">
+                    <span class="text-white">VISUAL</span>
+                    <span class="block text-ashen-crimson">ARCHIVE</span>
+                </h1>
+                
+                <div class="max-w-2xl mx-auto">
+                    <div class="bg-gradient-to-r from-ashen-gray-dark/50 to-ashen-black/50 border-l-4 border-ashen-amber pl-6 py-4 mb-8 backdrop-blur-sm">
+                        <p class="text-lg md:text-xl italic text-gray-300 leading-relaxed">
+                            "Advanced caching system for smooth browsing • 57 images optimized for performance"
+                        </p>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-gray-400">
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-ashen-emerald rounded-full animate-pulse"></div>
+                            <span id="cache-stats">Cache: Loading...</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 bg-ashen-amber rounded-full"></div>
+                            <span id="memory-stats">Memory: -- MB</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filtros -->
+        <section class="py-8 bg-ashen-gray-dark/30 border-y border-ashen-gray-light">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-wrap justify-center gap-3">
+                    <button class="filter-btn active" data-filter="all">All Images (57)</button>
+                    <button class="filter-btn" data-filter="concept">Concept Art</button>
+                    <button class="filter-btn" data-filter="gameplay">Gameplay</button>
+                    <button class="filter-btn" data-filter="character">Characters</button>
+                    <button class="filter-btn" data-filter="environment">Environments</button>
+                    <button class="filter-btn" data-filter="ui">UI/Interface</button>
+                    <button class="filter-btn" id="clear-cache-btn" title="Clear Image Cache">
+                        🗑️ Clear Cache
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Galeria -->
+        <section class="py-12">
+            <div class="container mx-auto px-4">
+                <div class="gallery-grid" id="gallery-container">
+                    <!-- As imagens serão geradas via JavaScript com lazy loading -->
+                </div>
+                
+                <!-- Contador e navegação -->
+                <div class="mt-12 pt-8 border-t border-ashen-gray-light text-center">
+                    <p class="text-gray-400 mb-4" id="image-counter">
+                        Loading optimized images...
+                    </p>
+                    <div class="mt-4 flex justify-center items-center space-x-4">
+                        <button id="prev-page" class="filter-btn" disabled>← Previous</button>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-400" id="page-info">Page 1</span>
+                            <div class="w-32 h-1 bg-ashen-gray-dark rounded-full overflow-hidden">
+                                <div class="preload-indicator" id="preload-indicator" style="width: 20%"></div>
+                            </div>
+                        </div>
+                        <button id="next-page" class="filter-btn">Next →</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Info Section -->
+        <section class="py-20 bg-gradient-to-b from-ashen-gray-dark/30 to-ashen-black">
+            <div class="container mx-auto px-4">
+                <div class="max-w-4xl mx-auto">
+                    <div class="text-center mb-12">
+                        <h2 class="font-heading text-3xl font-bold mb-6 text-ashen-amber">
+                            Advanced Gallery System
+                        </h2>
+                        <div class="w-24 h-1 bg-gradient-to-r from-ashen-crimson to-ashen-amber mx-auto"></div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-gradient-to-br from-ashen-gray-dark/80 to-ashen-black/80 border border-ashen-gray-light rounded-xl p-6">
+                            <div class="text-4xl mb-4 text-ashen-emerald">⚡</div>
+                            <h3 class="font-heading text-xl font-bold mb-3">Intelligent Cache</h3>
+                            <p class="text-gray-300 text-sm">
+                                Images are cached locally for instant viewing. The system intelligently preloads adjacent images.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-ashen-gray-dark/80 to-ashen-black/80 border border-ashen-gray-light rounded-xl p-6">
+                            <div class="text-4xl mb-4 text-ashen-amber">🎯</div>
+                            <h3 class="font-heading text-xl font-bold mb-3">Lazy Loading</h3>
+                            <p class="text-gray-300 text-sm">
+                                Images load only when needed. Thumbnails load first, full images load on demand.
+                            </p>
+                        </div>
+                        
+                        <div class="bg-gradient-to-br from-ashen-gray-dark/80 to-ashen-black/80 border border-ashen-gray-light rounded-xl p-6">
+                            <div class="text-4xl mb-4 text-ashen-crimson">💾</div>
+                            <h3 class="font-heading text-xl font-bold mb-3">Memory Management</h3>
+                            <p class="text-gray-300 text-sm">
+                                Automatic cleanup of unused images. Smart memory allocation based on user behavior.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
         
-        <!-- Seção 5: Story -->
-        <section id="story">
+        <!-- SEÇÃO STORY - Baseada no seu story.html -->
+        <section id="story" class="scroll-animate">
             <div class="section-container">
-                <h2 class="section-title crimson-glow">Story</h2>
-                <div class="border-gradient p-8 bg-black/40 backdrop-blur-sm">
-                    <h3 class="font-ashen-subtitle text-2xl text-center text-emerald-400 mb-6">Prologue: The Ashen Die</h3>
-                    <div class="description-style">
-                        <p class="mb-4 italic">
-                            When she takes the die into her hand, the markings upon its surface begin to glow—
-                            symbols of hurricane, ember, ruin, and omen.
+                <!-- Hero Section da Story -->
+                <div class="story-hero">
+                    <div class="text-center">
+                        <div style="margin-bottom: 1rem;">
+                            <span class="font-ashen-subtitle text-amber font-bold tracking-widest">STORY & WORLD</span>
+                        </div>
+                        
+                        <h1 class="font-ashen-title" style="font-size: 4rem; margin-bottom: 2rem; line-height: 1.2;">
+                            <span class="text-white">THE FALLEN</span>
+                            <br>
+                            <span class="text-red-700 crimson-glow">MEMORY</span>
+                        </h1>
+                        
+                        <!-- Resumo de uma frase -->
+                        <div class="story-quote">
+                            <p>"An orphaned girl named Dorothy is swept away by a hurricane into an ashen world, where she endures a grotesque yet mystical journey through a despair-ridden Oz—a grimdark fantasy shaped by memory, loss, and repetition."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="section-divider"></div>
+
+                <!-- Seção Overview com IDs 2 e 6 -->
+                <div style="margin-bottom: 4rem;">
+                    <div class="text-center mb-8">
+                        <h2 class="font-ashen-title" style="font-size: 2.5rem; margin-bottom: 1rem;">
+                            <span class="text-red-700">THE ORPHANAGE</span>
+                            <span class="text-white"> & THE BEGINNING</span>
+                        </h2>
+                        <div style="width: 128px; height: 2px; background: linear-gradient(to right, #8B0000, #DAA520); margin: 0 auto;"></div>
+                    </div>
+                    
+                    <!-- Cards de Overview -->
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 800px; margin: 0 auto;">
+                        <!-- ID 2: Dorothy in Orphanage -->
+                        <div class="story-card" onclick="openStoryLightbox('id-2')">
+                            <div class="image-id-label">ID: 2</div>
+                            <div class="image-placeholder">
+                                <div class="text-center" style="padding: 2rem;">
+                                    <div style="font-size: 4rem; margin-bottom: 1rem; animation: float 6s ease-in-out infinite;">🏠</div>
+                                    <h3 class="font-ashen-subtitle" style="font-size: 1.5rem; margin-bottom: 0.5rem;">Dorothy in Orphanage</h3>
+                                    <p class="text-gray-400 text-sm">Where the journey began</p>
+                                    <div class="text-xs text-gray-500 mt-2">Category: Character</div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 1rem;">
+                                <h3 class="font-ashen-subtitle text-amber" style="font-size: 1.25rem; margin-bottom: 0.5rem;">The Orphanage Years</h3>
+                                <p class="text-gray-300 text-sm">
+                                    Dorothy's early life in the Kansas orphanage, where her first memories were formed 
+                                    and where the seeds of her journey were planted. A place of both safety and mystery.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- ID 6: Boss Encounter - Phase 1 -->
+                        <div class="story-card" onclick="openStoryLightbox('id-6')">
+                            <div class="image-id-label">ID: 6</div>
+                            <div class="image-placeholder">
+                                <div class="text-center" style="padding: 2rem;">
+                                    <div style="font-size: 4rem; margin-bottom: 1rem;">👹</div>
+                                    <h3 class="font-ashen-subtitle" style="font-size: 1.5rem; margin-bottom: 0.5rem;">Boss Encounter - Phase 1</h3>
+                                    <p class="text-gray-400 text-sm">First major confrontation</p>
+                                    <div class="text-xs text-gray-500 mt-2">Category: Gameplay</div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 1rem;">
+                                <h3 class="font-ashen-subtitle text-amber" style="font-size: 1.25rem; margin-bottom: 0.5rem;">The First Trial</h3>
+                                <p class="text-gray-300 text-sm">
+                                    Dorothy's first major encounter in Ashen OZ, testing her combat skills and 
+                                    determination. This battle marks her transition from frightened orphan to 
+                                    determined survivor.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Texto narrativo -->
+                    <div class="story-card" style="margin-top: 2rem;">
+                        <h3 class="font-ashen-subtitle text-amber" style="font-size: 1.5rem; margin-bottom: 1rem;">
+                            From Orphanage to Ashen World
+                        </h3>
+                        <p class="text-gray-300 leading-relaxed">
+                            <span class="text-red-700 font-bold">The Ashen OZ</span> begins not with magic, but with loss. 
+                            Dorothy's journey starts in the <span class="text-amber">Kansas orphanage</span> where 
+                            she grew up, a place haunted by half-remembered dreams and whispered secrets.
+                            When the <span class="text-red-700 font-bold">hurricane</span> strikes and transports her to 
+                            the ashen world, she must quickly adapt to survive her first encounters with 
+                            <span class="text-amber">Oz's corrupted inhabitants</span>.
                         </p>
-                        <p class="mb-4">
-                            Started, the girl drops it. The die spins across the floor and stops on the mark of the hurricane.
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="section-divider"></div>
+
+                <!-- Seção Combat Mechanics com IDs 13 e 14 -->
+                <div style="margin-bottom: 4rem;">
+                    <div class="text-center mb-8">
+                        <h2 class="font-ashen-title" style="font-size: 2.5rem; margin-bottom: 1rem;">
+                            <span class="text-white">DOROTHY'S</span>
+                            <span class="text-red-700 crimson-glow"> COMBAT JOURNEY</span>
+                        </h2>
+                        <div style="width: 128px; height: 2px; background: linear-gradient(to right, #DAA520, #8B0000); margin: 0 auto;"></div>
+                    </div>
+                    
+                    <!-- Cards de Combat Mechanics -->
+                    <div style="display: grid; grid-template-columns: 1fr; gap: 2rem; max-width: 800px; margin: 0 auto;">
+                        <!-- ID 13: Combat Mechanics - Basic Attack -->
+                        <div class="story-card" onclick="openStoryLightbox('id-13')">
+                            <div class="image-id-label">ID: 13</div>
+                            <div class="image-placeholder">
+                                <div class="text-center" style="padding: 2rem;">
+                                    <div style="font-size: 4rem; margin-bottom: 1rem;">⚔️</div>
+                                    <h3 class="font-ashen-subtitle" style="font-size: 1.5rem; margin-bottom: 0.5rem;">Combat Mechanics - Basic Attack</h3>
+                                    <p class="text-gray-400 text-sm">Foundation of combat</p>
+                                    <div class="text-xs text-gray-500 mt-2">Category: Gameplay</div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 1rem;">
+                                <h3 class="font-ashen-subtitle text-amber" style="font-size: 1.25rem; margin-bottom: 0.5rem;">Mastering the Basics</h3>
+                                <p class="text-gray-300 text-sm">
+                                    Dorothy learns to wield the Eastern Witch's Umbrella with precision. 
+                                    Basic attacks form the foundation of her combat style, allowing for 
+                                    quick strikes and defensive maneuvers.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- ID 14: Chained Move - Dreamcatcher -->
+                        <div class="story-card" onclick="openStoryLightbox('id-14')">
+                            <div class="image-id-label">ID: 14</div>
+                            <div class="image-placeholder">
+                                <div class="text-center" style="padding: 2rem;">
+                                    <div style="font-size: 4rem; margin-bottom: 1rem;">🔗</div>
+                                    <h3 class="font-ashen-subtitle" style="font-size: 1.5rem; margin-bottom: 0.5rem;">Chained Move - Dreamcatcher</h3>
+                                    <p class="text-gray-400 text-sm">Advanced combat technique</p>
+                                    <div class="text-xs text-gray-500 mt-2">Category: Gameplay</div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 1rem;">
+                                <h3 class="font-ashen-subtitle text-amber" style="font-size: 1.25rem; margin-bottom: 0.5rem;">The Dreamcatcher Combo</h3>
+                                <p class="text-gray-300 text-sm">
+                                    An advanced combat technique where Dorothy chains multiple attacks together, 
+                                    creating a "dreamcatcher" pattern that traps enemies in a devastating sequence 
+                                    of strikes.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="section-divider"></div>
+
+                <!-- Seção Memory Fragments com ID 48 -->
+                <div>
+                    <div class="text-center mb-8">
+                        <h2 class="font-ashen-title" style="font-size: 2.5rem; margin-bottom: 1rem;">
+                            <span class="text-red-700 crimson-glow">MEMORY FRAGMENTS</span>
+                            <span class="text-white"> & TRUTH</span>
+                        </h2>
+                        <div style="width: 128px; height: 2px; background: linear-gradient(to right, #8B0000, #DAA520, #006400); margin: 0 auto;"></div>
+                        <p class="text-gray-400" style="max-width: 600px; margin: 1.5rem auto;">
+                            The final piece of the puzzle—Dorothy's forgotten past
                         </p>
-                        <p class="font-ashen-korean text-gray-300">
-                            "The seams of the world split apart. And the girl was cast onto a path with no return—
-                            into the land of despair, the ruins called Oz."
-                        </p>
+                    </div>
+                    
+                    <!-- ID 48: Memory Fragment -->
+                    <div class="story-card" onclick="openStoryLightbox('id-48')" style="max-width: 800px; margin: 0 auto;">
+                        <div class="image-id-label">ID: 48</div>
+                        <div class="image-placeholder">
+                            <div class="text-center" style="padding: 2rem;">
+                                <div style="font-size: 4rem; margin-bottom: 1rem; animation: float 6s ease-in-out infinite 0.5s;">🧩</div>
+                                <h3 class="font-ashen-subtitle" style="font-size: 1.5rem; margin-bottom: 0.5rem;">Memory Fragment</h3>
+                                <p class="text-gray-400 text-sm">The final revelation</p>
+                                <div class="text-xs text-gray-500 mt-2">Category: Story</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 1.5rem;">
+                            <h3 class="font-ashen-subtitle text-amber" style="font-size: 1.5rem; margin-bottom: 1rem;">
+                                The Final Memory
+                            </h3>
+                            <p class="text-gray-300 leading-relaxed">
+                                This memory fragment represents the <span class="text-red-700 font-bold">key revelation</span> 
+                                that ties Dorothy's entire journey together. It's the piece of her past that explains 
+                                why she was in the orphanage, how she came to possess the ashen die, and what truly 
+                                happened during the hurricane.
+                            </p>
+                            <div style="background: rgba(0, 0, 0, 0.5); border: 1px solid var(--ashen-gray-light); border-radius: 8px; padding: 1rem; margin-top: 1rem;">
+                                <h4 class="font-ashen-subtitle text-green-500" style="font-size: 1rem; margin-bottom: 0.5rem;">Memory Themes:</h4>
+                                <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+                                    <span class="theme-keyword">Childhood Trauma</span>
+                                    <span class="theme-keyword">Suppressed Memories</span>
+                                    <span class="theme-keyword">Psychological Manifestation</span>
+                                    <span class="theme-keyword">Self-Discovery</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -864,7 +1163,155 @@
         { id: 57, title: "UI - Skill Tree", category: "ui", imageUrl:"assets/images/gallery/57.png" }
     ];
 
-        // Sistema de Background Dinâmico
+    // ==============================
+        // CONFIGURAÇÕES
+        // ==============================
+        const IMAGES_PER_PAGE = 12;
+        const CACHE_VERSION = 'v1.0';
+        const CACHE_PREFIX = 'ashenoz_';
+        
+        // ==============================
+        // ESTADO DA APLICAÇÃO
+        // ==============================
+        let currentPage = 1;
+        let currentFilter = 'all';
+        let currentLightboxIndex = 0;
+        let imageCache = new Map();
+        let loadedImages = new Set();
+        let cacheSize = 0;
+        
+        // ==============================
+        // SISTEMA DE CACHE
+        // ==============================
+        class ImageCacheSystem {
+            constructor() {
+                this.cache = new Map();
+                this.init();
+            }
+            
+            async init() {
+                await this.loadCacheFromStorage();
+            }
+            
+            async loadCacheFromStorage() {
+                try {
+                    const saved = localStorage.getItem(`${CACHE_PREFIX}${CACHE_VERSION}`);
+                    if (saved) {
+                        const data = JSON.parse(saved);
+                        this.cache = new Map(data.cache || []);
+                        cacheSize = data.size || 0;
+                        this.updateCacheStats();
+                    }
+                } catch (e) {
+                    console.warn('Failed to load cache from storage:', e);
+                }
+            }
+            
+            saveCacheToStorage() {
+                try {
+                    const data = {
+                        cache: Array.from(this.cache.entries()),
+                        size: cacheSize,
+                        timestamp: Date.now()
+                    };
+                    localStorage.setItem(`${CACHE_PREFIX}${CACHE_VERSION}`, JSON.stringify(data));
+                } catch (e) {
+                    console.warn('Failed to save cache to storage:', e);
+                }
+            }
+            
+            async getImage(imageData, isThumbnail = true) {
+                const url = isThumbnail ? 
+                    `https://picsum.photos/400/225?random=${imageData.id}&blur=2` :
+                    `https://picsum.photos/1200/675?random=${imageData.id}`;
+                
+                if (this.cache.has(url)) {
+                    return this.cache.get(url);
+                }
+                
+                return this.loadImage(url);
+            }
+            
+            async loadImage(url) {
+                return new Promise((resolve, reject) => {
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    
+                    img.onload = () => {
+                        this.cache.set(url, img);
+                        cacheSize += img.width * img.height * 4;
+                        this.saveCacheToStorage();
+                        this.updateCacheStats();
+                        resolve(img);
+                    };
+                    
+                    img.onerror = () => reject(new Error(`Failed to load image: ${url}`));
+                    img.src = url;
+                });
+            }
+            
+            clear() {
+                this.cache.clear();
+                cacheSize = 0;
+                localStorage.removeItem(`${CACHE_PREFIX}${CACHE_VERSION}`);
+                this.updateCacheStats();
+                this.showNotification('Cache cleared');
+            }
+            
+            updateCacheStats() {
+                const statsElement = document.getElementById('image-counter');
+                if (statsElement) {
+                    const mb = (cacheSize / (1024 * 1024)).toFixed(1);
+                    statsElement.innerHTML = `Cache: <span class="text-amber">${mb} MB</span> • ${this.cache.size} images`;
+                }
+            }
+            
+            showNotification(message) {
+                // Cria notificação temporária
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    bottom: 1rem;
+                    right: 1rem;
+                    background: rgba(10, 10, 10, 0.9);
+                    border: 1px solid var(--ashen-gray-light);
+                    border-radius: 0.5rem;
+                    padding: 0.75rem 1rem;
+                    font-size: 0.75rem;
+                    color: var(--ashen-emerald);
+                    z-index: 100;
+                    animation: fadeIn 0.3s ease-out;
+                `;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.style.animation = 'fadeIn 0.3s ease-out reverse';
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
+            }
+        }
+
+        // ==============================
+        // ELEMENTOS DOM
+        // ==============================
+        const backgroundContainer = document.getElementById('background');
+        const dynamicBg = document.getElementById('dynamic-bg');
+        const indicatorDots = document.querySelectorAll('.indicator-dot');
+        const galleryContainer = document.getElementById('gallery-container');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImage = document.getElementById('lightbox-image');
+        const lightboxClose = document.getElementById('lightbox-close');
+        const lightboxPrev = document.getElementById('lightbox-prev');
+        const lightboxNext = document.getElementById('lightbox-next');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxCategory = document.getElementById('lightbox-category');
+        const lightboxCounter = document.getElementById('lightbox-counter');
+        const lightboxLoader = document.getElementById('lightbox-loader');
+        
+        // ==============================
+        // SISTEMA DE BACKGROUND DINÂMICO
+        // ==============================
         const sectionColors = {
             'home': {
                 bgColor: 'var(--section-home)',
@@ -901,6 +1348,13 @@
                     'radial-gradient(circle at 80% 20%, rgba(255, 120, 80, 0.25) 0%, transparent 50%)'
                 ]
             },
+            'about': {
+                bgColor: 'var(--section-about)',
+                radialColors: [
+                    'radial-gradient(circle at 20% 80%, rgba(255, 90, 90, 0.2) 0%, transparent 50%)',
+                    'radial-gradient(circle at 80% 20%, rgba(255, 120, 80, 0.2) 0%, transparent 50%)'
+                ]
+            },
             'contact': {
                 bgColor: 'var(--section-contact)',
                 radialColors: [
@@ -910,103 +1364,330 @@
             }
         };
 
-        // Elementos DOM
-        const backgroundContainer = document.getElementById('background');
-        const dynamicBg = document.getElementById('dynamic-bg');
-        const indicatorDots = document.querySelectorAll('.indicator-dot');
-        const galleryContainer = document.getElementById('gallery-container');
-        const lightbox = document.getElementById('lightbox');
-        const lightboxImage = document.getElementById('lightbox-image');
-        const lightboxClose = document.getElementById('lightbox-close');
-        const lightboxPrev = document.getElementById('lightbox-prev');
-        const lightboxNext = document.getElementById('lightbox-next');
+        // ==============================
+        // INICIALIZAÇÃO
+        // ==============================
+        const cacheSystem = new ImageCacheSystem();
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('The Ashen OZ - Site inicializado');
+            
+            // Inicializar sistemas
+            initializeGallery();
+            setupEventListeners();
+            updateGallery();
+            
+            // Inicializar background
+            updateBackground();
+            
+            // Inicializar scroll listener
+            window.addEventListener('scroll', updateBackground);
+            
+            // Inicializar sistema de cache
+            cacheSystem.updateCacheStats();
+        });
 
-        // Sistema de Lightbox
-        let currentImageIndex = 0;
-        let galleryImages = [];
-
-        function openLightbox(index) {
-            currentImageIndex = index;
-            updateLightboxImage();
+        // ==============================
+        // FUNÇÕES DA GALERIA
+        // ==============================
+        function initializeGallery() {
+            galleryContainer.innerHTML = '';
+            
+            // Cria placeholders
+            for (let i = 0; i < IMAGES_PER_PAGE; i++) {
+                const placeholder = createOptimizedPlaceholder(i);
+                galleryContainer.appendChild(placeholder);
+            }
+        }
+        
+        function createOptimizedPlaceholder(index) {
+            const placeholder = document.createElement('div');
+            placeholder.className = 'gallery-item';
+            placeholder.dataset.index = index;
+            
+            placeholder.innerHTML = `
+                <div class="image-loading w-full h-full flex items-center justify-center">
+                    <div class="text-center">
+                        <div class="text-3xl opacity-30 mb-2">🖼️</div>
+                        <div class="text-xs text-gray-500">Loading...</div>
+                    </div>
+                </div>
+                <div class="image-number">${index + 1}</div>
+            `;
+            
+            return placeholder;
+        }
+        
+        function setupEventListeners() {
+            // Filtros da galeria
+            document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentFilter = this.dataset.filter;
+                    currentPage = 1;
+                    updateGallery();
+                });
+            });
+            
+            // Botão de limpar cache
+            document.getElementById('clear-cache-btn').addEventListener('click', () => {
+                if (confirm('Clear all cached images? This will free up storage but images will need to reload.')) {
+                    cacheSystem.clear();
+                    loadedImages.clear();
+                    updateGallery();
+                }
+            });
+            
+            // Navegação de página
+            document.getElementById('prev-page').addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    updateGallery();
+                }
+            });
+            
+            document.getElementById('next-page').addEventListener('click', () => {
+                const totalPages = Math.ceil(getFilteredImages().length / IMAGES_PER_PAGE);
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    updateGallery();
+                }
+            });
+            
+            // Lightbox
+            lightboxClose.addEventListener('click', closeLightbox);
+            lightboxPrev.addEventListener('click', showPrevImage);
+            lightboxNext.addEventListener('click', showNextImage);
+            
+            // Navegação por teclado
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeLightbox();
+                if (lightbox.classList.contains('active')) {
+                    if (e.key === 'ArrowLeft') showPrevImage();
+                    if (e.key === 'ArrowRight') showNextImage();
+                }
+            });
+            
+            // Fechar lightbox ao clicar fora
+            lightbox.addEventListener('click', (e) => {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+            
+            // Navegação por indicadores
+            indicatorDots.forEach(dot => {
+                dot.addEventListener('click', () => {
+                    const section = document.getElementById(dot.dataset.section);
+                    if (section) {
+                        section.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            });
+            
+            // Formulário de contato
+            document.getElementById('contact-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Thank you for your message! We will respond soon.');
+                this.reset();
+            });
+            
+            // Navegação suave para links internos
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+        
+        function getFilteredImages() {
+            if (currentFilter === 'all') return galleryData;
+            return galleryData.filter(img => img.category === currentFilter);
+        }
+        
+        function getCategoryName(category) {
+            const names = {
+                'concept': 'Concept Art',
+                'gameplay': 'Gameplay',
+                'character': 'Character',
+                'environment': 'Environment',
+                'ui': 'UI/Interface'
+            };
+            return names[category] || 'Artwork';
+        }
+        
+        function getCategoryIcon(category) {
+            const icons = {
+                'concept': '🎨',
+                'gameplay': '🎮',
+                'character': '👤',
+                'environment': '🌳',
+                'ui': '🖥️'
+            };
+            return icons[category] || '🖼️';
+        }
+        
+        async function updateGallery() {
+            const filteredImages = getFilteredImages();
+            const startIndex = (currentPage - 1) * IMAGES_PER_PAGE;
+            const endIndex = startIndex + IMAGES_PER_PAGE;
+            const pageImages = filteredImages.slice(startIndex, endIndex);
+            
+            galleryContainer.innerHTML = '';
+            
+            // Carrega imagens com cache
+            const loadPromises = pageImages.map(async (image, index) => {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                item.dataset.id = image.id;
+                item.dataset.index = startIndex + index;
+                
+                try {
+                    // Tenta carregar do cache
+                    const cachedImg = await cacheSystem.getImage(image, true);
+                    
+                    if (cachedImg) {
+                        item.innerHTML = `
+                            <img src="${cachedImg.src}" 
+                                 alt="${image.title}"
+                                 loading="lazy">
+                            <div class="gallery-overlay">
+                                <h3 class="font-ashen-subtitle font-bold mb-1">${image.title}</h3>
+                                <p class="text-sm text-gray-400">${getCategoryName(image.category)} • #${image.id}</p>
+                            </div>
+                            <div class="image-number">${image.id}</div>
+                        `;
+                        loadedImages.add(image.id);
+                    }
+                } catch (error) {
+                    // Fallback para placeholder
+                    item.innerHTML = `
+                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-900 to-black">
+                            <div class="text-center">
+                                <div class="text-4xl mb-2">${getCategoryIcon(image.category)}</div>
+                                <p class="text-sm text-gray-400">${image.title}</p>
+                            </div>
+                        </div>
+                        <div class="image-number">${image.id}</div>
+                    `;
+                }
+                
+                item.addEventListener('click', () => openLightbox(startIndex + index));
+                return item;
+            });
+            
+            const items = await Promise.all(loadPromises);
+            items.forEach(item => galleryContainer.appendChild(item));
+            
+            updatePagination(filteredImages.length);
+            updateImageCounter(filteredImages.length);
+        }
+        
+        function updatePagination(totalImages) {
+            const totalPages = Math.ceil(totalImages / IMAGES_PER_PAGE);
+            const prevBtn = document.getElementById('prev-page');
+            const nextBtn = document.getElementById('next-page');
+            const pageInfo = document.getElementById('page-info');
+            
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+            
+            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+            
+            // Estilização dos botões
+            prevBtn.className = `filter-btn ${currentPage === 1 ? 'opacity-50 cursor-not-allowed' : ''}`;
+            nextBtn.className = `filter-btn ${currentPage === totalPages ? 'opacity-50 cursor-not-allowed' : ''}`;
+        }
+        
+        function updateImageCounter(totalImages) {
+            const counter = document.getElementById('image-counter');
+            const startIndex = (currentPage - 1) * IMAGES_PER_PAGE + 1;
+            const endIndex = Math.min(currentPage * IMAGES_PER_PAGE, totalImages);
+            
+            counter.innerHTML = `
+                Showing <span class="text-amber">${startIndex}-${endIndex}</span> of ${totalImages} images
+            `;
+        }
+        
+        async function openLightbox(index) {
+            const filteredImages = getFilteredImages();
+            currentLightboxIndex = index;
+            
+            const image = filteredImages[currentLightboxIndex];
+            
+            // Mostra loader
+            lightboxLoader.style.display = 'block';
+            lightboxImage.style.opacity = '0';
+            lightboxImage.classList.remove('loaded');
+            
+            // Atualiza info
+            lightboxTitle.textContent = image.title;
+            lightboxCategory.textContent = getCategoryName(image.category);
+            lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${filteredImages.length} • Loading...`;
+            
+            // Abre lightbox
             lightbox.classList.add('active');
             document.body.style.overflow = 'hidden';
+            
+            try {
+                // Carrega imagem em alta resolução
+                const cachedImg = await cacheSystem.getImage(image, false);
+                
+                // Atualiza imagem
+                lightboxImage.src = cachedImg.src;
+                lightboxImage.alt = image.title;
+                
+                // Esconde loader e mostra imagem
+                setTimeout(() => {
+                    lightboxLoader.style.display = 'none';
+                    lightboxImage.style.opacity = '1';
+                    lightboxImage.classList.add('loaded');
+                    lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${filteredImages.length}`;
+                }, 100);
+                
+            } catch (error) {
+                console.warn('Failed to load lightbox image:', error);
+                lightboxLoader.style.display = 'none';
+                lightboxCounter.textContent = `${currentLightboxIndex + 1} / ${filteredImages.length} • Load error`;
+                
+                // Fallback
+                lightboxImage.src = `https://picsum.photos/1200/675?random=${image.id}`;
+                lightboxImage.style.opacity = '1';
+            }
         }
-
+        
         function closeLightbox() {
             lightbox.classList.remove('active');
             document.body.style.overflow = 'auto';
+            lightboxImage.src = '';
         }
-
-        function updateLightboxImage() {
-            if (galleryImages[currentImageIndex]) {
-                lightboxImage.src = `https://picsum.photos/800/600?random=${galleryImages[currentImageIndex].id}`;
-                lightboxImage.alt = galleryImages[currentImageIndex].title;
-            }
+        
+        function showPrevImage() {
+            const filteredImages = getFilteredImages();
+            currentLightboxIndex = (currentLightboxIndex - 1 + filteredImages.length) % filteredImages.length;
+            openLightbox(currentLightboxIndex);
         }
-
-        function nextImage() {
-            currentImageIndex = (currentImageIndex + 1) % galleryImages.length;
-            updateLightboxImage();
+        
+        function showNextImage() {
+            const filteredImages = getFilteredImages();
+            currentLightboxIndex = (currentLightboxIndex + 1) % filteredImages.length;
+            openLightbox(currentLightboxIndex);
         }
-
-        function prevImage() {
-            currentImageIndex = (currentImageIndex - 1 + galleryImages.length) % galleryImages.length;
-            updateLightboxImage();
-        }
-
-        // Event Listeners para Lightbox
-        lightboxClose.addEventListener('click', closeLightbox);
-        lightboxNext.addEventListener('click', nextImage);
-        lightboxPrev.addEventListener('click', prevImage);
-
-        // Fechar lightbox ao clicar fora da imagem
-        lightbox.addEventListener('click', (e) => {
-            if (e.target === lightbox) {
-                closeLightbox();
-            }
-        });
-
-        // Navegação por teclado
-        document.addEventListener('keydown', (e) => {
-            if (!lightbox.classList.contains('active')) return;
-            
-            switch(e.key) {
-                case 'Escape':
-                    closeLightbox();
-                    break;
-                case 'ArrowRight':
-                    nextImage();
-                    break;
-                case 'ArrowLeft':
-                    prevImage();
-                    break;
-            }
-        });
-
-        // Função para gerar a galeria
-        function generateGallery() {
-            galleryContainer.innerHTML = '';
-            galleryImages = [...galleryData]; // Copia os dados
-            
-            galleryImages.forEach((item, index) => {
-                const galleryItem = document.createElement('div');
-                galleryItem.className = 'gallery-item';
-                galleryItem.innerHTML = `
-                    <img src="https://picsum.photos/300/200?random=${item.id}" 
-                         alt="${item.title}"
-                         loading="lazy">
-                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
-                        <h3 class="font-ashen-subtitle text-white text-sm">${item.title}</h3>
-                        <p class="text-gray-300 text-xs">${item.category}</p>
-                    </div>
-                `;
-                
-                galleryItem.addEventListener('click', () => openLightbox(index));
-                galleryContainer.appendChild(galleryItem);
-            });
-        }
-
-        // Sistema de Background Dinâmico
+        
+        // ==============================
+        // SISTEMA DE BACKGROUND DINÂMICO
+        // ==============================
         function updateBackground() {
             let currentSection = '';
             const scrollPosition = window.scrollY + window.innerHeight / 3;
@@ -1033,104 +1714,6 @@
                 });
             }
         }
-
-        // Navegação por indicadores
-        indicatorDots.forEach(dot => {
-            dot.addEventListener('click', () => {
-                const section = document.getElementById(dot.dataset.section);
-                if (section) {
-                    section.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-        });
-
-        // Formulário de contato
-        document.getElementById('contact-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            alert('Thank you for your message! We will respond soon.');
-            this.reset();
-        });
-
-        // Navegação suave para links internos
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Inicialização
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('The Ashen OZ - Site inicializado');
-            
-            // Gerar galeria
-            generateGallery();
-            
-            // Inicializar background
-            updateBackground();
-            
-            // Inicializar scroll listener
-            window.addEventListener('scroll', updateBackground);
-        });
-
-        // Utilitários CSS inline para grid
-        const style = document.createElement('style');
-        style.textContent = `
-            .grid { display: grid; }
-            .grid-cols-1 { grid-template-columns: 1fr; }
-            .gap-6 { gap: 1.5rem; }
-            .gap-8 { gap: 2rem; }
-            .text-center { text-align: center; }
-            .mb-4 { margin-bottom: 1rem; }
-            .mb-6 { margin-bottom: 1.5rem; }
-            .mb-8 { margin-bottom: 2rem; }
-            .mt-12 { margin-top: 3rem; }
-            .p-8 { padding: 2rem; }
-            .bg-black\\/40 { background-color: rgba(0, 0, 0, 0.4); }
-            .backdrop-blur-sm { backdrop-filter: blur(4px); }
-            .max-w-2xl { max-width: 42rem; }
-            .mx-auto { margin-left: auto; margin-right: auto; }
-            .absolute { position: absolute; }
-            .bottom-0 { bottom: 0; }
-            .left-0 { left: 0; }
-            .right-0 { right: 0; }
-            .w-full { width: 100%; }
-            .from-black\\/80 { --tw-gradient-from: rgba(0, 0, 0, 0.8); }
-            .to-transparent { --tw-gradient-to: transparent; }
-            .bg-gradient-to-t { background-image: linear-gradient(to top, var(--tw-gradient-stops)); }
-            
-            @media (min-width: 768px) {
-                .md\\:grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
-                .md\\:grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
-            }
-            
-            .text-2xl { font-size: 1.5rem; }
-            .text-xl { font-size: 1.25rem; }
-            .text-sm { font-size: 0.875rem; }
-            .text-xs { font-size: 0.75rem; }
-            
-            .text-gray-300 { color: #d1d5db; }
-            .text-amber-400 { color: #fbbf24; }
-            .text-emerald-400 { color: #34d399; }
-            
-            .bg-gradient-to-r { background-image: linear-gradient(to right, var(--tw-gradient-stops)); }
-            .from-amber-600 { --tw-gradient-from: #d97706; }
-            .to-crimson-500 { --tw-gradient-to: #dc2626; }
-            
-            .px-8 { padding-left: 2rem; padding-right: 2rem; }
-            .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
-            .rounded-md { border-radius: 0.375rem; }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
