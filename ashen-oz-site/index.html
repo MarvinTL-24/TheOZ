@@ -26,7 +26,7 @@
             --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             
             /* Cores das seções */
-            --section-home: rgba(216, 200, 176, 0.1);
+            --section-home: rgba(139, 0, 0, 0.2);
             --section-story: rgba(30, 51, 32, 0.2);
             --section-characters: rgba(75, 0, 130, 0.2);
             --section-systems: rgba(139, 0, 0, 0.2);
@@ -35,12 +35,123 @@
             --section-team: rgba(45, 35, 35, 0.25);
             --section-contact: rgba(30, 51, 32, 0.25);
         }
+         section#home::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/images/galery/2.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        section#story::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/images/galery/3.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            z-index: -1;
+        }
 
-        /* ===== RESET E CONFIGURAÇÕES BASE ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        section#characters::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/images/galery/5.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        section#systems::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/images/galery/20.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        section#bestiary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/images/galery/33.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        section#galery::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;   
+            background-image: url('assets/images/galery/34.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            z-index: -1;
+        }
+        section#team::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/images/galery/12.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        section#contact::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/images/galery/15.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.3;
+            z-index: -1;
         }
 
         html {
@@ -675,7 +786,7 @@
 </head>
 <body>
     <!-- Background Dinâmico -->
-    <div class="background-container" id="background">
+    <div  class="background-container" id="background">
         <div class="dynamic-background" id="dynamic-bg"></div>
         <div class="overlay-texture"></div>
     </div>
