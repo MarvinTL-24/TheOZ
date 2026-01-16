@@ -24,14 +24,6 @@ A dark-themed, fully responsive portfolio website for a fictional grimdark game.
 
 ---
 
-### 📈 GitHub Stats
-
-[![Marvin's GitHub stats](https://github-readme-stats.vercel.app/api?username=MarvinTL-24&show_icons=true&theme=dark)](https://github.com/anuraghazra/github-readme-stats)
-
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=MarvinTL-24&layout=compact&theme=dark)](https://github.com/anuraghazra/github-readme-stats)
-
----
-
 ### 📫 How to Reach Me
 
 I'm always interested in connecting with other developers, discussing new ideas, or exploring opportunities.
