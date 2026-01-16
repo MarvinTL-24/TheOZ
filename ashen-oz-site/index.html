@@ -42,28 +42,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url('assets/images/galery/2.png');
-            background-size: cover;
+            background-image: url('assets/images/galery/1.png');
+            background-size: contain;
             background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0.3;
+            background-repeat: repeat-x;
+            opacity: 1;
             z-index: -1;
         }
         
-        section#story::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('assets/images/galery/3.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0.3;
-            z-index: -1;
-        }
 
         section#characters::before {
             content: '';
@@ -88,7 +74,7 @@
             width: 100%;
             height: 100%;
             background-image: url('assets/images/galery/20.png');
-            background-size: cover;
+            background-size: auto;
             background-position: center;
             background-repeat: no-repeat;
             opacity: 0.3;
@@ -875,6 +861,838 @@
                 font-size: 1.5rem;
             }
         }
+        
+        /* ===== TIMELINE LAYOUT ===== */
+    .timeline-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem 0;
+    }
+
+    .timeline-item {
+        margin-bottom: 4rem;
+        position: relative;
+    }
+
+    .timeline-content {
+        display: flex;
+        align-items: center;
+        gap: 3rem;
+        margin-bottom: 2rem;
+    }
+
+    .timeline-content.reverse {
+        flex-direction: row-reverse;
+    }
+
+    .timeline-text {
+        flex: 1;
+        padding: 1.5rem;
+        background: rgba(26, 26, 26, 0.8);
+        border-left: 4px solid var(--ashen-amber);
+        border-radius: 0 8px 8px 0;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .reverse .timeline-text {
+        border-left: none;
+        border-right: 4px solid var(--ashen-amber);
+        border-radius: 8px 0 0 8px;
+    }
+
+    .timeline-image {
+        flex: 1;
+        position: relative;
+        aspect-ratio: 16/9;
+        overflow: hidden;
+        border-radius: 8px;
+        border: 2px solid var(--ashen-gray-light);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .timeline-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .timeline-image:hover img {
+        transform: scale(1.05);
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+        .timeline-content,
+        .timeline-content.reverse {
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .timeline-text,
+        .reverse .timeline-text {
+            border-left: 4px solid var(--ashen-amber);
+            border-right: none;
+            border-radius: 0 8px 8px 0;
+            width: 100%;
+        }
+
+        .timeline-image {
+            width: 100%;
+        }
+
+        .timeline-item {
+            margin-bottom: 3rem;
+        }
+    }
+    
+    /* ===== STORY SECTION LAYOUT ===== */
+    .story-section {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        align-items: flex-start;
+    }
+
+    .story-text-container {
+        flex: 3;
+        background: rgba(20, 20, 20, 0.9);
+        padding: 2rem;
+        border-radius: 12px;
+        border-left: 4px solid var(--ashen-amber);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .story-images-container {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        min-width: 200px;
+    }
+
+    /* Thumbnail das imagens */
+    .story-image-thumbnail {
+        position: relative;
+        aspect-ratio: 16/9;
+        overflow: hidden;
+        border-radius: 8px;
+        border: 2px solid var(--ashen-gray-light);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        background: rgba(26, 26, 26, 0.8);
+    }
+
+    .story-image-thumbnail:hover {
+        transform: translateY(-3px);
+        border-color: var(--ashen-amber);
+        box-shadow: 0 10px 25px rgba(139, 0, 0, 0.3);
+    }
+
+    .story-image-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .story-image-thumbnail:hover img {
+        transform: scale(1.05);
+    }
+
+    /* Overlay dos thumbnails */
+    .thumbnail-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.4) 0%,
+            rgba(0, 0, 0, 0.1) 30%,
+            rgba(0, 0, 0, 0.05) 60%,
+            rgba(0, 0, 0, 0) 100%
+        );
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 0.75rem;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .story-image-thumbnail:hover .thumbnail-overlay {
+        opacity: 1;
+    }
+
+    .thumbnail-number {
+        background: rgba(0, 0, 0, 0.7);
+        color: var(--ashen-amber);
+        font-family: var(--font-subtitle);
+        font-weight: bold;
+        font-size: 0.85rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        border: 1px solid var(--ashen-gray-light);
+    }
+
+    .thumbnail-expand-btn {
+        background: rgba(0, 0, 0, 0.7);
+        color: var(--ashen-amber);
+        border: none;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .thumbnail-expand-btn:hover {
+        background: rgba(139, 0, 0, 0.8);
+        color: white;
+        transform: scale(1.1);
+    }
+
+    /* Tabela de temas */
+    .themes-table {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .theme-row {
+        display: flex;
+        gap: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .theme-row:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .theme-keyword {
+        flex: 1;
+        min-width: 150px;
+        font-size: 0.95rem;
+    }
+
+    .theme-meaning {
+        flex: 2;
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    /* Summary section */
+    .summary-section {
+        background: rgba(20, 20, 20, 0.9);
+        backdrop-filter: blur(10px);
+    }
+
+    /* Modal (mantenha o CSS anterior do modal) */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.95);
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+    }
+
+    .modal-content {
+        position: relative;
+        max-width: 95%;
+        max-height: 95%;
+        background: var(--ashen-black);
+        border-radius: 12px;
+        overflow: hidden;
+        border: 2px solid var(--ashen-amber);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    }
+
+    .modal-content img {
+        width: 100%;
+        max-height: 80vh;
+        object-fit: contain;
+        display: block;
+    }
+
+    .modal-close {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        color: white;
+        font-size: 2.5rem;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 2001;
+        background: rgba(0, 0, 0, 0.5);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .modal-close:hover {
+        background: rgba(139, 0, 0, 0.8);
+        transform: scale(1.1);
+    }
+
+    .modal-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(10, 10, 10, 0.9);
+        padding: 1rem;
+        display: flex;
+        justify-content: space-between;
+        color: white;
+        font-family: var(--font-subtitle);
+    }
+
+    /* Responsividade */
+    @media (max-width: 992px) {
+        .story-section {
+            flex-direction: column;
+            gap: 2rem;
+        }
+        
+        .story-images-container {
+            flex-direction: row;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+        
+        .story-image-thumbnail {
+            flex: 1;
+            min-width: 180px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .story-text-container {
+            padding: 1.5rem;
+        }
+        
+        .theme-row {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .theme-keyword {
+            min-width: auto;
+        }
+        
+        .thumbnail-overlay {
+            opacity: 1; /* Sempre visível em mobile */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .story-images-container {
+            flex-direction: column;
+        }
+        
+        .story-image-thumbnail {
+            width: 100%;
+        }
+        
+        .summary-section {
+            padding: 1.5rem;
+        }
+    }
+
+    /* ===== OVERVIEW SECTION ===== */
+    #overview {
+        background: rgba(26, 26, 26, 0.95);
+    }
+
+    /* Banner Principal */
+    .overview-banner {
+        margin-bottom: 4rem;
+    }
+
+    .key-visual-container {
+        position: relative;
+        aspect-ratio: 16/9;
+        overflow: hidden;
+        border-radius: 12px;
+        border: 3px solid var(--ashen-amber);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+        cursor: pointer;
+    }
+
+    .key-visual-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.6s ease;
+    }
+
+    .key-visual-container:hover .key-visual-img {
+        transform: scale(1.03);
+    }
+
+    .key-visual-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(to top, rgba(10, 10, 10, 0.95), transparent);
+        padding: 2rem;
+        display: flex;
+        align-items: flex-end;
+    }
+
+    .key-visual-text {
+        max-width: 600px;
+    }
+
+    .view-details-btn {
+        background: rgba(139, 0, 0, 0.8);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: var(--font-subtitle);
+        font-weight: 600;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .view-details-btn:hover {
+        background: rgba(218, 165, 32, 0.8);
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(139, 0, 0, 0.3);
+    }
+
+    /* Branding Section */
+    .branding-section {
+        background: rgba(20, 20, 20, 0.9);
+    }
+
+    .branding-list {
+        list-style: none;
+        padding-left: 0;
+        margin-top: 1.5rem;
+    }
+
+    .branding-list li {
+        padding: 0.75rem 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .branding-list li:last-child {
+        border-bottom: none;
+    }
+
+    /* Key Messages */
+    .key-messages-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .key-message-card {
+        background: rgba(20, 20, 20, 0.8);
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--ashen-gray-light);
+        transition: all 0.3s ease;
+    }
+
+    .key-message-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--ashen-amber);
+        box-shadow: 0 10px 30px rgba(139, 0, 0, 0.2);
+    }
+
+    .message-image-container {
+        position: relative;
+        aspect-ratio: 16/9;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .message-image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .key-message-card:hover .message-image-container img {
+        transform: scale(1.05);
+    }
+
+    .message-number {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        background: rgba(0, 0, 0, 0.8);
+        color: var(--ashen-amber);
+        font-family: var(--font-title);
+        font-size: 1.25rem;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--ashen-amber);
+    }
+
+    .message-content {
+        padding: 1.5rem;
+    }
+
+    /* Project Information */
+    .project-info-section {
+        background: rgba(15, 15, 15, 0.9);
+        padding: 2rem;
+        border-radius: 12px;
+        border: 2px solid var(--ashen-gray-light);
+    }
+
+    .project-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .project-logo {
+        max-width: 300px;
+        margin: 0 auto 2rem;
+    }
+
+    .project-logo-img {
+        width: 100%;
+        height: auto;
+        filter: drop-shadow(0 0 10px rgba(218, 165, 32, 0.3));
+    }
+
+    .project-table-container {
+        background: rgba(20, 20, 20, 0.9);
+    }
+
+    .project-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .project-table tr {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .project-table tr:last-child {
+        border-bottom: none;
+    }
+
+    .table-category {
+        padding: 1rem;
+        width: 30%;
+        vertical-align: top;
+        font-size: 1.1rem;
+    }
+
+    .table-details {
+        padding: 1rem;
+        width: 70%;
+        vertical-align: top;
+        font-size: 1rem;
+    }
+
+    /* Gameplay Pillars */
+    .pillars-intro {
+        background: rgba(20, 20, 20, 0.9);
+    }
+
+    .concept-highlight {
+        background: rgba(26, 26, 26, 0.8);
+        padding: 2rem;
+        border-radius: 8px;
+        border-left: 4px solid var(--ashen-amber);
+        margin-top: 2rem;
+    }
+
+    .pillars-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .pillar-card {
+        background: rgba(20, 20, 20, 0.8);
+        border-radius: 12px;
+        overflow: hidden;
+        border: 2px solid var(--ashen-gray-light);
+        transition: all 0.3s ease;
+    }
+
+    .pillar-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--ashen-amber);
+        box-shadow: 0 10px 30px rgba(139, 0, 0, 0.3);
+    }
+
+    .pillar-header {
+        padding: 1.5rem 1.5rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .pillar-number {
+        font-family: var(--font-title);
+        font-size: 1.5rem;
+        min-width: 40px;
+    }
+
+    .pillar-image-container {
+        position: relative;
+        aspect-ratio: 16/9;
+        overflow: hidden;
+        cursor: pointer;
+    }
+
+    .pillar-image-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .pillar-card:hover .pillar-image-container img {
+        transform: scale(1.05);
+    }
+
+    .pillar-image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .pillar-image-container:hover .pillar-image-overlay {
+        opacity: 1;
+    }
+
+    .expand-pillar-btn {
+        background: rgba(0, 0, 0, 0.8);
+        color: var(--ashen-amber);
+        border: 2px solid var(--ashen-amber);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 1.25rem;
+        transition: all 0.3s ease;
+    }
+
+    .expand-pillar-btn:hover {
+        background: var(--ashen-amber);
+        color: black;
+        transform: scale(1.1);
+    }
+
+    .pillar-content {
+        padding: 1.5rem;
+    }
+
+    .pillar-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .tag {
+        background: rgba(139, 0, 0, 0.2);
+        color: var(--ashen-amber);
+        padding: 0.25rem 0.75rem;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        border: 1px solid rgba(218, 165, 32, 0.3);
+    }
+
+    /* Modal para Overview */
+    .overview-modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.98);
+        justify-content: center;
+        align-items: center;
+        padding: 2rem;
+    }
+
+    .overview-modal-content {
+        position: relative;
+        max-width: 1200px;
+        max-height: 90vh;
+        background: var(--ashen-black);
+        border-radius: 16px;
+        overflow: hidden;
+        border: 3px solid var(--ashen-amber);
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .overview-modal-body {
+        display: flex;
+        height: 100%;
+        max-height: 80vh;
+    }
+
+    .overview-modal-image {
+        flex: 2;
+        overflow: hidden;
+    }
+
+    .overview-modal-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 2rem;
+    }
+
+    .overview-modal-text {
+        flex: 1;
+        padding: 2rem;
+        background: rgba(20, 20, 20, 0.95);
+        overflow-y: auto;
+        min-width: 350px;
+    }
+
+    .overview-modal-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        color: white;
+        font-size: 2.5rem;
+        font-weight: bold;
+        cursor: pointer;
+        z-index: 2001;
+        background: rgba(0, 0, 0, 0.7);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .overview-modal-close:hover {
+        background: rgba(139, 0, 0, 0.9);
+        transform: scale(1.1);
+    }
+
+    /* Responsividade */
+    @media (max-width: 1200px) {
+        .overview-modal-body {
+            flex-direction: column;
+            max-height: 85vh;
+        }
+        
+        .overview-modal-image {
+            flex: none;
+            height: 50%;
+        }
+        
+        .overview-modal-text {
+            flex: none;
+            height: 50%;
+            min-width: auto;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .key-messages-grid,
+        .pillars-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .table-category,
+        .table-details {
+            display: block;
+            width: 100%;
+            padding: 0.75rem 0;
+        }
+        
+        .project-table tr {
+            border-bottom: 2px solid var(--ashen-gray-light);
+            padding: 1rem 0;
+            display: block;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .key-visual-overlay {
+            padding: 1.5rem;
+        }
+        
+        .overview-modal-content {
+            max-width: 95%;
+        }
+        
+        .overview-modal-image img {
+            padding: 1rem;
+        }
+        
+        .overview-modal-text {
+            padding: 1.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .key-visual-text h3 {
+            font-size: 1.25rem;
+        }
+        
+        .pillar-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+        
+        .overview-modal {
+            padding: 1rem;
+        }
+    }
     </style>
 </head>
 <body>
@@ -927,44 +1745,431 @@
     
     <!-- Conteúdo Principal -->
     <main>
-        <!-- Seção 1: Home -->
+        <!-- Seção 0: Home -->
         <section id="home">
+            <div class="section-container"></div>
+        </section>
+
+        <!-- SEÇÃO OVERVIEW (após a Home, antes da Story) -->
+        <section id="overview" class="bg-dark">
             <div class="section-container">
-                <div class="text-center">
-                    <div class="logo-style crimson-glow mb-6">
-                        "The Oz you knew is gone"
+                <h2 class="section-title crimson-glow">Overview</h2>
+                
+                <!-- Banner Principal com Key Visual -->
+                <div class="overview-banner">
+                    <div class="key-visual-container">
+                        <img src="assets/images/galery/1.png" alt="Key Visual - The Ashen OZ" class="key-visual-img expandable-overview" data-index="0">
+                        <div class="key-visual-overlay">
+                            <div class="key-visual-text">
+                                <h3 class="font-ashen-subtitle text-amber">Key Visual / Main Poster</h3>
+                                <p class="text-gray-300 mt-2">
+                                    This is the main key visual that captures the core atmosphere of the game.
+                                    A high-quality hand-drawn illustration visualizing Dorothy's desperate journey through a fallen world.
+                                </p>
+                                <button class="view-details-btn mt-4" data-index="0">
+                                    <i class="fas fa-expand-alt mr-2"></i> View Details
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="font-ashen-subtitle amber-glow mb-4" style="font-size: 1.5rem;">
-                        The AshenOZ
+                    
+                    <!-- Texto de Branding -->
+                    <div class="branding-section border-gradient p-6 mt-8">
+                        <h3 class="font-ashen-subtitle text-amber mb-4">A) Branding</h3>
+                        <div class="branding-content">
+                            <p class="text-gray-300 mb-3">
+                                A grimdark action roguelite depicting a journey through a despair-ridden Oz,
+                                a girl who has lost her memories,
+                                and her inevitable confrontation with the cruelest truth of all.
+                            </p>
+                            <p class="text-gray-300 mb-3">
+                                This poster visually compresses Dorothy's <strong>"two worlds"</strong> into a single image.
+                            </p>
+                            <ul class="branding-list text-gray-300">
+                                <li><strong class="text-amber">The Ashen Dice</strong> → A symbol of the inescapable loop she is trapped in</li>
+                                <li><strong class="text-amber">Black rain & twisted branches</strong> → Despair and the distortion of memory</li>
+                                <li><strong class="text-amber">Emerald umbrella</strong> → Dorothy's sole means of survival and a key to her identity</li>
+                                <li><strong class="text-amber">Hollow yet fearless gaze</strong> → Fear of facing the past, and the resolve to grow beyond it</li>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="font-ashen-subtitle text-gray-300 mb-8" style="font-size: 1.25rem;">
-                        Fast-paced Action Grimdark Roguelite
+                </div>
+
+                <!-- Key Messages Section -->
+                <div class="key-messages-section mt-8">
+                    <h3 class="font-ashen-subtitle text-center text-amber mb-6">B) Key Messages (Core Values)</h3>
+                    
+                    <div class="key-messages-grid">
+                        <!-- Message 1 -->
+                        <div class="key-message-card">
+                            <div class="message-image-container">
+                                <img src="assets/images/galery/15.png" alt="Ruined Oz" class="expandable-overview" data-index="1">
+                                <div class="message-number">01</div>
+                            </div>
+                            <div class="message-content">
+                                <h4 class="font-ashen-subtitle text-amber mb-3">1. A dark, dreamlike atmosphere set in a ruined land of Oz</h4>
+                                <p class="text-gray-300">
+                                    A fairytale × nightmare world shaped by erased memories and endlessly repeating despair.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Message 2 -->
+                        <div class="key-message-card">
+                            <div class="message-image-container">
+                                <img src="assets/images/galery/16.png" alt="Combat System" class="expandable-overview" data-index="2">
+                                <div class="message-number">02</div>
+                            </div>
+                            <div class="message-content">
+                                <h4 class="font-ashen-subtitle text-amber mb-3">2. Fast-paced chained action and ever-changing deckbuilding each run</h4>
+                                <p class="text-gray-300">
+                                    A combat structure that blends combo-driven, high-speed action with meaningful strategic choices.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Message 3 -->
+                        <div class="key-message-card">
+                            <div class="message-image-container">
+                                <img src="assets/images/galery/12.png" alt="Storytelling" class="expandable-overview" data-index="3">
+                                <div class="message-number">03</div>
+                            </div>
+                            <div class="message-content">
+                                <h4 class="font-ashen-subtitle text-amber mb-3">3. Emotion-driven storytelling following Dorothy's identity and scars</h4>
+                                <p class="text-gray-300">
+                                    An orphanage, experiments, lost memories—
+                                    a journey toward the truth by piecing together fragmented recollections.
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="font-ashen-subtitle mt-12" style="font-size: 1.5rem;">
-                        ASHBONE GAMES
+                </div>
+
+                <!-- Project Information Table -->
+                <div class="project-info-section mt-10">
+                    <div class="project-header">
+                        <div class="project-logo">
+                            <img src="assets/images/galery/2.png" alt="Ashen OZ Logo" class="project-logo-img">
+                        </div>
+                        <h3 class="font-ashen-subtitle text-center text-amber mb-6">Project Information</h3>
+                    </div>
+                    
+                    <div class="project-table-container border-gradient p-6">
+                        <table class="project-table">
+                            <tbody>
+                                <tr>
+                                    <td class="table-category text-amber"><strong>Genre</strong></td>
+                                    <td class="table-details text-gray-300">2D Grimdark / Roguelike / Stylized Action</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-category text-amber"><strong>Platform</strong></td>
+                                    <td class="table-details text-gray-300">Steam (PC) / Console – Multi-platform</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-category text-amber"><strong>Engine</strong></td>
+                                    <td class="table-details text-gray-300">Unity 6</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-category text-amber"><strong>Core Gameplay</strong></td>
+                                    <td class="table-details text-gray-300">Precise boss encounters + Hack-and-slash rhythm + Loop-based progression</td>
+                                </tr>
+                                <tr>
+                                    <td class="table-category text-amber"><strong>Concept Keywords</strong></td>
+                                    <td class="table-details text-gray-300"><em>Dark Oz</em> – A grotesque yet enchanting reinterpretation of dark fantasy</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Core Gameplay Pillars -->
+                <div class="gameplay-pillars-section mt-10">
+                    <h3 class="font-ashen-subtitle text-center text-amber mb-6">Core Gameplay Pillars</h3>
+                    
+                    <div class="pillars-intro border-gradient p-6 mb-8">
+                        <p class="text-gray-300 text-center text-lg mb-4">
+                            <strong>1. Fast-Paced Combat</strong> seamlessly chained without interruption — <strong class="text-amber">high-tempo "field combat"</strong> +
+                        </p>
+                        <p class="text-gray-300 text-center text-lg mb-4">
+                            <strong>2. Precisely Designed Bosses</strong> demanding deliberate, calculated moves — <strong class="text-amber">boss fights with precise and varied patterns</strong> +
+                        </p>
+                        <p class="text-gray-300 text-center text-lg">
+                            <strong>3. The Drive to Repeat</strong> where even failure pushes growth and story forward — <strong class="text-amber">a meta-roguelite built around a progression loop</strong>
+                        </p>
+                        <p class="text-gray-300 text-center mt-6">
+                            By focusing on these <strong class="text-amber">Top 3 Core Gameplay Pillars</strong>,
+                        </p>
+                        
+                        <div class="concept-highlight mt-6">
+                            <h4 class="font-ashen-subtitle text-center text-amber mb-3">"Hades Knight"</h4>
+                            <p class="text-gray-300 text-center italic">
+                                (Hades + Hollow Knight)
+                            </p>
+                            <p class="text-gray-300 text-center mt-4">
+                                <strong>Fast-Paced Action Roguelite / Metroidvania Hybrid</strong><br>
+                                Fast, chained combat inspired by <em>Hades</em>, refined through <em>Hollow Knight's</em>
+                                boss design — a descent into despair where every run leads to growth.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Individual Pillars -->
+                    <div class="pillars-grid">
+                        <!-- Pillar 1: Fast-Paced Combat -->
+                        <div class="pillar-card">
+                            <div class="pillar-header">
+                                <span class="pillar-number text-amber">01</span>
+                                <h4 class="font-ashen-subtitle text-amber">Fast-Paced Combat</h4>
+                            </div>
+                            <div class="pillar-image-container">
+                                <img src="assets/images/galery/7.png" alt="Combat System" class="expandable-overview" data-index="4">
+                                <div class="pillar-image-overlay">
+                                    <button class="expand-pillar-btn" data-index="4">
+                                        <i class="fas fa-expand-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="pillar-content">
+                                <p class="text-gray-300">
+                                    Chain Attack Combo System with directional inputs, creating fluid and responsive combat.
+                                    Space → X → X → X → Link into A (Ultimate) mechanics.
+                                </p>
+                                <div class="pillar-tags mt-3">
+                                    <span class="tag">Chain Combos</span>
+                                    <span class="tag">Directional Attacks</span>
+                                    <span class="tag">Dash Canceling</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pillar 2: Precisely Designed Bosses -->
+                        <div class="pillar-card">
+                            <div class="pillar-header">
+                                <span class="pillar-number text-amber">02</span>
+                                <h4 class="font-ashen-subtitle text-amber">Precisely Designed Bosses</h4>
+                            </div>
+                            <div class="pillar-image-container">
+                                <img src="assets/images/galery/25.png" alt="Boss Design" class="expandable-overview" data-index="5">
+                                <div class="pillar-image-overlay">
+                                    <button class="expand-pillar-btn" data-index="5">
+                                        <i class="fas fa-expand-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="pillar-content">
+                                <p class="text-gray-300">
+                                    Each Act features carefully crafted bosses with unique phases and patterns.
+                                    Bosses with Super Armor require precise timing and strategic approach.
+                                </p>
+                                <div class="pillar-tags mt-3">
+                                    <span class="tag">Pattern Recognition</span>
+                                    <span class="tag">Phase Transitions</span>
+                                    <span class="tag">Super Armor</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pillar 3: The Drive to Repeat -->
+                        <div class="pillar-card">
+                            <div class="pillar-header">
+                                <span class="pillar-number text-amber">03</span>
+                                <h4 class="font-ashen-subtitle text-amber">The Drive to Repeat</h4>
+                            </div>
+                            <div class="pillar-image-container">
+                                <img src="assets/images/galery/23.png" alt="Progression Loop" class="expandable-overview" data-index="6">
+                                <div class="pillar-image-overlay">
+                                    <button class="expand-pillar-btn" data-index="6">
+                                        <i class="fas fa-expand-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="pillar-content">
+                                <p class="text-gray-300">
+                                    Soul Pact system with companion summons and EX skills.
+                                    Each run progresses the story and unlocks new abilities, creating meaningful progression.
+                                </p>
+                                <div class="pillar-tags mt-3">
+                                    <span class="tag">Soul Pact</span>
+                                    <span class="tag">Meta Progression</span>
+                                    <span class="tag">Story Unlocks</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal para Overview -->
+            <div id="overviewModal" class="overview-modal">
+                <div class="overview-modal-content">
+                    <span class="overview-modal-close">&times;</span>
+                    <div class="overview-modal-body">
+                        <div class="overview-modal-image">
+                            <img id="overviewModalImage" src="" alt="Expanded Overview Image">
+                        </div>
+                        <div class="overview-modal-text">
+                            <h3 id="overviewModalTitle" class="font-ashen-subtitle text-amber"></h3>
+                            <div id="overviewModalDescription" class="text-gray-300"></div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
-        
+
         <!-- Seção 2: Story -->
         <section id="story" class="bg-dark">
             <div class="section-container">
                 <h2 class="section-title crimson-glow">Story</h2>
-                <div class="galery-section">
-                    <p class="text-center text-gray-300 mb-6">
-                        An orphaned girl named Dorothy is swept away by a hurricane into an ashen world, 
-                        where she endures a grotesque yet mystical journey through a despair-ridden Oz.
-                    </p>
-                    <div class="border-gradient p-6">
-                        <h3 class="font-ashen-subtitle text-amber mb-4">Prologue: The Ashen Die</h3>
-                        <p class="text-gray-300 mb-4">
-                            When she takes the die into her hand, the markings upon its surface begin to glow—
-                            symbols of hurricane, ember, ruin, and omen.
-                        </p>
-                        <p class="text-gray-300">
-                            Started, the girl drops it. The die spins across the floor and stops on the mark of the hurricane.
-                        </p>
+                
+                <!-- Overview Section -->
+                <div class="story-section">
+                    <div class="story-text-container">
+                        <h3 class="font-ashen-subtitle text-amber mb-4">A) Overview</h3>
+                        <div class="story-content">
+                            <p class="text-gray-300 mb-3">
+                                <strong>The Ashen OZ</strong> tells the story of a young girl whose journey begins in an orphanage in <strong>early-1900s Kansas, USA</strong>.
+                            </p>
+                            <p class="text-gray-300 mb-3">
+                                It follows the <strong>inner collapse and search for salvation</strong> of <strong>Dorothy Ashborne</strong>, and presents a <strong>grimdark fantasy narrative built around a repeating loop</strong>.
+                            </p>
+                            <p class="text-gray-300 mb-3">
+                                The "Oz" of this story is no longer a land of magic. It is an <strong>ashen world</strong>, shaped and manifested from Dorothy's <strong>wounds, despair, and fragmented memories</strong>.
+                            </p>
+                            <p class="text-gray-300 mb-3">
+                                By chance, she comes into possession of a witch's umbrella and a pair of enchanted shoes, imbued with eerie and formidable power.
+                            </p>
+                            <p class="text-gray-300">
+                                Through her journey, and through her encounters with the Scarecrow, the Tin Girl, the Lion, and Toto, she begins to piece together her forgotten memories. And at the end of her journey, every story the girl once believed in becomes entangled—revealing an unexpected and shocking truth.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="story-images-container">
+                        <div class="story-image-thumbnail">
+                            <img src="assets/images/galery/3.png" alt="The Orphanage" class="expandable-img" data-index="0">
+                            <div class="thumbnail-overlay">
+                                <span class="thumbnail-number">3</span>
+                                <button class="thumbnail-expand-btn" data-index="0">
+                                    <i class="fas fa-expand-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="story-image-thumbnail">
+                            <img src="assets/images/galery/6.png" alt="Whispersong Grove" class="expandable-img" data-index="1">
+                            <div class="thumbnail-overlay">
+                                <span class="thumbnail-number">6</span>
+                                <button class="thumbnail-expand-btn" data-index="1">
+                                    <i class="fas fa-expand-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Premise Section -->
+                <div class="story-section">
+                    <div class="story-text-container">
+                        <h3 class="font-ashen-subtitle text-amber mb-4">B) Premise</h3>
+                        <div class="story-content">
+                            <p class="text-gray-300 mb-3">
+                                On a stormy night, Dorothy discovers a strange, ashen die hidden away in the attic of her orphanage.
+                            </p>
+                            <p class="text-gray-300 mb-3">
+                                In that very moment, a hurricane engulfs the building, and Dorothy is transported into <strong>Ashen OZ</strong>.
+                            </p>
+                            <p class="text-gray-300">
+                                Within Oz, she embarks on a grotesque yet mysterious journey, seeking to uncover her <strong>lost memories</strong>—and the <strong>secrets buried within them</strong>.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="story-images-container">
+                        <div class="story-image-thumbnail">
+                            <img src="assets/images/galery/13.png" alt="Murkvale" class="expandable-img" data-index="2">
+                            <div class="thumbnail-overlay">
+                                <span class="thumbnail-number">13</span>
+                                <button class="thumbnail-expand-btn" data-index="2">
+                                    <i class="fas fa-expand-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="story-image-thumbnail">
+                            <img src="assets/images/galery/14.png" alt="Arrival Point" class="expandable-img" data-index="3">
+                            <div class="thumbnail-overlay">
+                                <span class="thumbnail-number">14</span>
+                                <button class="thumbnail-expand-btn" data-index="3">
+                                    <i class="fas fa-expand-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Core Themes Section -->
+                <div class="story-section">
+                    <div class="story-text-container">
+                        <h3 class="font-ashen-subtitle text-amber mb-4">C) Core Themes</h3>
+                        <div class="story-content">
+                            <div class="themes-table">
+                                <div class="theme-row">
+                                    <div class="theme-keyword text-amber"><strong>Void & Memory</strong></div>
+                                    <div class="theme-meaning text-gray-300">Oz is a world where Dorothy's shattered memories are reconstructed</div>
+                                </div>
+                                <div class="theme-row">
+                                    <div class="theme-keyword text-amber"><strong>Purification & Absorption</strong></div>
+                                    <div class="theme-meaning text-gray-300">Will you offer salvation, or bring ruin? — Multiple endings shaped by player choice</div>
+                                </div>
+                                <div class="theme-row">
+                                    <div class="theme-keyword text-amber"><strong>The Dice</strong></div>
+                                    <div class="theme-meaning text-gray-300">A symbol of fate, choice, and repetition; the central device of the main narrative</div>
+                                </div>
+                                <div class="theme-row">
+                                    <div class="theme-keyword text-amber"><strong>The Four Witches</strong></div>
+                                    <div class="theme-meaning text-gray-300">Personified manifestations of Dorothy's emotions</div>
+                                </div>
+                                <div class="theme-row">
+                                    <div class="theme-keyword text-amber"><strong>Umbrella & Shoes</strong></div>
+                                    <div class="theme-meaning text-gray-300">Dorothy's first weapon and equipment, and the core mechanics of combat</div>
+                                </div>
+                                <div class="theme-row">
+                                    <div class="theme-keyword text-amber"><strong>Companions</strong></div>
+                                    <div class="theme-meaning text-gray-300">Powerful abilities unlocked through pacts with Toto, the Scarecrow, the Tin Girl, and the Lion</div>
+                                </div>
+                                <div class="theme-row">
+                                    <div class="theme-keyword text-amber"><strong>The Memory Loop</strong></div>
+                                    <div class="theme-meaning text-gray-300">Upon death, the die's power rewinds the journey and forces a new beginning</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="story-images-container">
+                        <div class="story-image-thumbnail">
+                            <img src="assets/images/galery/48.png" alt="Act Structure" class="expandable-img" data-index="4">
+                            <div class="thumbnail-overlay">
+                                <span class="thumbnail-number">48</span>
+                                <button class="thumbnail-expand-btn" data-index="4">
+                                    <i class="fas fa-expand-alt"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- One-Sentence Summary -->
+                <div class="summary-section border-gradient p-6 mt-8">
+                    <h3 class="font-ashen-subtitle text-center text-amber mb-4">One-Sentence Summary</h3>
+                    <blockquote class="text-center text-gray-300 italic text-lg">
+                        "An orphaned girl named Dorothy is swept away by a hurricane into an ashen world, where she endures a grotesque yet mystical journey through a despair-ridden Oz—a grimdark fantasy shaped by memory, loss, and repetition."
+                    </blockquote>
+                </div>
+            </div>
+
+            <!-- Modal para Expandir Imagem -->
+            <div id="imageModal" class="modal">
+                <div class="modal-content">
+                    <span class="modal-close">&times;</span>
+                    <img id="modalImage" src="" alt="Expanded Image">
+                    <div class="modal-info">
+                        <span id="modalTitle"></span>
+                        <span id="modalNumber"></span>
                     </div>
                 </div>
             </div>
@@ -1670,6 +2875,214 @@
                 this.reset();
             });
         }
+    // Modal para expandir imagens
+    document.addEventListener('DOMContentLoaded', function() {
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalNumber = document.getElementById('modalNumber');
+        const closeBtn = document.querySelector('.modal-close');
+        
+        // Dados das imagens
+        const imageData = [
+            { title: "The Orphanage", number: "3" },
+            { title: "Whispersong Grove", number: "6" },
+            { title: "Murkvale - Munchkin's undercity", number: "13" },
+            { title: "Dorothy's Arrival Point", number: "14" },
+            { title: "Act Structure", number: "48" }
+        ];
+        
+        // Abrir modal
+        function openModal(index) {
+            const img = document.querySelector(`.expandable-img[data-index="${index}"]`);
+            if (img) {
+                modalImg.src = img.src;
+                modalTitle.textContent = imageData[index].title;
+                modalNumber.textContent = "Image #" + imageData[index].number;
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        // Event listeners para imagens e botões
+        document.querySelectorAll('.expandable-img, .thumbnail-expand-btn').forEach(element => {
+            element.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const index = parseInt(this.getAttribute('data-index'));
+                openModal(index);
+            });
+        });
+        
+        // Fechar modal
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Fechar ao clicar fora
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Fechar com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.style.display === 'flex') {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    });
+    
+    // Modal para Overview
+    document.addEventListener('DOMContentLoaded', function() {
+        const overviewModal = document.getElementById('overviewModal');
+        const overviewModalImage = document.getElementById('overviewModalImage');
+        const overviewModalTitle = document.getElementById('overviewModalTitle');
+        const overviewModalDescription = document.getElementById('overviewModalDescription');
+        const overviewModalClose = document.querySelector('.overview-modal-close');
+        
+        // Dados das imagens e descrições
+        const overviewData = [
+            {
+                title: "Key Visual / Main Poster",
+                description: `
+                    <p>This is the main key visual that captures the core atmosphere of <strong>The Ashen OZ</strong>.</p>
+                    <p>A high-quality hand-drawn illustration visualizing Dorothy's desperate journey through a fallen world, 
+                    where the Oz we knew is gone, replaced by an ashen landscape of despair and memory.</p>
+                    <p class="mt-3"><strong>ASHBONE GAMES presents:</strong> Fast-paced Action Grimdark Roguelite</p>
+                `
+            },
+            {
+                title: "A dark, dreamlike atmosphere set in a ruined land of Oz",
+                description: `
+                    <p>The game presents a fairytale × nightmare world shaped by erased memories and endlessly repeating despair.</p>
+                    <p>The environment reflects Dorothy's inner turmoil and fragmented memories, creating a hauntingly beautiful 
+                    yet terrifying landscape that tells its own story.</p>
+                `
+            },
+            {
+                title: "Fast-paced chained action combat system",
+                description: `
+                    <p><strong>Chain Attack Combo System:</strong> Space(Chain) → X(Horizontal Slash) → X(Diagonal Slash) → X(Overhead Smash)</p>
+                    <p>The combat structure blends combo-driven, high-speed action with meaningful strategic choices.</p>
+                    <p class="mt-3"><strong>Features:</strong></p>
+                    <ul>
+                        <li>Screen Shake & Distortion effects for impactful hits</li>
+                        <li>Link into Ultimate (A), Dash Cancel (C), or Chain (Space)</li>
+                        <li>Knockback mechanics with variable force</li>
+                        <li>Combo continuation through evasion or cancellation</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Emotion-driven storytelling",
+                description: `
+                    <p>"Hello. It's been a while, Dorothy. Well... I don't remember much... Hehe..."</p>
+                    <p>An orphanage, experiments, lost memories—a journey toward the truth by piecing together fragmented recollections.</p>
+                    <p class="mt-3">Dorothy finally arrives at the orphanage, where she meets the mysterious boy 'TIP', 
+                    beginning her quest to uncover the secrets buried within her own mind.</p>
+                `
+            },
+            {
+                title: "Fast-Paced Combat System",
+                description: `
+                    <p><strong>Combat Philosophy:</strong> "One beat too slow, you're devoured. One beat too fast, you tear them apart."</p>
+                    
+                    <p class="mt-3"><strong>Basic Controls:</strong></p>
+                    <ul>
+                        <li>↓ + X: Downward Slash</li>
+                        <li>↑ + X: Upward Slash</li>
+                        <li>Basic 3-hit combo with directional inputs</li>
+                    </ul>
+                    
+                    <p class="mt-3"><strong>Combat Mechanics:</strong></p>
+                    <ul>
+                        <li>1st Hit: Horizontal Slash with short slide</li>
+                        <li>2nd Hit: Diagonal Slash with shorter slide</li>
+                        <li>3rd Hit: Overhead Smash with turning attack (10 damage)</li>
+                        <li>Enemies with Super Armor ignore attacks and counter</li>
+                    </ul>
+                `
+            },
+            {
+                title: "Precisely Designed Boss: Act Boss",
+                description: `
+                    <p><strong>PHASE I</strong> - Each Act features one final boss encounter</p>
+                    
+                    <p class="mt-3"><strong>Man-Eating Fish:</strong> A ghastly, vengeful man-eating fish armed with a cleaver charges toward the player.</p>
+                    
+                    <p>Bosses are carefully designed with:</p>
+                    <ul>
+                        <li>Distinct attack patterns and phases</li>
+                        <li>Super Armor mechanics requiring precise timing</li>
+                        <li>Environmental interactions</li>
+                        <li>Phase transitions with changing behaviors</li>
+                    </ul>
+                `
+            },
+            {
+                title: "The Drive to Repeat: Soul Pact System",
+                description: `
+                    <p><strong>Mid-Boss System:</strong> One fixed mid-boss per Act</p>
+                    
+                    <p class="mt-3"><strong>Soul Pact (A Button):</strong></p>
+                    <ul>
+                        <li>Summon companions to use powerful EX skills</li>
+                        <li>Each companion has unique attack ranges, damage types, and debuff effects</li>
+                        <li>Soul Gauge fills during combat, enabling usage when full</li>
+                    </ul>
+                    
+                    <p class="mt-3"><strong>Progression Loop:</strong></p>
+                    <p>Each run unlocks new abilities and story elements, creating meaningful progression 
+                    and giving players the drive to continue even after failure.</p>
+                `
+            }
+        ];
+        
+        // Abrir modal
+        function openOverviewModal(index) {
+            overviewModalImage.src = document.querySelector(`.expandable-overview[data-index="${index}"]`).src;
+            overviewModalTitle.textContent = overviewData[index].title;
+            overviewModalDescription.innerHTML = overviewData[index].description;
+            overviewModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Event listeners para abrir modal
+        document.querySelectorAll('.expandable-overview, .view-details-btn, .expand-pillar-btn').forEach(element => {
+            element.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const index = parseInt(this.getAttribute('data-index'));
+                openOverviewModal(index);
+            });
+        });
+        
+        // Fechar modal
+        overviewModalClose.addEventListener('click', function() {
+            overviewModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Fechar ao clicar fora
+        overviewModal.addEventListener('click', function(e) {
+            if (e.target === overviewModal) {
+                overviewModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Fechar com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && overviewModal.style.display === 'flex') {
+                overviewModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+    });
+
 
         // ==============================
         // INITIALIZATION
