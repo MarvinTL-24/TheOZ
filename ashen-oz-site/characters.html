@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Characters - The Ashen OZ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Fontes -->
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== VARIÁVEIS E CONFIGURAÇÕES GLOBAIS ===== */
+        :root {
+            /* Sistema de cores do jogo */
+            --ashen-black: #0A0A0A;
+            --ashen-gray-dark: #1A1A1A;
+            --ashen-gray-light: #3A3A3A;
+            --ashen-crimson: #8B0000;
+            --ashen-amber: #DAA520;
+            --ashen-emerald: #006400;
+            --ashen-purple: #4B0082;
+            --ashen-storm: #1E3A5F;
+            
+            /* Sistema de fontes */
+            --font-title: 'Black Ops One', cursive;
+            --font-subtitle: 'Orbitron', sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--ashen-black);
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ===== SISTEMA DE FONTES ===== */
+        .font-ashen-title {
+            font-family: var(--font-title);
+            font-weight: 400;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1.2;
+        }
+
+        .font-ashen-subtitle {
+            font-family: var(--font-subtitle);
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        .font-ashen-body {
+            font-family: var(--font-body);
+            font-weight: 400;
+            line-height: 1.7;
+            letter-spacing: 0.2px;
+        }
+
+        .logo-style {
+            font-family: var(--font-title);
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #ffffff;
+            text-shadow: 
+                0 0 10px rgba(218, 165, 32, 0.7),
+                0 0 20px rgba(139, 0, 0, 0.5),
+                0 0 30px rgba(139, 0, 0, 0.3);
+            line-height: 1;
+        }
+
+        /* ===== NAVEGAÇÃO ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-family: var(--font-subtitle);
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--ashen-amber);
+        }
+
+        .nav-links a.active {
+            color: var(--ashen-amber);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--ashen-amber);
+            border-radius: 2px;
+        }
+
+        /* ===== SEÇÕES ===== */
+        section {
+            min-height: 100vh;
+            padding: 6rem 1rem 2rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .section-container {
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-family: var(--font-title);
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .bg-dark {
+            background: rgba(26, 26, 26, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        .border-gradient {
+            border: 2px solid transparent;
+            background: 
+                linear-gradient(var(--ashen-black), var(--ashen-black)) padding-box,
+                linear-gradient(135deg, var(--ashen-crimson), var(--ashen-amber)) border-box;
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        /* ===== CHARACTER PAGE STYLES ===== */
+        .character-hero {
+            text-align: center;
+            padding: 4rem 1rem;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.9));
+            border-bottom: 3px solid var(--ashen-purple);
+        }
+
+        .character-name {
+            font-family: var(--font-title);
+            font-size: 3.5rem;
+            color: var(--ashen-amber);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(218, 165, 32, 0.5);
+        }
+
+        .character-subtitle {
+            font-family: var(--font-subtitle);
+            font-size: 1.2rem;
+            color: var(--ashen-gray-light);
+            font-style: italic;
+            margin-bottom: 2rem;
+        }
+
+        .character-images-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .character-image-card {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--ashen-gray-light);
+            transition: all 0.3s ease;
+            height: 250px;
+        }
+
+        .character-image-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--ashen-amber);
+            box-shadow: 0 10px 30px rgba(139, 0, 0, 0.3);
+        }
+
+        .character-image-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .character-image-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            font-family: var(--font-subtitle);
+            font-size: 0.9rem;
+            color: var(--ashen-amber);
+        }
+
+        /* Character Info Table */
+        .character-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .character-info-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            vertical-align: top;
+        }
+
+        .character-info-table td:first-child {
+            width: 30%;
+            color: var(--ashen-amber);
+            font-weight: 600;
+            font-family: var(--font-subtitle);
+        }
+
+        .character-info-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Combat System Styles */
+        .combat-philosophy {
+            font-style: italic;
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--ashen-amber);
+            margin: 3rem 0;
+            padding: 2rem;
+            border-left: 4px solid var(--ashen-crimson);
+            background: rgba(139, 0, 0, 0.1);
+        }
+
+        .system-section {
+            margin: 4rem 0;
+            padding: 2rem;
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 12px;
+            border-left: 4px solid var(--ashen-crimson);
+        }
+
+        .system-title {
+            font-family: var(--font-subtitle);
+            font-size: 1.8rem;
+            color: var(--ashen-amber);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .system-title .icon {
+            color: var(--ashen-crimson);
+            font-size: 1.5rem;
+        }
+
+        .system-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .system-card {
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 8px;
+            padding: 1.5rem;
+            border: 1px solid var(--ashen-gray-light);
+            transition: all 0.3s ease;
+        }
+
+        .system-card:hover {
+            border-color: var(--ashen-amber);
+            transform: translateY(-3px);
+        }
+
+        .system-card-title {
+            font-family: var(--font-subtitle);
+            color: var(--ashen-amber);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* Dice System */
+        .dice-section {
+            background: linear-gradient(135deg, rgba(75, 0, 130, 0.1), rgba(30, 58, 95, 0.1));
+            border: 2px solid var(--ashen-purple);
+        }
+
+        .dice-faces-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .dice-face-card {
+            background: rgba(40, 40, 40, 0.9);
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .dice-face-card:hover {
+            border-color: var(--ashen-purple);
+            transform: translateY(-5px);
+        }
+
+        .dice-face-icon {
+            font-size: 2rem;
+            color: var(--ashen-purple);
+            margin-bottom: 1rem;
+        }
+
+        /* Room System */
+        .room-type-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .room-type-card {
+            background: rgba(30, 30, 30, 0.9);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 2px solid var(--ashen-gray-light);
+            transition: all 0.3s ease;
+        }
+
+        .room-type-card:hover {
+            border-color: var(--ashen-amber);
+            transform: translateY(-5px);
+        }
+
+        .room-type-image {
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .room-type-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .room-type-content {
+            padding: 1.5rem;
+        }
+
+        .room-type-title {
+            font-family: var(--font-subtitle);
+            color: var(--ashen-amber);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.98);
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .modal-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+            background: var(--ashen-black);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 3px solid var(--ashen-amber);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.9);
+        }
+
+        .modal-content img {
+            width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            display: block;
+            padding: 2rem;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2001;
+            background: rgba(0, 0, 0, 0.7);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(139, 0, 0, 0.9);
+            transform: scale(1.1);
+        }
+
+        /* ===== UTILITÁRIOS ===== */
+        .text-center { text-align: center; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-3 { margin-top: 0.75rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .mt-8 { margin-top: 2rem; }
+        
+        .text-amber { color: var(--ashen-amber); }
+        .text-crimson { color: var(--ashen-crimson); }
+        .text-purple { color: var(--ashen-purple); }
+        .text-gray-300 { color: #d1d5db; }
+        .text-gray-400 { color: #9ca3af; }
+
+        .purple-glow {
+            text-shadow: 
+                0 0 10px rgba(75, 0, 130, 0.7),
+                0 0 20px rgba(75, 0, 130, 0.5);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            border-top: 1px solid #374151;
+            padding: 3rem 0 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--ashen-amber);
+            text-decoration: none;
+            font-family: var(--font-subtitle);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        /* ===== RESPONSIVIDADE ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .character-name {
+                font-size: 2.5rem;
+            }
+            
+            section {
+                padding: 5rem 1rem 2rem;
+            }
+            
+            .character-images-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .system-grid,
+            .dice-faces-grid,
+            .room-type-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .character-info-table td {
+                display: block;
+                width: 100%;
+                padding: 0.75rem 0;
+            }
+            
+            .character-info-table td:first-child {
+                width: 100%;
+                padding-bottom: 0.25rem;
+                color: var(--ashen-amber);
+                font-weight: 600;
+            }
+            
+            .modal-content {
+                max-width: 95%;
+            }
+            
+            .modal-content img {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section-title {
+                font-size: 1.75rem;
+            }
+            
+            .character-name {
+                font-size: 2rem;
+            }
+            
+            .system-title {
+                font-size: 1.5rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegação -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo-style" style="font-size: 1.8rem;">
+                <a href="index.html" style="color: inherit; text-decoration: none;">The Ashen OZ</a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="characters.html" class="active">Characters</a>
+                <a href="team-contact.html">Team & Contact</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Conteúdo Principal -->
+    <main>
+        <!-- Hero Section -->
+        <section class="character-hero">
+            <div class="section-container">
+                <h1 class="character-name">Dorothy Ashborne</h1>
+                <p class="character-subtitle">
+                    "The winds of the world split apart.<br>
+                    And a fourteen-year-old girl was cast onto a path from which there was no return."
+                </p>
+                
+                <!-- Character Images -->
+                <div class="character-images-grid">
+                    <div class="character-image-card">
+                        <img src="assets/images/galery/31.png" alt="Dorothy - The Real World" class="expandable-char" data-index="0">
+                        <div class="image-caption">Dorothy — The Real World</div>
+                    </div>
+                    <div class="character-image-card">
+                        <img src="assets/images/galery/4.png" alt="Dorothy - The World of Oz" class="expandable-char" data-index="1">
+                        <div class="image-caption">Dorothy — The World of Oz</div>
+                    </div>
+                    <div class="character-image-card">
+                        <img src="assets/images/galery/49.png" alt="Dorothy Character Art" class="expandable-char" data-index="2">
+                        <div class="image-caption">Character Art</div>
+                    </div>
+                </div>
+                
+                <!-- Character Info Table -->
+                <table class="character-info-table">
+                    <tr>
+                        <td>Name</td>
+                        <td><strong>Dorothy Ashborne</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Age</td>
+                        <td>12 years old <em>(physically regresses to 7 within the world of Oz)</em></td>
+                    </tr>
+                    <tr>
+                        <td>Origin</td>
+                        <td>Early 1910s, a small orphanage in Kansas, USA</td>
+                    </tr>
+                    <tr>
+                        <td>Personality</td>
+                        <td>Introverted and deeply lonely; prone to intense emotional outbursts when her feelings erupt</td>
+                    </tr>
+                    <tr>
+                        <td>Symbolic Objects</td>
+                        <td>The Die, the Witch's Umbrella, a Red Ribbon, Bloodstained Shoes, a Toto Doll</td>
+                    </tr>
+                    <tr>
+                        <td>Core Themes</td>
+                        <td>Fate / Repetition / Choice / Fragments of Memory / Guilt</td>
+                    </tr>
+                </table>
+                
+                <!-- Character Image -->
+                <div class="character-image-card mt-6" style="max-width: 800px; margin: 0 auto; height: 400px;">
+                    <img src="assets/images/galery/34.png" alt="Dorothy Character Design" class="expandable-char" data-index="3">
+                    <div class="image-caption">Dorothy Ashborne - Character Design</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Combat System Section -->
+        <section class="bg-dark">
+            <div class="section-container">
+                <h2 class="section-title purple-glow">Combat System</h2>
+                
+                <div class="combat-philosophy">
+                    "Hesitate for a beat, and you are swallowed.<br>
+                    Rush a beat ahead, and you tear through."
+                </div>
+                
+                <p class="text-gray-300 text-center mb-6">
+                    A combat system built around <strong>tempo, rhythm, player input</strong>,
+                    and the core concept of the <strong>Chain System</strong>.
+                </p>
+
+                <!-- A) Base Weapon -->
+                <div class="system-section">
+                    <h3 class="system-title">
+                        <span class="icon"><i class="fas fa-umbrella"></i></span>
+                        A) Base Weapon
+                    </h3>
+                    <p class="text-gray-300 mb-4">
+                        <strong>Weapon:</strong> <strong>Witch's Umbrella</strong><br>
+                        — A <strong>three-hit basic combo</strong> that forms the <strong>foundation of all combat gameplay</strong>.
+                    </p>
+                    <div class="system-grid">
+                        <div class="system-card">
+                            <img src="assets/images/galery/5.png" alt="Witch's Umbrella" class="expandable-char" data-index="4" style="width: 100%; height: 150px; object-fit: cover; border-radius: 4px;">
+                            <div class="system-card-title">Basic Combo</div>
+                        </div>
+                        <div class="system-card">
+                            <img src="assets/images/galery/7.png" alt="Combat Mechanics" class="expandable-char" data-index="5" style="width: 100%; height: 150px; object-fit: cover; border-radius: 4px;">
+                            <div class="system-card-title">Combat Flow</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- B) Movement Equipment -->
+                <div class="system-section">
+                    <h3 class="system-title">
+                        <span class="icon"><i class="fas fa-shoe-prints"></i></span>
+                        B) Movement Equipment
+                    </h3>
+                    <p class="text-gray-300 mb-4">
+                        <strong>Blood Shoes</strong> — Ability upgrades including double jump, wall cling, and mid-air dash.
+                    </p>
+                    <div class="character-image-card" style="max-width: 600px; margin: 0 auto;">
+                        <img src="assets/images/galery/50.png" alt="Blood Shoes" class="expandable-char" data-index="6">
+                        <div class="image-caption">Blood Shoes - Movement Equipment</div>
+                    </div>
+                </div>
+
+                <!-- C) Weapon Switching -->
+                <div class="system-section">
+                    <h3 class="system-title">
+                        <span class="icon"><i class="fas fa-exchange-alt"></i></span>
+                        C) Weapon Switching
+                    </h3>
+                    <p class="text-gray-300 mb-4">
+                        Weapons can be switched through <strong>level progression or resource expenditure</strong>.
+                        Each weapon fundamentally <strong>alters the player's combat style</strong>.
+                    </p>
+                    <p class="text-gray-400 mb-6">
+                        <em>(After forming Soul Pacts, the player may switch to:
+                        the Scarecrow's Scythe, the Tin Man's Hammer, or the Lion's Claws.)</em>
+                    </p>
+                    <div class="character-image-card" style="max-width: 600px; margin: 0 auto;">
+                        <img src="assets/images/galery/23.png" alt="Weapon Switching" class="expandable-char" data-index="7">
+                        <div class="image-caption">Weapon Switching System</div>
+                    </div>
+                </div>
+
+                <!-- D) Core System: "Chained System" -->
+                <div class="system-section">
+                    <h3 class="system-title">
+                        <span class="icon"><i class="fas fa-link"></i></span>
+                        D) Core System: "Chained System"
+                    </h3>
+                    
+                    <div class="character-image-card mt-4 mb-6" style="max-width: 600px; margin: 0 auto;">
+                        <img src="assets/images/galery/51.png" alt="Chained System" class="expandable-char" data-index="8">
+                        <div class="image-caption">Chained System - Core Mechanic</div>
+                    </div>
+
+                    <!-- a. Overview -->
+                    <h4 class="text-amber mb-3" style="font-family: var(--font-subtitle);">a. Overview</h4>
+                    <p class="text-gray-300 mb-4">
+                        The <strong>Chained System</strong> is the <strong>core action mechanic</strong> that runs through both <strong>combat and exploration</strong> in The Ashen OZ.
+                    </p>
+                    <p class="text-gray-300 mb-4">
+                        Using <strong>"Chains,"</strong> Dorothy can impale enemies to initiate combat,
+                        or embed chains into <strong>Dreamcatchers (＝Anchors)</strong> to propel herself through space.
+                    </p>
+                    <p class="text-gray-300 mb-6">
+                        By literally stitching together fragments of a broken world,
+                        the system organically fuses <strong>combat and traversal into a single flow</strong>.
+                    </p>
+
+                    <!-- b. System Structure -->
+                    <h4 class="text-amber mb-3" style="font-family: var(--font-subtitle);">b. System Structure</h4>
+                    <p class="text-gray-300 mb-4">
+                        The Chained System consists of two primary axes:
+                    </p>
+                    
+                    <div class="system-grid mb-6">
+                        <div class="system-card">
+                            <div class="system-card-title">Chained Attack</div>
+                            <p class="text-gray-400">Drive a chain into an enemy to dash forward and initiate combat. The ignition point of the combat loop</p>
+                            <div class="character-image-card mt-3" style="height: 120px;">
+                                <img src="assets/images/galery/16.png" alt="Chained Attack" class="expandable-char" data-index="9">
+                            </div>
+                        </div>
+                        <div class="system-card">
+                            <div class="system-card-title">Chained Move (Dreamcatcher)</div>
+                            <p class="text-gray-400">Embed chains into anchors to move, re-jump, or reposition. The driving force of map traversal</p>
+                            <div class="system-grid" style="grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-top: 0.5rem;">
+                                <div class="character-image-card" style="height: 80px;">
+                                    <img src="assets/images/galery/52.png" alt="Dreamcatcher 1" class="expandable-char" data-index="10">
+                                </div>
+                                <div class="character-image-card" style="height: 80px;">
+                                    <img src="assets/images/galery/53.png" alt="Dreamcatcher 2" class="expandable-char" data-index="11">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- c. Core Philosophy -->
+                    <h4 class="text-amber mb-3" style="font-family: var(--font-subtitle);">c. Core Philosophy</h4>
+                    <p class="text-gray-300 mb-4">
+                        To address a common issue in Metroidvania games—
+                        the <strong>separation and disruption between combat and exploration</strong>—
+                        the Chained System is built upon the following design principles:
+                    </p>
+
+                    <div class="system-grid mb-6">
+                        <div class="system-card">
+                            <div class="system-card-title">Continuity</div>
+                            <p class="text-gray-400">
+                                Combat and movement are unified into a single input flow.
+                                After engaging an enemy with a chained dash,
+                                the same input can be used to wall-traverse or immediately re-engage another target.
+                                There is no rhythmic break between combat, platforming, and exploration.
+                            </p>
+                        </div>
+                        <div class="system-card">
+                            <div class="system-card-title">Momentum</div>
+                            <p class="text-gray-400">
+                                The Chained System is not merely "fast."
+                                It delivers <strong>speed with rhythm and weight</strong>, creating a distinct sense of momentum and action satisfaction.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="border-gradient text-center">
+                        <h4 class="text-amber mb-3" style="font-family: var(--font-subtitle);">Metroidvania Differentiation</h4>
+                        <p class="text-gray-300">
+                            The Chained System creates a unique gameplay identity that distinguishes The Ashen OZ from traditional Metroidvanias,
+                            offering seamless integration of combat and exploration.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- E) The Ashen Die -->
+                <div class="system-section dice-section">
+                    <h3 class="system-title">
+                        <span class="icon"><i class="fas fa-dice"></i></span>
+                        E) The Ashen Die
+                    </h3>
+                    
+                    <div class="combat-philosophy">
+                        "Dorothy picked up an old die amid the ruins of the orphanage."
+                    </div>
+                    
+                    <p class="text-gray-300 mb-4">
+                        A hurricane erupted where the die struck the ground, pulling her into the world of Oz.
+                        Each face of the die was engraved with <strong>six remnants</strong>—
+                        the fundamental forces that govern this world.
+                    </p>
+
+                    <div class="character-image-card mt-4 mb-6" style="max-width: 600px; margin: 0 auto;">
+                        <img src="assets/images/galery/29.png" alt="Ashen Die" class="expandable-char" data-index="12">
+                        <div class="image-caption">The Ashen Die - Core Mechanic</div>
+                    </div>
+
+                    <!-- a) System Overview -->
+                    <h4 class="text-amber mb-3" style="font-family: var(--font-subtitle);">a) System Overview</h4>
+                    <ul class="text-gray-300 mb-4" style="padding-left: 1.5rem;">
+                        <li>Structured similarly to <strong>Hades' 'Boons of the Gods.'</strong></li>
+                        <li>After combat rewards, memory fractures, or specific events, players may roll the <strong>Ashen Dice</strong>.</li>
+                        <li><strong>Choose one of three faces</strong> and assign it to a skill slot <em>(jump, attack, chained action, soul pact, etc.)</em>.</li>
+                        <li>Each face has its own <strong>unique attributes, effects, and visual themes</strong>.</li>
+                    </ul>
+
+                    <!-- b) The Six Faces of the Dice -->
+                    <h4 class="text-amber mb-3" style="font-family: var(--font-subtitle);">b) The Six Faces of the Dice</h4>
+                    <p class="text-gray-400 mb-4"><em>Visual concept mockup for acquiring the Phantom Die ability (1 of 6 faces)</em></p>
+                    
+                    <div class="character-image-card mt-4 mb-6" style="max-width: 600px; margin: 0 auto;">
+                        <img src="assets/images/galery/30.png" alt="Phantom Die" class="expandable-char" data-index="13">
+                        <div class="image-caption">Phantom Die Face - One of Six Abilities</div>
+                    </div>
+
+                    <!-- c) Tier System -->
+                    <h4 class="text-amber mb-3" style="font-family: var(--font-subtitle);">c) Tier System</h4>
+                    <ul class="text-gray-300 mb-4" style="padding-left: 1.5rem;">
+                        <li><strong>Five total tiers:</strong> Common, Rare, Special, Heroic, Legendary</li>
+                        <li><strong>Legendary:</strong> one unique Tier 3 variant</li>
+                        <li>Includes <strong>stat upgrades</strong> tied to tier progression</li>
+                    </ul>
+                </div>
+
+                <!-- F) Random-Room Combat -->
+                <div class="system-section">
+                    <h3 class="system-title">
+                        <span class="icon"><i class="fas fa-random"></i></span>
+                        F) Random-Room Combat
+                    </h3>
+                    
+                    <div class="combat-philosophy">
+                        "Every run delivers different battles, different enemies, and varied map layouts—
+                        forming the foundation of the meta-roguelite system."
+                    </div>
+
+                    <!-- Room Types Grid -->
+                    <div class="room-type-grid mt-6">
+                        <!-- a) Combat Room -->
+                        <div class="room-type-card">
+                            <div class="room-type-image">
+                                <img src="assets/images/galery/19.png" alt="Combat Room" class="expandable-char" data-index="14">
+                            </div>
+                            <div class="room-type-content">
+                                <h4 class="room-type-title">a) Combat Room</h4>
+                                <p class="text-gray-400 mb-3">
+                                    <strong>Purpose:</strong> Fast, exhilarating combat experience + Emotion Gauge accumulation
+                                </p>
+                                <p class="text-gray-400">
+                                    <strong>Combat Flow:</strong> Entry → Small enemy waves → Elite or Mini-Boss
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- b) Exploration Room -->
+                        <div class="room-type-card">
+                            <div class="room-type-image">
+                                <img src="assets/images/galery/20.png" alt="Exploration Room" class="expandable-char" data-index="15">
+                            </div>
+                            <div class="room-type-content">
+                                <h4 class="room-type-title">b) Exploration Room</h4>
+                                <p class="text-gray-400 mb-3">
+                                    <strong>Purpose:</strong> Relieve combat fatigue, environmental exploration, discovery of hidden paths and items
+                                </p>
+                                <p class="text-gray-400">
+                                    <strong>Features:</strong> Short platforming puzzles, Chain-based movement sections, Resource nodes
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- c) Event Room -->
+                        <div class="room-type-card">
+                            <div class="room-type-image">
+                                <img src="assets/images/galery/21.png" alt="Event Room" class="expandable-char" data-index="16">
+                            </div>
+                            <div class="room-type-content">
+                                <h4 class="room-type-title">c) Event Room</h4>
+                                <p class="text-gray-400 mb-3">
+                                    <strong>Purpose:</strong> Narrative progression, emotional choices, risk–reward decisions (buffs vs. penalties)
+                                </p>
+                                <p class="text-gray-400">
+                                    Features a <strong>choice-driven dialogue interface</strong>
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- d) Mini-Boss Room -->
+                        <div class="room-type-card">
+                            <div class="room-type-image">
+                                <img src="assets/images/galery/22.png" alt="Mini-Boss Room" class="expandable-char" data-index="17">
+                            </div>
+                            <div class="room-type-content">
+                                <h4 class="room-type-title">d) Mini-Boss Room</h4>
+                                <p class="text-gray-400 mb-3">
+                                    <strong>Purpose:</strong> Themed mini-boss encounters / narrative linkage before unlocking companions
+                                </p>
+                                <p class="text-gray-400">
+                                    <strong>Combat Structure:</strong> Two-phase fight<br>
+                                    Phase 1: Standard patterns<br>
+                                    Phase 2: Emotional Overdrive
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Additional Mini-Boss Images -->
+                        <div class="room-type-card">
+                            <div class="room-type-image">
+                                <img src="assets/images/galery/54.png" alt="Mini-Boss 2" class="expandable-char" data-index="18">
+                            </div>
+                            <div class="room-type-content">
+                                <h4 class="room-type-title">Mini-Boss Variations</h4>
+                                <p class="text-gray-400">Unique encounters with thematic bosses tied to the story progression</p>
+                            </div>
+                        </div>
+
+                        <div class="room-type-card">
+                            <div class="room-type-image">
+                                <img src="assets/images/galery/55.png" alt="Mini-Boss 3" class="expandable-char" data-index="19">
+                            </div>
+                            <div class="room-type-content">
+                                <h4 class="room-type-title">Companion Unlocks</h4>
+                                <p class="text-gray-400">Defeating mini-bosses unlocks new companions and abilities</p>
+                            </div>
+                        </div>
+
+                        <div class="room-type-card">
+                            <div class="room-type-image">
+                                <img src="assets/images/galery/23.png" alt="Mini-Boss 4" class="expandable-char" data-index="20">
+                            </div>
+                            <div class="room-type-content">
+                                <h4 class="room-type-title">Soul Pact System</h4>
+                                <p class="text-gray-400">Gain access to companion abilities through mini-boss victories</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- e) Boss Room -->
+                    <div class="mt-8">
+                        <h4 class="room-type-title text-center mb-4" style="font-size: 1.5rem;">e) Boss Room</h4>
+                        <p class="text-gray-300 text-center mb-6">
+                            <strong>Purpose:</strong> Advance the main story, emotional purification, companion unlocks<br>
+                            <strong>Features:</strong> 2–3 phase boss battles, Post-battle purification cutscene, Main story progression tied directly into the loop system
+                        </p>
+                        
+                        <div class="character-images-grid">
+                            <div class="character-image-card">
+                                <img src="assets/images/galery/24.png" alt="Boss Room 1" class="expandable-char" data-index="21">
+                                <div class="image-caption">Boss Encounter - Phase 1</div>
+                            </div>
+                            <div class="character-image-card">
+                                <img src="assets/images/galery/25.png" alt="Boss Room 2" class="expandable-char" data-index="22">
+                                <div class="image-caption">Boss Encounter - Phase 2</div>
+                            </div>
+                            <div class="character-image-card">
+                                <img src="assets/images/galery/26.png" alt="Boss Room 3" class="expandable-char" data-index="23">
+                                <div class="image-caption">Boss Design Concepts</div>
+                            </div>
+                            <div class="character-image-card">
+                                <img src="assets/images/galery/56.png" alt="Boss Room 4" class="expandable-char" data-index="24">
+                                <div class="image-caption">Environmental Boss Battle</div>
+                            </div>
+                            <div class="character-image-card">
+                                <img src="assets/images/galery/27.png" alt="Boss Room 5" class="expandable-char" data-index="25">
+                                <div class="image-caption">Final Phase Mechanics</div>
+                            </div>
+                            <div class="character-image-card">
+                                <img src="assets/images/galery/57.png" alt="Boss Room 6" class="expandable-char" data-index="26">
+                                <div class="image-caption">Purification Sequence</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Seção Bestiary -->
+        <section id="bestiary">
+            <div class="section-container">
+                <h2 class="section-title storm-glow">Bestiary</h2>
+                
+                <div class="bestiary-intro">
+                    <p class="text-center text-gray-300 mb-6">
+                        The creatures and enemies that inhabit the ashen world. Learn their weaknesses and strategies.
+                    </p>
+                    
+                    <div class="bestiary-quote">
+                        "All humans in Oz… all living beings—their bodies and minds are diseased, withering away."
+                    </div>
+                </div>
+                
+                <!-- Monster Table -->
+                <div class="monster-table-container">
+                    <h3 class="font-ashen-subtitle text-amber mb-4">Monster Type Classification</h3>
+                    
+                    <table class="monster-table">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Type</th>
+                                <th>Primary Role</th>
+                                <th>Combat Style / AI Behavior</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1️⃣</td>
+                                <td class="monster-type">Berserker</td>
+                                <td class="monster-role">Frontline Pressure</td>
+                                <td class="monster-behavior">Charges straight at the player; collides with walls to self-stun. Breaks through attacks with super armor.</td>
+                            </tr>
+                            <tr>
+                                <td>2️⃣</td>
+                                <td class="monster-type">Soldie</td>
+                                <td class="monster-role">Mid-range Melee</td>
+                                <td class="monster-behavior">Short-range slashes, 2–3 hit combos, fast attack tempo.</td>
+                            </tr>
+                            <tr>
+                                <td>3️⃣</td>
+                                <td class="monster-type">Scouter</td>
+                                <td class="monster-role">Ranged Harassment</td>
+                                <td class="monster-behavior">Maintains distance, fires projectiles (e.g. fireballs), repeats retreat loops.</td>
+                            </tr>
+                            <tr>
+                                <td>4️⃣</td>
+                                <td class="monster-type">Invoker</td>
+                                <td class="monster-role">Control / Summoning</td>
+                                <td class="monster-behavior">Remains stationary; deploys magic circles, summons minions, or inflicts status effects.</td>
+                            </tr>
+                            <tr>
+                                <td>5️⃣</td>
+                                <td class="monster-type">Trapper</td>
+                                <td class="monster-role">Area Control</td>
+                                <td class="monster-behavior">Immobile. Continuously emits lasers, flames, or poison. Can throw and place bombs.</td>
+                            </tr>
+                            <tr>
+                                <td>6️⃣</td>
+                                <td class="monster-type">Exploder</td>
+                                <td class="monster-role">Self-Destruct / Chase</td>
+                                <td class="monster-behavior">Pursues the player and detonates at close range, often inflicting fear effects.</td>
+                            </tr>
+                            <tr>
+                                <td>7️⃣</td>
+                                <td class="monster-type">Guardian</td>
+                                <td class="monster-role">Defense / Tank</td>
+                                <td class="monster-behavior">Multiple super armor states, shield counters, slow but heavy strikes.</td>
+                            </tr>
+                            <tr>
+                                <td>8️⃣</td>
+                                <td class="monster-type">Mid / Final Boss</td>
+                                <td class="monster-role">Complex Patterns</td>
+                                <td class="monster-behavior">Multi-phase encounters with chained attacks and cinematic elements.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Ashkin Codex -->
+                <div class="ashkin-codex">
+                    <h3 class="codex-title">[Ashkin (Monster) Codex]</h3>
+                    
+                    <p class="text-center text-gray-300 mb-6">
+                        Visual designs and concepts for the monsters of Oz. Each creature tells a story of decay and despair.
+                    </p>
+                    
+                    <section id="bestiary">
+                        <div class="section-container">
+                            <h2 class="section-title storm-glow">Bestiary</h2>
+                            <div class="galery-section">
+                                <p class="text-center text-gray-300 mb-6">
+                                    The creatures and enemies that inhabit the ashen world. Learn their weaknesses and strategies.
+                                </p>
+                                <div class="character-images-grid">
+                                    <div class="character-image-card">
+                                        <img src="assets/images/galery/31.png" alt="Dorothy — The Real World" class="expandable-char" data-index="27">
+                                        <div class="image-caption">Dorothy — The Real World
+                                            
+                                    </div>
+                                    
+    </main>
+
+    <!-- Modal para Expandir Imagens -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <img id="modalImage" src="" alt="Expanded Image">
+            <div class="modal-info">
+                <span id="modalTitle"></span>
+                <span id="modalNumber"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="section-container">
+            <div class="logo-style" style="font-size: 1.5rem;">The Ashen OZ</div>
+            <p class="text-gray-400 text-sm mt-2">© 2024 Ashbone Games. All rights reserved.</p>
+            <p class="text-gray-500 text-xs mt-2">Official email: ashbonegames@gmail.com</p>
+            
+            <div class="footer-links mt-4">
+                <a href="index.html">Home</a>
+                <a href="characters.html">Characters</a>
+                <a href="team-contact.html">Team & Contact</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Dados das imagens da página Characters
+        const characterImagesData = [
+            { title: "Dorothy — The Real World", number: "31" , src: "assets/images/galery/31.png", alt: "Dorothy - The Real World" },
+            { title: "Dorothy — The World of Oz", number: "4", src: "assets/images/galery/4.png", alt: "Dorothy — The World of Oz" },
+            { title: "Dorothy Character Art", number: "49", src: "assets/images/galery/49.png", alt: "Dorothy Character Art" },
+            { title: "Dorothy Ashborne - Character Design", number: "34", src: "assets/images/galery/34.png", alt: "Dorothy Ashborne - Character Design" },
+            { title: "Witch's Umbrella - Basic Combo", number: "5", src: "assets/images/galery/5.png", alt: "Witch's Umbrella - Basic Combo" },
+            { title: "Combat Flow Mechanics", number: "7", src: "assets/images/galery/7.png", alt: "Combat Flow Mechanics" },
+            { title: "Blood Shoes - Movement Equipment", number: "50", src: "assets/images/galery/50.png", alt: "Blood Shoes - Movement Equipment" },
+            { title: "Weapon Switching System", number: "23", src: "assets/images/galery/23.png", alt: "Weapon Switching System" },
+            { title: "Chained System - Core Mechanic", number: "51", src: "assets/images/galery/51.png", alt: "Chained System - Core Mechanic" },
+            { title: "Chained Attack", number: "16", src: "assets/images/galery/16.png", alt: "Chained Attack" },
+            { title: "Dreamcatcher System", number: "52", src: "assets/images/galery/52.png", alt: "Dreamcatcher System" },
+            { title: "Chain Movement", number: "53", src: "assets/images/galery/53.png", alt: "Chain Movement" },
+            { title: "The Ashen Die", number: "29", src: "assets/images/galery/29.png", alt: "The Ashen Die" },
+            { title: "Phantom Die Face", number: "30", src: "assets/images/galery/30.png", alt: "Phantom Die Face" },
+            { title: "Combat Room", number: "19", src: "assets/images/galery/19.png", alt: "Combat Room" },
+            { title: "Exploration Room", number: "20", src: "assets/images/galery/20.png", alt: "Exploration Room" },
+            { title: "Event Room", number: "21", src: "assets/images/galery/21.png", alt: "Event Room" },
+            { title: "Mini-Boss Room", number: "22", src: "assets/images/galery/22.png", alt: "Mini-Boss Room" },
+            { title: "Mini-Boss Variation 1", number: "54", src: "assets/images/galery/54.png", alt: "Mini-Boss Variation 1" },
+            { title: "Mini-Boss Variation 2", number: "55", src: "assets/images/galery/55.png", alt: "Mini-Boss Variation 2" },
+            { title: "Soul Pact System", number: "23", src: "assets/images/galery/23.png", alt: "Soul Pact System" },
+            { title: "Boss Room - Phase 1", number: "24", src: "assets/images/galery/24.png", alt: "Boss Room - Phase 1" },
+            { title: "Boss Room - Phase 2", number: "25", src: "assets/images/galery/25.png", alt: "Boss Room - Phase 2" },
+            { title: "Boss Design Concepts", number: "26", src: "assets/images/galery/26.png", alt: "Boss Design Concepts" },
+            { title: "Environmental Boss Battle", number: "56", src: "assets/images/galery/56.png", alt: "Environmental Boss Battle" },
+            { title: "Final Phase Mechanics", number: "27", src: "assets/images/galery/27.png", alt: "Final Phase Mechanics" },
+            { title: "Purification Sequence", number: "57", src: "assets/images/galery/57.png", alt: "Purification Sequence" }
+        ];
+
+        // Elementos DOM
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalNumber = document.getElementById('modalNumber');
+        const closeBtn = document.querySelector('.modal-close');
+        
+        // Abrir modal
+        function openModal(index) {
+            const img = document.querySelector(`.expandable-char[data-index="${index}"]`);
+            if (img && characterImagesData[index]) {
+                modalImg.src = img.src;
+                modalTitle.textContent = characterImagesData[index].title;
+                modalNumber.textContent = "Image #" + characterImagesData[index].number;
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        // Event listeners para imagens
+        document.querySelectorAll('.expandable-char').forEach(element => {
+            element.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const index = parseInt(this.getAttribute('data-index'));
+                if (!isNaN(index)) {
+                    openModal(index);
+                }
+            });
+        });
+        
+        // Fechar modal
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Fechar ao clicar fora
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Fechar com ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal.style.display === 'flex') {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Navegação ativa
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Characters page loaded');
+            
+            // Ativar link ativo na navegação
+            const currentPage = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPage || (currentPage === 'characters.html' && href === 'characters.html')) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+
+            // Navegação suave para âncoras (se houver)
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href !== '#') {
+                        e.preventDefault();
+                        const targetElement = document.querySelector(href);
+                        if (targetElement) {
+                            window.scrollTo({
+                                top: targetElement.offsetTop - 80,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

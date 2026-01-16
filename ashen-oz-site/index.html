@@ -211,6 +211,47 @@
             backdrop-filter: blur(5px);
         }
 
+        /* ===== BOTÕES ===== */
+        .view-details-btn {
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.9), rgba(218, 165, 32, 0.7));
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: var(--font-subtitle);
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+        }
+
+        .view-details-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .view-details-btn:hover::before {
+            left: 100%;
+        }
+
+        .view-details-btn:hover {
+            background: linear-gradient(135deg, rgba(218, 165, 32, 0.9), rgba(139, 0, 0, 0.7));
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 5px 20px rgba(139, 0, 0, 0.4);
+        }
+
         /* ===== OVERVIEW SECTION ===== */
         #overview {
             background: rgba(15, 15, 15, 0.98);
@@ -237,6 +278,7 @@
             width: 100%;
             height: auto;
             display: block;
+            cursor: pointer;
         }
 
         .key-visual-overlay {
@@ -246,32 +288,28 @@
             right: 0;
             background: linear-gradient(to top, rgba(10, 10, 10, 0.95), transparent);
             padding: 2rem;
+            transition: all 0.5s ease;
+        }
+
+        .key-visual-overlay:hover {
+            background: linear-gradient(to top, rgba(10, 10, 10, 0.98), rgba(10, 10, 10, 0.7));
+        }
+
+        .key-visual-overlay:hover .key-visual-text {
+            transform: translateY(-5px);
         }
 
         .key-visual-text {
             max-width: 600px;
+            transition: transform 0.3s ease;
         }
 
-        .view-details-btn {
-            background: rgba(139, 0, 0, 0.8);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
-            cursor: pointer;
-            font-family: var(--font-subtitle);
-            font-weight: 600;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            display: inline-flex;
-            align-items: center;
-            margin-top: 1rem;
+        .key-visual-overlay:hover h3 {
+            text-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
         }
 
-        .view-details-btn:hover {
-            background: rgba(218, 165, 32, 0.8);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(139, 0, 0, 0.3);
+        .key-visual-overlay:hover p {
+            color: #e2e8f0;
         }
 
         /* Branding Section */
@@ -312,6 +350,7 @@
             overflow: hidden;
             border: 1px solid var(--ashen-gray-light);
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .key-message-card:hover {
@@ -332,6 +371,7 @@
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
+            cursor: pointer;
         }
 
         .key-message-card:hover .message-image-container img {
@@ -383,6 +423,7 @@
             width: 100%;
             height: auto;
             filter: drop-shadow(0 0 10px rgba(218, 165, 32, 0.3));
+            cursor: pointer;
         }
 
         .project-table-container {
@@ -450,6 +491,7 @@
             overflow: hidden;
             border: 2px solid var(--ashen-gray-light);
             transition: all 0.3s ease;
+            cursor: pointer;
         }
 
         .pillar-card:hover {
@@ -470,6 +512,7 @@
             font-family: var(--font-title);
             font-size: 1.5rem;
             min-width: 40px;
+            color: var(--ashen-amber);
         }
 
         .pillar-image-container {
@@ -484,6 +527,7 @@
             height: 100%;
             object-fit: cover;
             transition: transform 0.5s ease;
+            cursor: pointer;
         }
 
         .pillar-card:hover .pillar-image-container img {
@@ -906,6 +950,10 @@
             .theme-keyword {
                 min-width: auto;
             }
+            
+            .overview-modal-body {
+                flex-direction: column;
+            }
         }
 
         @media (max-width: 480px) {
@@ -978,7 +1026,7 @@
                 <!-- Banner Principal com Key Visual -->
                 <div class="overview-banner">
                     <div class="key-visual-container">
-                        <img src="assets/images/galery/1.png" alt="Key Visual - The Ashen OZ" class="key-visual-img expandable-overview" data-index="0">
+                        <img src="assets/images/galery/1.png" alt="Key Visual - The Ashen OZ" class="key-visual-img expandable-img" data-index="0">
                         <div class="key-visual-overlay">
                             <div class="key-visual-text">
                                 <h3 class="font-ashen-subtitle text-amber">Key Visual / Main Poster</h3>
@@ -1021,9 +1069,9 @@
                     
                     <div class="key-messages-grid">
                         <!-- Message 1 -->
-                        <div class="key-message-card">
+                        <div class="key-message-card expandable-img" data-index="1">
                             <div class="message-image-container">
-                                <img src="assets/images/galery/15.png" alt="Ruined Oz" class="expandable-overview" data-index="1">
+                                <img src="assets/images/galery/15.png" alt="Ruined Oz">
                                 <div class="message-number">01</div>
                             </div>
                             <div class="message-content">
@@ -1035,9 +1083,9 @@
                         </div>
                         
                         <!-- Message 2 -->
-                        <div class="key-message-card">
+                        <div class="key-message-card expandable-img" data-index="2">
                             <div class="message-image-container">
-                                <img src="assets/images/galery/16.png" alt="Combat System" class="expandable-overview" data-index="2">
+                                <img src="assets/images/galery/16.png" alt="Combat System">
                                 <div class="message-number">02</div>
                             </div>
                             <div class="message-content">
@@ -1049,9 +1097,9 @@
                         </div>
                         
                         <!-- Message 3 -->
-                        <div class="key-message-card">
+                        <div class="key-message-card expandable-img" data-index="3">
                             <div class="message-image-container">
-                                <img src="assets/images/galery/12.png" alt="Storytelling" class="expandable-overview" data-index="3">
+                                <img src="assets/images/galery/12.png" alt="Storytelling">
                                 <div class="message-number">03</div>
                             </div>
                             <div class="message-content">
@@ -1069,7 +1117,7 @@
                 <div class="project-info-section">
                     <div class="project-header">
                         <div class="project-logo">
-                            <img src="assets/images/galery/2.png" alt="Ashen OZ Logo" class="project-logo-img">
+                            <img src="assets/images/galery/2.png" alt="Ashen OZ Logo" class="project-logo-img expandable-img" data-index="4">
                         </div>
                         <h3 class="font-ashen-subtitle text-center text-amber mb-6">Project Information</h3>
                     </div>
@@ -1136,15 +1184,15 @@
                     <!-- Individual Pillars -->
                     <div class="pillars-grid">
                         <!-- Pillar 1: Fast-Paced Combat -->
-                        <div class="pillar-card">
+                        <div class="pillar-card expandable-img" data-index="5">
                             <div class="pillar-header">
                                 <span class="pillar-number text-amber">01</span>
                                 <h4 class="font-ashen-subtitle text-amber">Fast-Paced Combat</h4>
                             </div>
                             <div class="pillar-image-container">
-                                <img src="assets/images/galery/7.png" alt="Combat System" class="expandable-overview" data-index="4">
+                                <img src="assets/images/galery/7.png" alt="Combat System">
                                 <div class="pillar-image-overlay">
-                                    <button class="expand-pillar-btn" data-index="4">
+                                    <button class="expand-pillar-btn">
                                         <i class="fas fa-expand-alt"></i>
                                     </button>
                                 </div>
@@ -1163,15 +1211,15 @@
                         </div>
 
                         <!-- Pillar 2: Precisely Designed Bosses -->
-                        <div class="pillar-card">
+                        <div class="pillar-card expandable-img" data-index="6">
                             <div class="pillar-header">
                                 <span class="pillar-number text-amber">02</span>
                                 <h4 class="font-ashen-subtitle text-amber">Precisely Designed Bosses</h4>
                             </div>
                             <div class="pillar-image-container">
-                                <img src="assets/images/galery/25.png" alt="Boss Design" class="expandable-overview" data-index="5">
+                                <img src="assets/images/galery/25.png" alt="Boss Design">
                                 <div class="pillar-image-overlay">
-                                    <button class="expand-pillar-btn" data-index="5">
+                                    <button class="expand-pillar-btn">
                                         <i class="fas fa-expand-alt"></i>
                                     </button>
                                 </div>
@@ -1190,15 +1238,15 @@
                         </div>
 
                         <!-- Pillar 3: The Drive to Repeat -->
-                        <div class="pillar-card">
+                        <div class="pillar-card expandable-img" data-index="7">
                             <div class="pillar-header">
                                 <span class="pillar-number text-amber">03</span>
                                 <h4 class="font-ashen-subtitle text-amber">The Drive to Repeat</h4>
                             </div>
                             <div class="pillar-image-container">
-                                <img src="assets/images/galery/23.png" alt="Progression Loop" class="expandable-overview" data-index="6">
+                                <img src="assets/images/galery/23.png" alt="Progression Loop">
                                 <div class="pillar-image-overlay">
-                                    <button class="expand-pillar-btn" data-index="6">
+                                    <button class="expand-pillar-btn">
                                         <i class="fas fa-expand-alt"></i>
                                     </button>
                                 </div>
@@ -1214,22 +1262,6 @@
                                     <span class="tag">Story Unlocks</span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Modal para Overview -->
-            <div id="overviewModal" class="modal">
-                <div class="overview-modal-content">
-                    <span class="modal-close">&times;</span>
-                    <div class="overview-modal-body">
-                        <div class="overview-modal-image">
-                            <img id="overviewModalImage" src="" alt="Expanded Overview Image">
-                        </div>
-                        <div class="overview-modal-text">
-                            <h3 id="overviewModalTitle" class="font-ashen-subtitle text-amber"></h3>
-                            <div id="overviewModalDescription" class="text-gray-300"></div>
                         </div>
                     </div>
                 </div>
@@ -1264,20 +1296,20 @@
                         </div>
                     </div>
                     <div class="story-images-container">
-                        <div class="story-image-thumbnail">
-                            <img src="assets/images/galery/3.png" alt="The Orphanage" class="expandable-img" data-index="0">
+                        <div class="story-image-thumbnail expandable-img" data-index="8">
+                            <img src="assets/images/galery/3.png" alt="The Orphanage">
                             <div class="thumbnail-overlay">
                                 <span class="thumbnail-number">3</span>
-                                <button class="thumbnail-expand-btn" data-index="0">
+                                <button class="thumbnail-expand-btn">
                                     <i class="fas fa-expand-alt"></i>
                                 </button>
                             </div>
                         </div>
-                        <div class="story-image-thumbnail">
-                            <img src="assets/images/galery/6.png" alt="Whispersong Grove" class="expandable-img" data-index="1">
+                        <div class="story-image-thumbnail expandable-img" data-index="9">
+                            <img src="assets/images/galery/6.png" alt="Whispersong Grove">
                             <div class="thumbnail-overlay">
                                 <span class="thumbnail-number">6</span>
-                                <button class="thumbnail-expand-btn" data-index="1">
+                                <button class="thumbnail-expand-btn">
                                     <i class="fas fa-expand-alt"></i>
                                 </button>
                             </div>
@@ -1302,20 +1334,20 @@
                         </div>
                     </div>
                     <div class="story-images-container">
-                        <div class="story-image-thumbnail">
-                            <img src="assets/images/galery/13.png" alt="Murkvale" class="expandable-img" data-index="2">
+                        <div class="story-image-thumbnail expandable-img" data-index="10">
+                            <img src="assets/images/galery/13.png" alt="Murkvale">
                             <div class="thumbnail-overlay">
                                 <span class="thumbnail-number">13</span>
-                                <button class="thumbnail-expand-btn" data-index="2">
+                                <button class="thumbnail-expand-btn">
                                     <i class="fas fa-expand-alt"></i>
                                 </button>
                             </div>
                         </div>
-                        <div class="story-image-thumbnail">
-                            <img src="assets/images/galery/14.png" alt="Arrival Point" class="expandable-img" data-index="3">
+                        <div class="story-image-thumbnail expandable-img" data-index="11">
+                            <img src="assets/images/galery/14.png" alt="Arrival Point">
                             <div class="thumbnail-overlay">
                                 <span class="thumbnail-number">14</span>
-                                <button class="thumbnail-expand-btn" data-index="3">
+                                <button class="thumbnail-expand-btn">
                                     <i class="fas fa-expand-alt"></i>
                                 </button>
                             </div>
@@ -1361,11 +1393,11 @@
                         </div>
                     </div>
                     <div class="story-images-container">
-                        <div class="story-image-thumbnail">
-                            <img src="assets/images/galery/48.png" alt="Act Structure" class="expandable-img" data-index="4">
+                        <div class="story-image-thumbnail expandable-img" data-index="12">
+                            <img src="assets/images/galery/48.png" alt="Act Structure">
                             <div class="thumbnail-overlay">
                                 <span class="thumbnail-number">48</span>
-                                <button class="thumbnail-expand-btn" data-index="4">
+                                <button class="thumbnail-expand-btn">
                                     <i class="fas fa-expand-alt"></i>
                                 </button>
                             </div>
@@ -1381,20 +1413,19 @@
                     </blockquote>
                 </div>
             </div>
-
-            <!-- Modal para Expandir Imagem -->
-            <div id="imageModal" class="modal">
-                <div class="modal-content">
-                    <span class="modal-close">&times;</span>
-                    <img id="modalImage" src="" alt="Expanded Image">
-                    <div class="modal-info">
-                        <span id="modalTitle"></span>
-                        <span id="modalNumber"></span>
-                    </div>
-                </div>
-            </div>
         </section>
     </main>
+    <!-- Modal para Expandir Imagens -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <img id="modalImage" src="" alt="Expanded Image">
+            <div class="modal-info">
+                <span id="modalTitle"></span>
+                <span id="modalNumber"></span>
+            </div>
+        </div>
+    </div>
     
     <!-- Footer -->
     <footer>
@@ -1411,267 +1442,174 @@
         </div>
     </footer>
 
-    <script>
-        // Dados para os modais
-        const overviewData = [
-            {
-                title: "Key Visual / Main Poster",
-                description: `
-                    <p>This is the main key visual that captures the core atmosphere of <strong>The Ashen OZ</strong>.</p>
-                    <p>A high-quality hand-drawn illustration visualizing Dorothy's desperate journey through a fallen world, 
-                    where the Oz we knew is gone, replaced by an ashen landscape of despair and memory.</p>
-                    <p class="mt-3"><strong>ASHBONE GAMES presents:</strong> Fast-paced Action Grimdark Roguelite</p>
-                `
-            },
-            {
-                title: "A dark, dreamlike atmosphere set in a ruined land of Oz",
-                description: `
-                    <p>The game presents a fairytale × nightmare world shaped by erased memories and endlessly repeating despair.</p>
-                    <p>The environment reflects Dorothy's inner turmoil and fragmented memories, creating a hauntingly beautiful 
-                    yet terrifying landscape that tells its own story.</p>
-                `
-            },
-            {
-                title: "Fast-paced chained action combat system",
-                description: `
-                    <p><strong>Chain Attack Combo System:</strong> Space(Chain) → X(Horizontal Slash) → X(Diagonal Slash) → X(Overhead Smash)</p>
-                    <p>The combat structure blends combo-driven, high-speed action with meaningful strategic choices.</p>
-                    <p class="mt-3"><strong>Features:</strong></p>
-                    <ul>
-                        <li>Screen Shake & Distortion effects for impactful hits</li>
-                        <li>Link into Ultimate (A), Dash Cancel (C), or Chain (Space)</li>
-                        <li>Knockback mechanics with variable force</li>
-                        <li>Combo continuation through evasion or cancellation</li>
-                    </ul>
-                `
-            },
-            {
-                title: "Emotion-driven storytelling",
-                description: `
-                    <p>"Hello. It's been a while, Dorothy. Well... I don't remember much... Hehe..."</p>
-                    <p>An orphanage, experiments, lost memories—a journey toward the truth by piecing together fragmented recollections.</p>
-                    <p class="mt-3">Dorothy finally arrives at the orphanage, where she meets the mysterious boy 'TIP', 
-                    beginning her quest to uncover the secrets buried within her own mind.</p>
-                `
-            },
-            {
-                title: "Fast-Paced Combat System",
-                description: `
-                    <p><strong>Combat Philosophy:</strong> "One beat too slow, you're devoured. One beat too fast, you tear them apart."</p>
-                    
-                    <p class="mt-3"><strong>Basic Controls:</strong></p>
-                    <ul>
-                        <li>↓ + X: Downward Slash</li>
-                        <li>↑ + X: Upward Slash</li>
-                        <li>Basic 3-hit combo with directional inputs</li>
-                    </ul>
-                    
-                    <p class="mt-3"><strong>Combat Mechanics:</strong></p>
-                    <ul>
-                        <li>1st Hit: Horizontal Slash with short slide</li>
-                        <li>2nd Hit: Diagonal Slash with shorter slide</li>
-                        <li>3rd Hit: Overhead Smash with turning attack (10 damage)</li>
-                        <li>Enemies with Super Armor ignore attacks and counter</li>
-                    </ul>
-                `
-            },
-            {
-                title: "Precisely Designed Boss: Act Boss",
-                description: `
-                    <p><strong>PHASE I</strong> - Each Act features one final boss encounter</p>
-                    
-                    <p class="mt-3"><strong>Man-Eating Fish:</strong> A ghastly, vengeful man-eating fish armed with a cleaver charges toward the player.</p>
-                    
-                    <p>Bosses are carefully designed with:</p>
-                    <ul>
-                        <li>Distinct attack patterns and phases</li>
-                        <li>Super Armor mechanics requiring precise timing</li>
-                        <li>Environmental interactions</li>
-                        <li>Phase transitions with changing behaviors</li>
-                    </ul>
-                `
-            },
-            {
-                title: "The Drive to Repeat: Soul Pact System",
-                description: `
-                    <p><strong>Mid-Boss System:</strong> One fixed mid-boss per Act</p>
-                    
-                    <p class="mt-3"><strong>Soul Pact (A Button):</strong></p>
-                    <ul>
-                        <li>Summon companions to use powerful EX skills</li>
-                        <li>Each companion has unique attack ranges, damage types, and debuff effects</li>
-                        <li>Soul Gauge fills during combat, enabling usage when full</li>
-                    </ul>
-                    
-                    <p class="mt-3"><strong>Progression Loop:</strong></p>
-                    <p>Each run unlocks new abilities and story elements, creating meaningful progression 
-                    and giving players the drive to continue even after failure.</p>
-                `
-            }
-        ];
+    <!-- Modal para Expandir Imagem -->
+    <div id="imageModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <img id="modalImage" src="" alt="Expanded Image">
+            <div class="modal-info">
+                <span id="modalTitle"></span>
+                <span id="modalNumber"></span>
+            </div>
+        </div>
+    </div>
 
-        const storyImageData = [
-            { title: "The Orphanage", number: "3" },
-            { title: "Whispersong Grove", number: "6" },
-            { title: "Murkvale - Munchkin's undercity", number: "13" },
-            { title: "Dorothy's Arrival Point", number: "14" },
-            { title: "Act Structure", number: "48" }
-        ];
+    <script>
+        // Dados das imagens do index.html
+        const indexImagesData = [
+        { id: 1, title: "Key Visual - Main Poster", category: "concept", imageUrl: "assets/images/galery/1.png" },
+                { id: 2, title: "Dorothy in Orphanage", category: "character", imageUrl: "assets/images/galery/2.png" },
+                { id: 3, title: "Whispering Forest", category: "environment", imageUrl: "assets/images/galery/3.png" },
+                { id: 4, title: "Emerald City Ruins", category: "environment", imageUrl: "assets/images/galery/4.png" },
+                { id: 5, title: "Chained Attack Combo", category: "gameplay", imageUrl: "assets/images/galery/5.png" },
+                { id: 6, title: "Boss Encounter - Phase 1", category: "gameplay", imageUrl: "assets/images/galery/6.png" },
+                { id: 7, title: "Ashen Dice - Phantom Face", category: "concept", imageUrl: "assets/images/galery/7.png" },
+                { id: 8, title: "Combat Room Layout", category: "gameplay", imageUrl: "assets/images/galery/8.png" },
+                { id: 9, title: "Exploration Room", category: "environment", imageUrl: "assets/images/galery/9.png" },
+                { id: 10, title: "Event Room Dialogue", category: "ui", imageUrl: "assets/images/galery/10.png" },
+                { id: 11, title: "Mini-Boss Room - Design", category: "environment", imageUrl: "assets/images/galery/11.png" },
+                { id: 12, title: "Boss Room - Entrance", category: "gameplay", imageUrl: "assets/images/galery/12.png" },
+                { id: 13, title: "Combat Mechanics - Basic Attack", category: "gameplay", imageUrl: "assets/images/galery/13.png" },
+                { id: 14, title: "Chained Move - Dreamcatcher", category: "gameplay", imageUrl: "assets/images/galery/14.png" },
+                { id: 15, title: "Region Entry", category: "environment", imageUrl: "assets/images/galery/15.png" },
+                { id: 16, title: "Dorothy Age 7 Concept", category: "character", imageUrl: "assets/images/galery/16.png" },
+                { id: 17, title: "The Seat - Rest Area", category: "environment", imageUrl: "assets/images/galery/17.png" },
+                { id: 18, title: "Witch's Umbrella Design", category: "concept", imageUrl: "assets/images/galery/18.png" },
+                { id: 19, title: "Blood Shoes Movement", category: "gameplay", imageUrl: "assets/images/galery/19.png" },
+                { id: 20, title: "Weapon Switching UI", category:"ui", imageUrl:"assets/images/galery/20.png" },
+                { id: 21, title: "Scarecrow's Scythe", category: "concept", imageUrl: "assets/images/galery/21.png" },
+                { id: 22, title: "Tin Man's Hammer", category: "concept", imageUrl: "assets/images/galery/22.png" },
+                { id: 23, title: "Lion's Claws", category: "concept", imageUrl: "assets/images/galery/23.png" },
+                { id: 24, title: "Hurricane Dice Face", category: "concept", imageUrl: "assets/images/galery/24.png" },
+                { id: 25, title: "Ashfire Dice Face", category: "concept", imageUrl: "assets/images/galery/25.png" },
+                { id: 26, title: "Frostveil Dice Face", category: "concept", imageUrl: "assets/images/galery/26.png" },
+                { id: 27, title: "Null Dice Face", category: "concept", imageUrl: "assets/images/galery/27.png" },
+                { id: 28, title: "Phantom Dice Face", category: "concept", imageUrl: "assets/images/galery/28.png" },
+                { id: 29, title: "Thunderveil Dice Face", category: "concept", imageUrl: "assets/images/galery/29.png" },
+                { id: 30, title: "Combat Flow Visual", category: "gameplay", imageUrl: "assets/images/galery/30.png" },
+                { id: 31, title: "Map Exploration", category: "gameplay", imageUrl: "assets/images/galery/31.png" },
+                { id: 32, title: "Enemy Designs - Set 1", category: "concept", imageUrl: "assets/images/galery/32.png" },
+                { id: 33, title: "Enemy Designs - Set 2", category: "concept", imageUrl: "assets/images/galery/33.png" },
+                { id: 34, title: "Boss Design - Concept", category: "concept", imageUrl: "assets/images/galery/34.png" },
+                { id: 35, title: "UI Layout - Combat", category: "ui", imageUrl: "assets/images/galery/35.png" },
+                { id: 36, title: "UI Layout - Inventory", category: "ui", imageUrl: "assets/images/galery/36.png" },
+                { id: 37, title: "Particle Effects - Combat", category: "gameplay", imageUrl: "assets/images/galery/37.png" },
+                { id: 38, title: "Lighting Studies", category: "concept", imageUrl:"assets/images/galery/38.png" },
+                { id: 39, title: "Color Palette", category: "concept", imageUrl: "assets/images/galery/39.png" },
+                { id: 40, title: "Character Expressions", category: "character", imageUrl: "assets/images/galery/40.png" },
+                { id: 41, title: "Environment Mood - Rain", category: "environment", imageUrl: "assets/images/galery/41.png" },
+                { id: 42, title: "Environment Mood - Storm", category: "environment", imageUrl: "assets/images/galery/42.png" },
+                { id: 43, title: "Environment Mood - Ruins", category: "environment", imageUrl: "assets/images/galery/43.png" },
+                { id: 44, title: "Promotional Art 1", category: "concept", imageUrl: "assets/images/galery/44.png" },
+                { id: 45, title: "Promotional Art 2", category: "concept", imageUrl: "assets/images/galery/45.png" },
+                { id: 46, title: "Development Progress", category: "concept", imageUrl:"assets/images/galery/46.png" },
+                { id: 47, title: "Title Screen Concept", category: "ui", imageUrl:"assets/images/galery/47.png" },
+                {id: 48, title: "Character Interaction UI", category: "ui", imageUrl:"assets/images/galery/48.png" },
+                { id: 49, title: "Environment - Swamp Area", category: "environment", imageUrl:"assets/images/galery/49.png" },
+                { id: 50, title: "Environment - Deserted Village", category: "environment", imageUrl:"assets/images/galery/50.png" },
+                {id: 51, title: "Character - Mysterious Stranger", category: "character", imageUrl:"assets/images/galery/51.png" },
+                { id: 52, title: "Character - Village Elder", category: "character", imageUrl:"assets/images/galery/52.png" },
+                { id: 53, title: "Gameplay - Stealth Mechanics", category: "gameplay", imageUrl:"assets/images/galery/53.png" },
+                { id: 54, title: "Gameplay - Puzzle Room", category: "gameplay", imageUrl:"assets/images/galery/54.png" },
+                { id: 55, title: "Concept - Dark Forest Path", category: "concept", imageUrl:"assets/images/galery/55.png" },
+                { id: 56, title: "Concept - Abandoned Castle", category: "concept", imageUrl:"assets/images/galery/56.png" },
+                { id: 57, title: "UI - Skill Tree", category: "ui", imageUrl:"assets/images/galery/57.png" }
+            ];
 
         // Elementos DOM
-        const overviewModal = document.getElementById('overviewModal');
-        const overviewModalImage = document.getElementById('overviewModalImage');
-        const overviewModalTitle = document.getElementById('overviewModalTitle');
-        const overviewModalDescription = document.getElementById('overviewModalDescription');
-        
-        const imageModal = document.getElementById('imageModal');
-        const modalImg = document.getElementById('modalImage');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalNumber = document.getElementById('modalNumber');
-        
-        // Função para abrir modal Overview
-        function openOverviewModal(index) {
-            const imgElement = document.querySelector(`.expandable-overview[data-index="${index}"]`);
-            if (imgElement && overviewData[index]) {
-                overviewModalImage.src = imgElement.src;
-                overviewModalTitle.textContent = overviewData[index].title;
-                overviewModalDescription.innerHTML = overviewData[index].description;
-                overviewModal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-            }
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalNumber = document.getElementById('modalNumber');
+    const closeBtn = document.querySelector('.modal-close');
+    
+    // Abrir modal
+    function openModal(index) {
+        // Encontra a imagem correspondente no array
+        const imageData = indexImagesData[index];
+        if (imageData) {
+            modalImg.src = imageData.imageUrl;
+            modalTitle.textContent = imageData.title;
+            modalNumber.textContent = `#${imageData.id} • ${imageData.category}`;
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
         }
-
-        // Função para abrir modal Story
-        function openStoryModal(index) {
-            const imgElement = document.querySelector(`.expandable-img[data-index="${index}"]`);
-            if (imgElement && storyImageData[index]) {
-                modalImg.src = imgElement.src;
-                modalTitle.textContent = storyImageData[index].title;
-                modalNumber.textContent = "Image #" + storyImageData[index].number;
-                imageModal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
+    }
+    
+    // Event listeners para imagens expansíveis
+    document.querySelectorAll('.expandable-img').forEach(element => {
+        element.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const index = parseInt(this.getAttribute('data-index'));
+            if (!isNaN(index)) {
+                openModal(index);
             }
+        });
+    });
+    
+    // Fechar modal
+    closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    });
+    
+    // Fechar ao clicar fora
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         }
+    });
+    
+    // Fechar com ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.style.display === 'flex') {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
 
-        // Event Listeners para Overview
-        document.querySelectorAll('.expandable-overview, .view-details-btn, .expand-pillar-btn').forEach(element => {
-            element.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const index = parseInt(this.getAttribute('data-index'));
-                if (!isNaN(index)) {
-                    openOverviewModal(index);
-                }
-            });
+    // Navegação ativa
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Index page loaded');
+        
+        // Ativar link ativo na navegação
+        const currentPage = window.location.pathname.split('/').pop();
+        const navLinks = document.querySelectorAll('.nav-links a');
+        
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href');
+            if (href.includes(currentPage) || (currentPage === 'index.html' && href.includes('index.html'))) {
+                link.classList.add('active');
+            } else {
+                link.classList.remove('active');
+            }
         });
 
-        // Event Listeners para Story
-        document.querySelectorAll('.expandable-img, .thumbnail-expand-btn').forEach(element => {
-            element.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const index = parseInt(this.getAttribute('data-index'));
-                if (!isNaN(index)) {
-                    openStoryModal(index);
-                }
-            });
-        });
-
-        // Fechar modais
-        function setupModalClose(modal) {
-            const closeBtn = modal.querySelector('.modal-close');
-            if (closeBtn) {
-                closeBtn.addEventListener('click', function() {
-                    modal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                });
-            }
-            
-            // Fechar ao clicar fora
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
-            });
-            
-            // Fechar com ESC
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && modal.style.display === 'flex') {
-                    modal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
-            });
-        }
-
-        // Inicializar
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('The Ashen OZ - Página inicial carregada');
-            
-            // Configurar fechamento dos modais
-            setupModalClose(overviewModal);
-            setupModalClose(imageModal);
-            
-            // Navegação suave para âncoras
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    if (href !== '#') {
-                        e.preventDefault();
-                        const targetElement = document.querySelector(href);
-                        if (targetElement) {
-                            window.scrollTo({
-                                top: targetElement.offsetTop - 80,
-                                behavior: 'smooth'
-                            });
-                        }
-                    }
-                });
-            });
-            
-            // Ativar link ativo na navegação
-            const navLinks = document.querySelectorAll('.nav-links a');
-            // Atualizar a função updateActiveNavLink
-            function updateActiveNavLink() {
-                const currentPage = window.location.pathname.split('/').pop();
-                const scrollPosition = window.scrollY + 100;
-                let currentSection = 'home';
-                
-                // Se estiver na página index.html
-                if (currentPage === 'index.html' || currentPage === '' || currentPage === 'index.html#') {
-                    document.querySelectorAll('section').forEach(section => {
-                        const sectionTop = section.offsetTop;
-                        const sectionBottom = sectionTop + section.offsetHeight;
+        // Navegação suave para âncoras
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetElement = document.querySelector(href);
+                    if (targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
                         
-                        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-                            currentSection = section.id;
+                        // Atualizar navegação ativa
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        const correspondingNavLink = document.querySelector(`.nav-links a[href="${href}"]`);
+                        if (correspondingNavLink) {
+                            correspondingNavLink.classList.add('active');
                         }
-                    });
+                    }
                 }
-                
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    const href = link.getAttribute('href');
-                    
-                    // Verificar se é a página atual
-                    if (currentPage.includes('characters.html') && href === 'characters.html') {
-                        link.classList.add('active');
-                    } else if (currentPage.includes('team-contact.html') && href === 'team-contact.html') {
-                        link.classList.add('active');
-                    } 
-                    // Verificar âncoras na página index
-                    else if ((currentPage === 'index.html' || currentPage === '' || currentPage === 'index.html#') && 
-                            (href === `index.html#${currentSection}` || href === `#${currentSection}`)) {
-                        link.classList.add('active');
-                    }
-                    // Para links da home na página index
-                    else if (href === 'index.html' && currentSection === 'home') {
-                        link.classList.add('active');
-                    }
-                });
-            }
-            
-            window.addEventListener('scroll', updateActiveNavLink);
-            updateActiveNavLink();
+            });
         });
-    </script>
+    });
+</script>
 </body>
 </html>
