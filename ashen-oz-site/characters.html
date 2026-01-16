@@ -275,6 +275,418 @@
             border-bottom: none;
         }
 
+         /* ===== BESTIARY SECTION ===== */
+        #bestiary {
+            background: linear-gradient(180deg, rgba(15, 15, 15, 0.95) 0%, rgba(20, 10, 10, 0.98) 100%);
+            display: block;
+            min-height: auto;
+            padding: 4rem 1rem;
+            position: relative;
+        }
+
+        #bestiary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(139, 0, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(30, 58, 95, 0.1) 0%, transparent 50%);
+            z-index: 0;
+        }
+
+        .storm-glow {
+            text-shadow: 
+                0 0 10px rgba(30, 58, 95, 0.7),
+                0 0 20px rgba(30, 58, 95, 0.5),
+                0 0 30px rgba(30, 58, 95, 0.3);
+            color: #e2e8f0;
+        }
+
+        .bestiary-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .bestiary-quote {
+            font-family: var(--font-subtitle);
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--ashen-amber);
+            padding: 1.5rem;
+            border-left: 3px solid var(--ashen-crimson);
+            background: rgba(26, 26, 26, 0.5);
+            border-radius: 8px;
+            margin: 2rem auto;
+            max-width: 700px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bestiary-quote::before {
+            content: '❝';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 2rem;
+            color: rgba(139, 0, 0, 0.3);
+        }
+
+        .bestiary-quote::after {
+            content: '❞';
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 2rem;
+            color: rgba(139, 0, 0, 0.3);
+        }
+
+        /* Monster Table */
+        .monster-table-container {
+            background: rgba(20, 20, 20, 0.85);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 3rem auto;
+            max-width: 1000px;
+            border: 2px solid var(--ashen-gray-light);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .monster-table-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--ashen-crimson), var(--ashen-amber));
+        }
+
+        .monster-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 1.5rem;
+            background: rgba(15, 15, 15, 0.8);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .monster-table th {
+            background: linear-gradient(135deg, var(--ashen-crimson), var(--ashen-storm));
+            color: white;
+            padding: 1.2rem 1rem;
+            text-align: left;
+            font-family: var(--font-subtitle);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            border-bottom: 3px solid var(--ashen-amber);
+        }
+
+        .monster-table th:first-child {
+            border-top-left-radius: 12px;
+        }
+
+        .monster-table th:last-child {
+            border-top-right-radius: 12px;
+        }
+
+        .monster-table td {
+            padding: 1.2rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            vertical-align: top;
+            transition: all 0.3s ease;
+        }
+
+        .monster-table tr:hover td {
+            background: rgba(139, 0, 0, 0.1);
+        }
+
+        .monster-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .monster-table td:first-child {
+            font-size: 1.5rem;
+            text-align: center;
+            width: 60px;
+        }
+
+        .monster-type {
+            color: var(--ashen-amber);
+            font-family: var(--font-subtitle);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .monster-role {
+            color: #60a5fa;
+            font-weight: 500;
+        }
+
+        .monster-behavior {
+            color: #d1d5db;
+            line-height: 1.6;
+        }
+
+        /* Ashkin Codex */
+        .ashkin-codex {
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 16px;
+            padding: 3rem;
+            margin: 4rem auto;
+            max-width: 1000px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .ashkin-codex::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(139, 0, 0, 0.1), rgba(30, 58, 95, 0.1));
+            z-index: -1;
+            border-radius: inherit;
+        }
+
+        .ashkin-codex::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--ashen-crimson), var(--ashen-storm));
+            z-index: -2;
+            border-radius: 18px;
+        }
+
+        .codex-title {
+            font-family: var(--font-title);
+            font-size: 2rem;
+            color: var(--ashen-amber);
+            text-align: center;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .codex-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--ashen-amber), transparent);
+        }
+
+        /* Monster Gallery */
+        .monster-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .monster-card {
+            background: rgba(26, 26, 26, 0.8);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--ashen-gray-light);
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .monster-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--ashen-amber);
+            box-shadow: 
+                0 15px 30px rgba(139, 0, 0, 0.3),
+                0 0 20px rgba(139, 0, 0, 0.2);
+        }
+
+        .monster-image-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(26,26,26,0.9) 100%);
+        }
+
+        .monster-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.5s ease;
+            padding: 1rem;
+        }
+
+        .monster-card:hover .monster-image-container img {
+            transform: scale(1.05);
+        }
+
+        .monster-number {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--ashen-amber);
+            font-family: var(--font-subtitle);
+            font-weight: bold;
+            font-size: 0.9rem;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid var(--ashen-amber);
+            z-index: 2;
+        }
+
+        .monster-info {
+            padding: 1.5rem;
+        }
+
+        .monster-name {
+            font-family: var(--font-subtitle);
+            color: var(--ashen-amber);
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .monster-category {
+            color: #9ca3af;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+        }
+
+        .monster-description {
+            color: #d1d5db;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .monster-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            color: var(--ashen-amber);
+            font-family: var(--font-subtitle);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .stat-label {
+            color: #9ca3af;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            margin-top: 4rem;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            background: rgba(20, 20, 20, 0.9);
+        }
+
+        .gallery-item:hover {
+            border-color: var(--ashen-amber);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-number {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: var(--ashen-amber);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-subtitle);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
         /* Combat System Styles */
         .combat-philosophy {
             font-style: italic;
@@ -595,6 +1007,7 @@
                 gap: 1rem;
             }
         }
+        
     </style>
 </head>
 <body>
@@ -1036,7 +1449,7 @@
                 </div>
             </div>
         </section>
-        <!-- Seção Bestiary -->
+                <!-- Seção Bestiary -->
         <section id="bestiary">
             <div class="section-container">
                 <h2 class="section-title storm-glow">Bestiary</h2>
@@ -1116,7 +1529,7 @@
                         </tbody>
                     </table>
                 </div>
-                
+
                 <!-- Ashkin Codex -->
                 <div class="ashkin-codex">
                     <h3 class="codex-title">[Ashkin (Monster) Codex]</h3>
@@ -1125,23 +1538,355 @@
                         Visual designs and concepts for the monsters of Oz. Each creature tells a story of decay and despair.
                     </p>
                     
-                    <section id="bestiary">
-                        <div class="section-container">
-                            <h2 class="section-title storm-glow">Bestiary</h2>
-                            <div class="galery-section">
-                                <p class="text-center text-gray-300 mb-6">
-                                    The creatures and enemies that inhabit the ashen world. Learn their weaknesses and strategies.
+                    <!-- Monster Gallery (Imagens 35-47) -->
+                    <div class="monster-gallery">
+                        <!-- Card 35: UI Layout - Combat -->
+                        <div class="monster-card expandable-img" data-index="34">
+                            <div class="monster-image-container">
+                                <img src="assets/images/galery/35.png" alt="UI Layout - Combat">
+                                <div class="monster-number">35</div>
+                            </div>
+                            <div class="monster-info">
+                                <h4 class="monster-name">Combat Interface</h4>
+                                <div class="monster-category">UI Design</div>
+                                <p class="monster-description">
+                                    Battle UI layout showing health, stamina, and ability cooldowns during intense combat sequences.
                                 </p>
-                                <div class="character-images-grid">
-                                    <div class="character-image-card">
-                                        <img src="assets/images/galery/31.png" alt="Dorothy — The Real World" class="expandable-char" data-index="27">
-                                        <div class="image-caption">Dorothy — The Real World
-                                            
+                                <div class="monster-stats">
+                                    <div class="stat">
+                                        <div class="stat-value">UI</div>
+                                        <div class="stat-label">Category</div>
                                     </div>
-                                    
-    </main>
+                                    <div class="stat">
+                                        <div class="stat-value">★★★★☆</div>
+                                        <div class="stat-label">Priority</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-    <!-- Modal para Expandir Imagens -->
+                        <!-- Card 36: UI Layout - Inventory -->
+                        <div class="monster-card expandable-img" data-index="35">
+                            <div class="monster-image-container">
+                                <img src="assets/images/galery/36.png" alt="UI Layout - Inventory">
+                                <div class="monster-number">36</div>
+                            </div>
+                            <div class="monster-info">
+                                <h4 class="monster-name">Inventory System</h4>
+                                <div class="monster-category">UI Design</div>
+                                <p class="monster-description">
+                                    Inventory management interface showing equipment slots, item descriptions, and stat modifications.
+                                </p>
+                                <div class="monster-stats">
+                                    <div class="stat">
+                                        <div class="stat-value">UI</div>
+                                        <div class="stat-label">Category</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">★★★★☆</div>
+                                        <div class="stat-label">Priority</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 37: Particle Effects - Combat -->
+                        <div class="monster-card expandable-img" data-index="36">
+                            <div class="monster-image-container">
+                                <img src="assets/images/galery/37.png" alt="Particle Effects - Combat">
+                                <div class="monster-number">37</div>
+                            </div>
+                            <div class="monster-info">
+                                <h4 class="monster-name">Battle Effects</h4>
+                                <div class="monster-category">Visual Effects</div>
+                                <p class="monster-description">
+                                    Particle effects and visual feedback systems for combat abilities and environmental interactions.
+                                </p>
+                                <div class="monster-stats">
+                                    <div class="stat">
+                                        <div class="stat-value">VFX</div>
+                                        <div class="stat-label">Category</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">★★★★★</div>
+                                        <div class="stat-label">Priority</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 38: Lighting Studies -->
+                        <div class="monster-card expandable-img" data-index="37">
+                            <div class="monster-image-container">
+                                <img src="assets/images/galery/38.png" alt="Lighting Studies">
+                                <div class="monster-number">38</div>
+                            </div>
+                            <div class="monster-info">
+                                <h4 class="monster-name">Lighting Concepts</h4>
+                                <div class="monster-category">Environment Design</div>
+                                <p class="monster-description">
+                                    Atmospheric lighting studies showing different mood settings for various game environments.
+                                </p>
+                                <div class="monster-stats">
+                                    <div class="stat">
+                                        <div class="stat-value">Enviro</div>
+                                        <div class="stat-label">Category</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">★★★☆☆</div>
+                                        <div class="stat-label">Priority</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 39: Color Palette -->
+                        <div class="monster-card expandable-img" data-index="38">
+                            <div class="monster-image-container">
+                                <img src="assets/images/galery/39.png" alt="Color Palette">
+                                <div class="monster-number">39</div>
+                            </div>
+                            <div class="monster-info">
+                                <h4 class="monster-name">Color Scheme</h4>
+                                <div class="monster-category">Art Direction</div>
+                                <p class="monster-description">
+                                    Primary and secondary color palettes used throughout the game for consistent visual identity.
+                                </p>
+                                <div class="monster-stats">
+                                    <div class="stat">
+                                        <div class="stat-value">Art</div>
+                                        <div class="stat-label">Category</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">★★★★☆</div>
+                                        <div class="stat-label">Priority</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 40: Character Expressions -->
+                        <div class="monster-card expandable-img" data-index="39">
+                            <div class="monster-image-container">
+                                <img src="assets/images/galery/40.png" alt="Character Expressions">
+                                <div class="monster-number">40</div>
+                            </div>
+                            <div class="monster-info">
+                                <h4 class="monster-name">Facial Expressions</h4>
+                                <div class="monster-category">Character Design</div>
+                                <p class="monster-description">
+                                    Range of emotional expressions for main characters during story sequences and dialogues.
+                                </p>
+                                <div class="monster-stats">
+                                    <div class="stat">
+                                        <div class="stat-value">Character</div>
+                                        <div class="stat-label">Category</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">★★★★☆</div>
+                                        <div class="stat-label">Priority</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 41: Environment Mood - Rain -->
+                        <div class="monster-card expandable-img" data-index="40">
+                            <div class="monster-image-container">
+                                <img src="assets/images/galery/41.png" alt="Environment Mood - Rain">
+                                <div class="monster-number">41</div>
+                            </div>
+                            <div class="monster-info">
+                                <h4 class="monster-name">Rainy Atmosphere</h4>
+                                <div class="monster-category">Environment</div>
+                                <p class="monster-description">
+                                    Rainy environmental mood study showing weather effects and atmospheric particle systems.
+                                </p>
+                                <div class="monster-stats">
+                                    <div class="stat">
+                                        <div class="stat-value">Enviro</div>
+                                        <div class="stat-label">Category</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">★★★☆☆</div>
+                                        <div class="stat-label">Priority</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 42: Environment Mood - Storm -->
+                        <div class="monster-card expandable-img" data-index="41">
+                            <div class="monster-image-container">
+                                <img src="assets/images/galery/42.png" alt="Environment Mood - Storm">
+                                <div class="monster-number">42</div>
+                            </div>
+                            <div class="monster-info">
+                                <h4 class="monster-name">Stormy Environment</h4>
+                                <div class="monster-category">Environment</div>
+                                <p class="monster-description">
+                                    Storm weather effects with dramatic lighting and wind particle systems for intense sequences.
+                                </p>
+                                <div class="monster-stats">
+                                    <div class="stat">
+                                        <div class="stat-value">Enviro</div>
+                                        <div class="stat-label">Category</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">★★★☆☆</div>
+                                        <div class="stat-label">Priority</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 43: Environment Mood - Ruins -->
+                        <div class="monster-card expandable-img" data-index="42">
+                            <div class="monster-image-container">
+                                <img src="assets/images/galery/43.png" alt="Environment Mood - Ruins">
+                                <div class="monster-number">43</div>
+                            </div>
+                            <div class="monster-info">
+                                <h4 class="monster-name">Ancient Ruins</h4>
+                                <div class="monster-category">Environment</div>
+                                <p class="monster-description">
+                                    Ruined architecture and environmental storytelling through decayed structures and debris.
+                                </p>
+                                <div class="monster-stats">
+                                    <div class="stat">
+                                        <div class="stat-value">Enviro</div>
+                                        <div class="stat-label">Category</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">★★★★☆</div>
+                                        <div class="stat-label">Priority</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 44: Promotional Art 1 -->
+                        <div class="monster-card expandable-img" data-index="43">
+                            <div class="monster-image-container">
+                                <img src="assets/images/galery/44.png" alt="Promotional Art 1">
+                                <div class="monster-number">44</div>
+                            </div>
+                            <div class="monster-info">
+                                <h4 class="monster-name">Promotional Artwork</h4>
+                                <div class="monster-category">Marketing</div>
+                                <p class="monster-description">
+                                    Key promotional artwork for marketing campaigns and storefront presentations.
+                                </p>
+                                <div class="monster-stats">
+                                    <div class="stat">
+                                        <div class="stat-value">Art</div>
+                                        <div class="stat-label">Category</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">★★★★★</div>
+                                        <div class="stat-label">Priority</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 45: Promotional Art 2 -->
+                        <div class="monster-card expandable-img" data-index="44">
+                            <div class="monster-image-container">
+                                <img src="assets/images/galery/45.png" alt="Promotional Art 2">
+                                <div class="monster-number">45</div>
+                            </div>
+                            <div class="monster-info">
+                                <h4 class="monster-name">Alternate Promo Art</h4>
+                                <div class="monster-category">Marketing</div>
+                                <p class="monster-description">
+                                    Secondary promotional artwork showing different character poses and compositions.
+                                </p>
+                                <div class="monster-stats">
+                                    <div class="stat">
+                                        <div class="stat-value">Art</div>
+                                        <div class="stat-label">Category</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">★★★★☆</div>
+                                        <div class="stat-label">Priority</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 46: Development Progress -->
+                        <div class="monster-card expandable-img" data-index="45">
+                            <div class="monster-image-container">
+                                <img src="assets/images/galery/46.png" alt="Development Progress">
+                                <div class="monster-number">46</div>
+                            </div>
+                            <div class="monster-info">
+                                <h4 class="monster-name">Development Timeline</h4>
+                                <div class="monster-category">Production</div>
+                                <p class="monster-description">
+                                    Visual progress documentation showing evolution of assets and features over time.
+                                </p>
+                                <div class="monster-stats">
+                                    <div class="stat">
+                                        <div class="stat-value">Production</div>
+                                        <div class="stat-label">Category</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">★★☆☆☆</div>
+                                        <div class="stat-label">Priority</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 47: Title Screen Concept -->
+                        <div class="monster-card expandable-img" data-index="46">
+                            <div class="monster-image-container">
+                                <img src="assets/images/galery/47.png" alt="Title Screen Concept">
+                                <div class="monster-number">47</div>
+                            </div>
+                            <div class="monster-info">
+                                <h4 class="monster-name">Title Screen Design</h4>
+                                <div class="monster-category">UI Design</div>
+                                <p class="monster-description">
+                                    Main menu and title screen concept with navigation options and atmospheric background.
+                                </p>
+                                <div class="monster-stats">
+                                    <div class="stat">
+                                        <div class="stat-value">UI</div>
+                                        <div class="stat-label">Category</div>
+                                    </div>
+                                    <div class="stat">
+                                        <div class="stat-value">★★★★★</div>
+                                        <div class="stat-label">Priority</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="section-container">
+            <div class="logo-style" style="font-size: 1.5rem;">The Ashen OZ</div>
+            <p class="text-gray-400 text-sm mt-2">© 2024 Ashbone Games. All rights reserved.</p>
+            <p class="text-gray-500 text-xs mt-2">Official email: ashbonegames@gmail.com</p>
+            
+            <div class="footer-links mt-4">
+                <a href="index.html#home">Home</a>
+                <a href="characters.html">Characters</a>
+                <a href="team-contact.html">Team & Contact</a>
+                <a href="#bestiary">Bestiary</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal para Expandir Imagem -->
     <div id="imageModal" class="modal">
         <div class="modal-content">
             <span class="modal-close">&times;</span>
@@ -1153,20 +1898,6 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-        <div class="section-container">
-            <div class="logo-style" style="font-size: 1.5rem;">The Ashen OZ</div>
-            <p class="text-gray-400 text-sm mt-2">© 2024 Ashbone Games. All rights reserved.</p>
-            <p class="text-gray-500 text-xs mt-2">Official email: ashbonegames@gmail.com</p>
-            
-            <div class="footer-links mt-4">
-                <a href="index.html">Home</a>
-                <a href="characters.html">Characters</a>
-                <a href="team-contact.html">Team & Contact</a>
-            </div>
-        </div>
-    </footer>
 
     <script>
         // Dados das imagens da página Characters
