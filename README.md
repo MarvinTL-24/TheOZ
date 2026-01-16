@@ -37,8 +37,8 @@ A dark-themed, fully responsive portfolio website for a fictional grimdark game.
 I'm always interested in connecting with other developers, discussing new ideas, or exploring opportunities.
 
 *   **GitHub:** You're already here! Feel free to check my projects or open an issue for discussion.
-*   **Professional Email:** [your.email@domain.com] <!-- Add your email -->
-*   **LinkedIn:** [Your LinkedIn Profile URL] <!-- Optional, but highly recommended -->
+*   **Professional Email:** [marvintavares20@gmail.com] <!-- Add your email -->
+*   **LinkedIn:** [(https://www.linkedin.com/in/marvintl24/)] <!-- Optional, but highly recommended -->
 
 ---
 
